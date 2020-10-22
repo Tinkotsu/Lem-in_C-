@@ -1,14 +1,44 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Lem_in
 {
-    class Program
+    internal static class Lemin
     {
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-            Console.WriteLine("Hello World2!");
-            //checking 
+            try
+            {
+                MapFile.ReadMapFile(args);
+            }
+            catch (Exceptions.ArgumentsException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("Usage: \"Lem-in.exe MapFile\"");
+                Environment.Exit(0);
+            }
+
+            try
+            {
+                Map.ParseMap();
+            }
+            catch (Exceptions.MapException ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                Environment.Exit(0);
+            }
+            try
+            {
+                Algorithm.Run();
+            }
+            catch (Exceptions.NoPathException ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+                Environment.Exit(0);
+            }
+            MapFile.Output(toDelete: true);
+            Console.Write(Environment.NewLine);
+            Console.WriteLine("Successful");
         }
     }
 }

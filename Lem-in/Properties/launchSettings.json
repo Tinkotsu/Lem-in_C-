@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Lem-in": {
+      "commandName": "Project",
+      "commandLineArgs": "big_maps\\map200k-m",
+      "workingDirectory": "C:\\Users\\Roman\\source\\repos\\.NET\\Lem-in"
+    },
+    "newProfile1": {
+      "commandName": "Executable"
+    }
+  }
+}
