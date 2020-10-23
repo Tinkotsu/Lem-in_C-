@@ -24,7 +24,6 @@ namespace Lem_in
         public bool IsNeiAccessible(Room room) => Rooms[GetNeighbor(room)];
         public bool IsRoomAccessible(Room room) => Rooms[room];
         public void DenyAccessToRoom(Room room) => Rooms[room] = false;
-        public void ApplyAccessToRoom(Room room) => Rooms[room] = true;
         public Room GetNeighbor(Room room)
         {
             var rooms = Rooms.Keys.ToList();

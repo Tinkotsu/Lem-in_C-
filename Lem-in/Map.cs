@@ -13,7 +13,7 @@ namespace Lem_in
         private static bool EndFlag { set; get; }
         private static bool StartFlag { set; get; }
         public static List<Link> Links { get; } = new List<Link>();
-        public static int LinksAmount = 0;
+        public static int LinksAmount;
 
         private static bool ParseRooms(string line)
         {
@@ -118,7 +118,7 @@ namespace Lem_in
                 if (IsSharp(line))
                     continue;
                 if (!opsList[curOp](line))
-                    curOp++;
+                    opsList[++curOp](line);
             }
             if (StartRoom == null || EndRoom == null)
                 throw new Exceptions.MapException("No start or end room in map");
