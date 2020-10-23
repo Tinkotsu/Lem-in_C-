@@ -39,20 +39,6 @@ namespace Lem_in
             }
 
         }
-        /*
-        public static bool CheckTwoRoomsPath()
-        {
-            if (!(Solutions.CurrentSolution.Count == 1 && Solutions.CurrentSolution[0].Count == 2))
-                return false;
-            for (var i = 1; i < Map.AntsNumber; i++)
-            {
-                Console.Write($"L{i}-{Map.EndRoom.Name}");
-                if (i < Map.AntsNumber)
-                    Console.Write(' ');
-            }
-            Console.Write(Environment.NewLine);
-            return true;
-        }*/
 
         private static void FillPath()
         {

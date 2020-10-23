@@ -9,6 +9,8 @@ namespace Lem_in
             try
             {
                 MapFile.ReadMapFile(args);
+                Map.ParseMap();
+                Algorithm.Run();
             }
             catch (Exceptions.ArgumentsException ex)
             {
@@ -16,21 +18,7 @@ namespace Lem_in
                 Console.WriteLine("Usage: \"Lem-in.exe MapFile\"");
                 Environment.Exit(0);
             }
-
-            try
-            {
-                Map.ParseMap();
-            }
-            catch (Exceptions.MapException ex)
-            {
-                Console.WriteLine("Error: " + ex.Message);
-                Environment.Exit(0);
-            }
-            try
-            {
-                Algorithm.Run();
-            }
-            catch (Exceptions.NoPathException ex)
+            catch (Exception ex) when (ex is Exceptions.MapException || ex is Exceptions.NoPathException)
             {
                 Console.WriteLine("Error: " + ex.Message);
                 Environment.Exit(0);
