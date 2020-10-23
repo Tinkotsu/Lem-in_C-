@@ -23,7 +23,7 @@ namespace Lem_in
             }
         }
 
-        public static bool Bfs(Room startRoom, Room roomToSearch)
+        public static bool Bfs(Room startRoom, Room roomToSearch, int saveLabel=0)
         {
             var q = new Queue<Room>();
             var visited = new HashSet<Room>();
@@ -38,12 +38,13 @@ namespace Lem_in
                 room.Links
                     .Where(link => !link.Disabled && 
                                    !visited.Contains(link.GetNeighbor(room)) &&
-                                   link.IsNeiAccessible(room))
+                                   link.IsNeiAccessible(room) &&
+                                   (saveLabel == 0 || !room.IsEnd || (room.IsEnd && link.SaveLabel != saveLabel)))
                     .ToList()
                     .ForEach(link =>
                     {
                         var nei = link.GetNeighbor(room); 
-                        nei.CameFrom.Add(link);
+                        nei.CameFrom = link;
                         q.Enqueue(nei);
                         visited.Add(nei);
                     });
@@ -75,14 +76,14 @@ namespace Lem_in
                     nei.VisitCounter = 1;
                     nei.VisitLabel = _currentSearchCounter;
                     nei.StepsLabel = room.StepsLabel + item.Link.Weight;
-                    nei.CameFrom.Add(item.Link);
+                    nei.CameFrom = item.Link;
                     toQueue = true;
                 }
                 else if (nei.StepsLabel > room.StepsLabel + item.Link.Weight)
                 {
                     nei.StepsLabel = room.StepsLabel + item.Link.Weight;
                     nei.VisitCounter++;
-                    nei.CameFrom[^1] = item.Link;
+                    nei.CameFrom = item.Link;
                     toQueue = true;
                 }
 
@@ -113,7 +114,7 @@ namespace Lem_in
             var room = Map.EndRoom;
             while (!room.IsStart)
             {
-                var link = room.CameFrom[^1];
+                var link = room.CameFrom;
                 
                 if (link.Weight == -1)
                     link.Disabled = true;

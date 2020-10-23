@@ -5,26 +5,32 @@ namespace Lem_in
     public static class Solutions
     {
         public static int SaveLabel { set; get; } = 1;
-        public static List<LinkedList<Room>> CurrentSolution { private set; get; } = new List<LinkedList<Room>>();
-        public static List<LinkedList<Room>> NextSolution { private set; get; } = new List<LinkedList<Room>>();
-        public static int[] AntsDistribution { private set; get; }
+        public static List<List<Room>> CurrentSolution { private set; get; } = new List<List<Room>>();
+        public static List<List<Room>> NextSolution { private set; get; } = new List<List<Room>>();
+        public static int[] AntsDistribution { private set; get; } = new int[] {Map.AntsNumber};
 
-        public static LinkedList<Room> GetPath(bool first = false)
+        public static List<Room> GetPath(bool first = false)
         {
-            var path = new LinkedList<Room>();
+            var path = new List<Room>();
 
             if (first)
             {
-                for (var room = Map.EndRoom; !room.IsStart; room = room.CameFrom[^1].GetNeighbor(room))
-                    path.AddFirst(room);
-                path.AddFirst(Map.StartRoom);
+                for (var room = Map.EndRoom; !room.IsStart; room = room.CameFrom.GetNeighbor(room))
+                    path.Add(room);
+                path.Add(Map.StartRoom);
+                path.Reverse();
             }
             else
             {
-                Algorithm.Bfs(Map.EndRoom, Map.StartRoom);
-                for (var room = Map.StartRoom; !room.IsEnd; room = room.CameFrom[^1].GetNeighbor(room))
-                    path.AddLast(room);
-                path.AddLast(Map.EndRoom);
+                Algorithm.Bfs(Map.EndRoom, Map.StartRoom, SaveLabel);
+                for (var room = Map.StartRoom; !room.IsEnd;)
+                {
+                    path.Add(room);
+                    var link = room.CameFrom;
+                    link.SaveLabel = SaveLabel;
+                    room = link.GetNeighbor(room);
+                }
+                path.Add(Map.EndRoom);
             }
 
             return path;
@@ -67,8 +73,8 @@ namespace Lem_in
                 ++iterator;
             }
 
-            Solutions.CurrentSolution = Solutions.NextSolution;
-            Solutions.NextSolution = new List<LinkedList<Room>>();
+            CurrentSolution = NextSolution;
+            NextSolution = new List<List<Room>>();
 
             return ret;
         }

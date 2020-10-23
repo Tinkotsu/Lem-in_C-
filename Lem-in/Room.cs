@@ -14,7 +14,7 @@ namespace Lem_in
         public int VisitLabel { set; get; } = -1;
         public int VisitCounter { set; get; }
         public List<Link> Links { get; } = new List<Link>();
-        public List<Link> CameFrom { set; get; } = new List<Link>();
+        public Link CameFrom { set; get; }
         public Room(string name, int x, int y)
         {
             Name = name;

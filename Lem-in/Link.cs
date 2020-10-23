@@ -5,10 +5,10 @@ namespace Lem_in
 {
     public class Link
     {
-        public int SaveLabel { set; get; }
         private Dictionary<Room, bool> Rooms { set; get; }
         public int Weight { set; get; } = 1;
         public bool Disabled { set; get; } = false;
+        public int SaveLabel { set; get; }
 
         public Link(Room room1, Room room2)
         {

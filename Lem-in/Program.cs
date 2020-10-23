@@ -37,9 +37,7 @@ namespace Lem_in
             }
             MapFile.Output(toDelete: true);
             Console.Write(Environment.NewLine);
-            Console.WriteLine("Successful");
-            Console.WriteLine($"PATHS CUR = {Solutions.CurrentSolution.Count}");
-            Console.WriteLine($"PATHS NEXT = {Solutions.NextSolution.Count}");
+            Ants.Go();
         }
     }
 }

@@ -2,7 +2,7 @@
   "profiles": {
     "Lem-in": {
       "commandName": "Project",
-      "commandLineArgs": "big_maps\\map200k-m",
+      "commandLineArgs": "big_maps\\map42",
       "workingDirectory": "C:\\Users\\Roman\\source\\repos\\.NET\\Lem-in"
     },
     "newProfile1": {
