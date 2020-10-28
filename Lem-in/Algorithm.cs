@@ -149,8 +149,7 @@ namespace Lem_in
         public static void Run()
         {
             MaxPaths = GetMaxPaths();
-            var res = Bfs(Map.StartRoom, Map.EndRoom);
-            if (MaxPaths == 0 || !res)
+            if (MaxPaths == 0 || !Bfs(Map.StartRoom, Map.EndRoom))
                 throw new Exceptions.NoPathException();
             Solutions.SaveSolution(1, true);
             if (Map.AntsNumber == 1)
