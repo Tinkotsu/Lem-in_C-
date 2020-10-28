@@ -87,7 +87,7 @@ namespace Lem_in
             for (var i = 0; i < sol.Count; i++)
             {
                 Console.WriteLine($"path #{i + 1} {{"
-                                  + string.Join("->", sol[i].Select(room => room.Name).ToList())
+                                  + string.Join(" -> ", sol[i].Select(room => room.Name).ToList())
                                   + $"}} [len = {sol[i].Count - 1}]");
             }
             Console.WriteLine();
