@@ -6,6 +6,7 @@ namespace Lem_in
 {
     public static class Algorithm
     {
+        private static HashSet<Link> _disabledLinks = new HashSet<Link>();
         private static int _currentSearchCounter;
         private static int MaxPaths { set; get; }
 
@@ -36,10 +37,10 @@ namespace Lem_in
                 if (room == roomToSearch)
                     return true;
                 room.Links
-                    .Where(link => !link.Disabled && 
+                    .Where(link => !_disabledLinks.Contains(link) && 
                                    !visited.Contains(link.GetNeighbor(room)) &&
                                    link.IsNeiAccessible(room) &&
-                                   (saveLabel == 0 || !room.IsEnd || (room.IsEnd && link.SaveLabel != saveLabel)))
+                                   (saveLabel == 0 || link.SaveLabel != saveLabel))
                     .ToList()
                     .ForEach(link =>
                     {
@@ -57,7 +58,7 @@ namespace Lem_in
             var q = new Queue<QueueItem>();
 
             Map.StartRoom.Links
-                .Where(link => link.IsNeiAccessible(Map.StartRoom) && !link.Disabled)
+                .Where(link => link.IsNeiAccessible(Map.StartRoom) && !_disabledLinks.Contains(link))
                 .ToList()
                 .ForEach(link => q.Enqueue(new QueueItem(Map.StartRoom, link)));
             while (q.Count > 0)
@@ -87,12 +88,12 @@ namespace Lem_in
                     toQueue = true;
                 }
 
-                if (toQueue && !nei.IsEnd)
+                if (toQueue && !nei.IsEnd && !nei.IsStart)
                     nei.Links
                         .Where(link =>
                         {
                             var neiOfNei = link.GetNeighbor(nei);
-                            return !link.Disabled &&
+                            return !_disabledLinks.Contains(link) &&
                                    link.IsRoomAccessible(neiOfNei) &&
                                    !neiOfNei.IsStart &&
                                    !(item.PathBlock && link.Weight == 1);
@@ -115,9 +116,9 @@ namespace Lem_in
             while (!room.IsStart)
             {
                 var link = room.CameFrom;
-                
+
                 if (link.Weight == -1)
-                    link.Disabled = true;
+                    _disabledLinks.Add(link);
                 else
                 {
                     link.DenyAccessToRoom(room);
@@ -131,6 +132,7 @@ namespace Lem_in
 
         private static void Suurballe()
         {
+            Map.StartRoom.StepsLabel = 0;
             ChangeMinPath();
             for (var curPathsCount = 2; curPathsCount <= MaxPaths; curPathsCount++)
             {
@@ -141,6 +143,7 @@ namespace Lem_in
                 Solutions.SaveSolution(curPathsCount);
                 if (Solutions.IsEnough())
                     break;
+                _disabledLinks = new HashSet<Link>();
             }
         }
         public static void Run()
@@ -152,7 +155,6 @@ namespace Lem_in
             Solutions.SaveSolution(1, true);
             if (Map.AntsNumber == 1)
                 return;
-            Map.StartRoom.StepsLabel = 0;
             Suurballe();
         }
     }

@@ -25,6 +25,7 @@ namespace Lem_in
             }
             MapFile.Output(toDelete: true);
             Console.Write(Environment.NewLine);
+            Solutions.ViewSolution(Solutions.CurrentSolution);
             Ants.Go();
         }
     }

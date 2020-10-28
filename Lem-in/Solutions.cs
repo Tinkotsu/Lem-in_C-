@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Lem_in
 {
@@ -77,6 +79,18 @@ namespace Lem_in
             NextSolution = new List<List<Room>>();
 
             return ret;
+        }
+
+        public static void ViewSolution(List<List<Room>> sol)
+        {
+            Console.WriteLine("PATHS AMOUNT: " + Solutions.CurrentSolution.Count);
+            var i = 1;
+            foreach (var pathOutput in sol.Select(path => path.Select(room => room.Name).ToList()))
+            {
+                Console.WriteLine($"path #{i} => " + string.Join('-', pathOutput) + $" [len = {pathOutput.Count - 1}]");
+                i++;
+            }
+            Console.WriteLine();
         }
 
         public static void SaveSolution(int pathsAmount, bool first = false)

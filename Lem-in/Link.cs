@@ -7,7 +7,6 @@ namespace Lem_in
     {
         private Dictionary<Room, bool> Rooms { set; get; }
         public int Weight { set; get; } = 1;
-        public bool Disabled { set; get; } = false;
         public int SaveLabel { set; get; }
 
         public Link(Room room1, Room room2)
@@ -20,7 +19,6 @@ namespace Lem_in
             Map.Rooms[room1.Name].Links.Add(this);
             Map.Rooms[room2.Name].Links.Add(this);
         }
-
         public bool IsNeiAccessible(Room room) => Rooms[GetNeighbor(room)];
         public bool IsRoomAccessible(Room room) => Rooms[room];
         public void DenyAccessToRoom(Room room) => Rooms[room] = false;

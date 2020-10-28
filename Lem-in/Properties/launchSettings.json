@@ -2,7 +2,7 @@
   "profiles": {
     "Lem-in": {
       "commandName": "Project",
-      "commandLineArgs": "two_rooms_map.txt",
+      "commandLineArgs": "map_slack_2_brute",
       "workingDirectory": "C:\\Users\\Roman\\source\\repos\\.NET\\Lem-in"
     },
     "newProfile1": {

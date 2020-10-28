@@ -40,13 +40,12 @@ namespace Lem_in
 
         }
 
-        private static void FillPath()
+        private static void FillPaths()
         {
-            for (var i = 0; i < Solutions.AntsDistribution.Length; i++)
+            foreach (var path in Solutions.CurrentSolution)
             {
-                Solutions.AntsDistribution[i]--;
                 AntsToGo--;
-                AntsList.Add(new Ant(Map.AntsNumber - AntsToGo, Solutions.CurrentSolution[i]));
+                AntsList.Add(new Ant(Map.AntsNumber - AntsToGo, path));
                 if (AntsToGo == 0)
                     break;
             }
@@ -65,7 +64,7 @@ namespace Lem_in
             while (AntsPassed < Map.AntsNumber)
             {
                 if (AntsToGo > 0)
-                    FillPath();
+                    FillPaths();
                 AntsList.Where(ant => !ant.Passed).ToList().ForEach(ant => ant.Move());
                 Output();
             }
