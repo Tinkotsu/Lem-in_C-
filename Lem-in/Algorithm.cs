@@ -143,6 +143,7 @@ namespace Lem_in
                 Solutions.SaveSolution(curPathsCount);
                 if (Solutions.IsEnough())
                     break;
+                _disabledLinks.ToList().ForEach(link => link.Enable());
                 _disabledLinks = new HashSet<Link>();
             }
         }

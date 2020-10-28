@@ -84,11 +84,11 @@ namespace Lem_in
         public static void ViewSolution(List<List<Room>> sol)
         {
             Console.WriteLine("PATHS AMOUNT: " + Solutions.CurrentSolution.Count);
-            var i = 1;
-            foreach (var pathOutput in sol.Select(path => path.Select(room => room.Name).ToList()))
+            for (var i = 0; i < sol.Count; i++)
             {
-                Console.WriteLine($"path #{i} => " + string.Join('-', pathOutput) + $" [len = {pathOutput.Count - 1}]");
-                i++;
+                Console.WriteLine($"path #{i + 1} {{"
+                                  + string.Join("->", sol[i].Select(room => room.Name).ToList())
+                                  + $"}} [len = {sol[i].Count - 1}]");
             }
             Console.WriteLine();
         }
