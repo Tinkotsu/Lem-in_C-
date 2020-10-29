@@ -7,6 +7,7 @@ namespace Lem_in
     public static class Algorithm
     {
         private static HashSet<Link> _disabledLinks = new HashSet<Link>();
+        private static HashSet<Room> _doubledRooms = new HashSet<Room>();
         private static int _currentSearchCounter;
         private static int MaxPaths { set; get; }
 
@@ -99,7 +100,7 @@ namespace Lem_in
                                    !(item.PathBlock && link.Weight == 1);
                         })
                         .ToList()
-                        .ForEach(link => q.Enqueue(new QueueItem(nei, link, link.Weight == 1 && link.GetNeighbor(nei).Doubled)));
+                        .ForEach(link => q.Enqueue(new QueueItem(nei, link, link.Weight == 1 && _doubledRooms.Contains(link.GetNeighbor(nei)))));
 
             }
             return Map.EndRoom.VisitLabel == _currentSearchCounter;
@@ -113,6 +114,8 @@ namespace Lem_in
         private static void ChangeMinPath()
         {
             var room = Map.EndRoom;
+
+            _doubledRooms = new HashSet<Room>();
             while (!room.IsStart)
             {
                 var link = room.CameFrom;
@@ -124,7 +127,7 @@ namespace Lem_in
                     link.DenyAccessToRoom(room);
                     link.Weight = -1;
                     if (!room.IsEnd && !room.IsStart)
-                        room.Doubled = true;
+                        _doubledRooms.Add(room);
                 }
                 room = link.GetNeighbor(room);
             }

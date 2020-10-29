@@ -2,7 +2,7 @@
   "profiles": {
     "Lem-in": {
       "commandName": "Project",
-      "commandLineArgs": "map_slack_2_brute",
+      "commandLineArgs": "big_maps\\map20k-m",
       "workingDirectory": "C:\\Users\\Roman\\source\\repos\\.NET\\Lem-in"
     },
     "newProfile1": {

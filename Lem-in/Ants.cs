@@ -42,10 +42,13 @@ namespace Lem_in
 
         private static void FillPaths()
         {
-            foreach (var path in Solutions.CurrentSolution)
+            for (var i = 0; i < Solutions.CurrentSolution.Count; i++)
             {
+                if (Solutions.CurSolAntsDis[i] == 0)
+                    break;
+                Solutions.CurSolAntsDis[i]--;
                 AntsToGo--;
-                AntsList.Add(new Ant(Map.AntsNumber - AntsToGo, path));
+                AntsList.Add(new Ant(Map.AntsNumber - AntsToGo, Solutions.CurrentSolution[i]));
                 if (AntsToGo == 0)
                     break;
             }

@@ -4,7 +4,6 @@ namespace Lem_in
 {
     public class Room
     {
-        public bool Doubled { set; get; } = false;
         public string Name { private set; get; }
         public int X { private set; get; }
         public int Y { private set; get; }
