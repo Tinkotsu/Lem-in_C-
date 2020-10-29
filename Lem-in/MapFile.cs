@@ -14,6 +14,7 @@ namespace Lem_in
         {
             if (args.Length == 0)
             {
+                Console.WriteLine("Reading map from input. Input empty line to finish.");
                 while (true)
                 {
                     var input = Console.ReadLine();
