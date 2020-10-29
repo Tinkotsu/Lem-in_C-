@@ -17,7 +17,7 @@ namespace Lem_in
             public Link Link { private set; get; }
             public bool PathBlock { private set; get; }
 
-            public QueueItem(Room room, Link link, bool pathBlock=false)
+            public QueueItem(Room room, Link link, bool pathBlock = false)
             {
                 Room = room;
                 Link = link;
@@ -25,7 +25,7 @@ namespace Lem_in
             }
         }
 
-        public static bool Bfs(Room startRoom, Room roomToSearch, int saveLabel=0)
+        public static bool Bfs(Room startRoom, Room roomToSearch, int saveLabel = 0)
         {
             var q = new Queue<Room>();
             var visited = new HashSet<Room>();
@@ -38,14 +38,14 @@ namespace Lem_in
                 if (room == roomToSearch)
                     return true;
                 room.Links
-                    .Where(link => !_disabledLinks.Contains(link) && 
+                    .Where(link => !_disabledLinks.Contains(link) &&
                                    !visited.Contains(link.GetNeighbor(room)) &&
                                    link.IsNeiAccessible(room) &&
                                    (saveLabel == 0 || link.SaveLabel != saveLabel))
                     .ToList()
                     .ForEach(link =>
                     {
-                        var nei = link.GetNeighbor(room); 
+                        var nei = link.GetNeighbor(room);
                         nei.CameFrom = link;
                         q.Enqueue(nei);
                         visited.Add(nei);
@@ -70,7 +70,7 @@ namespace Lem_in
 
                 if (room.VisitLabel == _currentSearchCounter && room.VisitCounter == Map.LinksAmount)
                     break;
-                
+
                 var toQueue = false;
 
                 if (nei.VisitLabel != _currentSearchCounter)
