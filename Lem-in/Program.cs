@@ -8,7 +8,7 @@ namespace Lem_in
         {
             try
             {
-                MapFile.ReadMapFile(args);
+                MapFile.ReadMap(args);
                 Map.ParseMap();
                 Algorithm.Run();
             }

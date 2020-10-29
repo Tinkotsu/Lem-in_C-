@@ -2,7 +2,6 @@
   "profiles": {
     "Lem-in": {
       "commandName": "Project",
-      "commandLineArgs": "ants_dis.txt",
       "workingDirectory": "C:\\Users\\Roman\\source\\repos\\.NET\\Lem-in",
       "nativeDebugging": false
     },
