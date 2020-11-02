@@ -68,7 +68,7 @@ namespace Lem_in
                 var room = item.Room;
                 var nei = item.Link.GetNeighbor(room);
 
-                if (room.VisitLabel == _currentSearchCounter && room.VisitCounter == Map.LinksAmount)
+                if (room.VisitLabel == _currentSearchCounter && room.VisitCounter == Map.Rooms.Count)
                     break;
 
                 var toQueue = false;

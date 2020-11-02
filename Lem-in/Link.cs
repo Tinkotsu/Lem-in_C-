@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Lem_in
 {
@@ -16,8 +17,8 @@ namespace Lem_in
                 [room1] = true,
                 [room2] = true
             };
-            Map.Rooms[room1.Name].Links.Add(this);
-            Map.Rooms[room2.Name].Links.Add(this);
+            room1.Links.Add(this);
+            room2.Links.Add(this);
         }
         public bool IsNeiAccessible(Room room) => Rooms[GetNeighbor(room)];
         public bool IsRoomAccessible(Room room) => Rooms[room];
