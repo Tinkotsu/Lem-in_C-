@@ -13,8 +13,6 @@ namespace WebApi.AppData
     {
         public UsersDbContext(DbContextOptions<UsersDbContext> options)
             : base(options)
-        {
-            Database.EnsureCreated();
-        }
+        { }
     }
 }

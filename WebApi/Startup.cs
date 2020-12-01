@@ -48,7 +48,6 @@ namespace WebApi
                 options.Lockout.MaxFailedAccessAttempts = 5;
             }).AddEntityFrameworkStores<UsersDbContext>();
 
-
             //redirect 
             services.ConfigureApplicationCookie(options =>
             {
@@ -73,9 +72,9 @@ namespace WebApi
             //        .Build();
             //});
 
+
             //DI for logger
             services.AddSingleton<ILogStorage, FileLogStorage>();
-            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
