@@ -10,7 +10,6 @@ using WebApi.Models;
 
 namespace WebApi.Controllers
 {
-    [AllowAnonymous]
     [Route("api/[controller]")]
     [ApiController] 
     public class UsersController : ControllerBase
@@ -93,6 +92,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
@@ -120,8 +120,8 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("login")]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginModel model)
         {
             if (!ModelState.IsValid)
@@ -137,8 +137,8 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("login")]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Login()
         {
             return Ok("Send post request with a model (username and password) to login.");
@@ -146,7 +146,6 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("logout")]
-        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
             // deleting Cookie

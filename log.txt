@@ -193,3 +193,145 @@ ResponseCode: 200
 Responded at: 30.11.2020 21:46:38
 
 
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 14:07:27
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 14:07:27
+
+
+Path: /favicon.ico
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 14:07:27
+Response: 
+ResponseCode: 404
+Responded at: 01.12.2020 14:07:27
+
+
+Path: /api/users
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 14:07:30
+Response: admin
+ResponseCode: 200
+Responded at: 01.12.2020 14:07:30
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 14:10:41
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 14:10:41
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fapi%2Fvalues
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 14:11:11
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 14:11:11
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fapi%2Fvalues
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 14:11:28
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 14:11:28
+
+
+Path: /api/users/register
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "abc",
+    "password": "abc1",
+    "name": "roman"
+}
+Requested at: 01.12.2020 14:12:23
+Response: {"type":"https://tools.ietf.org/html/rfc7231#section-6.5.1","title":"One or more validation errors occurred.","status":400,"traceId":"|12889680-4c33abc772134809.","errors":{"Email":["Email is required"]}}
+ResponseCode: 400
+Responded at: 01.12.2020 14:12:23
+
+
+Path: /api/users/register
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "abc",
+    "password": "abc1",
+    "email": "abc@gmail.com",
+    "name": "roman"
+}
+Requested at: 01.12.2020 14:12:35
+Response: User created successfully!
+ResponseCode: 200
+Responded at: 01.12.2020 14:12:36
+
+
+Path: /api/users/login
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "abc",
+    "password": "abc1"
+}
+Requested at: 01.12.2020 14:12:52
+Response: Logged in successfully.
+ResponseCode: 200
+Responded at: 01.12.2020 14:12:52
+
+
+Path: /api/values
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 14:12:58
+Response: ["value1","value2"]
+ResponseCode: 200
+Responded at: 01.12.2020 14:12:58
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fapi%2Fvalues
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 14:13:22
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 14:13:22
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 14:14:45
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 14:14:45
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 14:19:01
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 14:19:01
+
+
