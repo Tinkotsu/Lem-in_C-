@@ -1,0 +1,195 @@
+Path: /api/users
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 30.11.2020 16:53:18
+Response: admin@gmail.com
+ResponseCode: 200
+Responded at: 30.11.2020 16:53:18
+Path: /Account/Login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 30.11.2020 16:54:54
+Response: 
+ResponseCode: 404
+Responded at: 30.11.2020 16:54:54
+Path: /Account/Login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 30.11.2020 16:56:06
+Response: 
+ResponseCode: 404
+Responded at: 30.11.2020 16:56:06
+
+
+Path: /api/users
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 30.11.2020 16:56:24
+Response: admin@gmail.com
+ResponseCode: 200
+Responded at: 30.11.2020 16:56:24
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 30.11.2020 17:03:49
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 30.11.2020 17:03:49
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 30.11.2020 17:34:19
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 30.11.2020 17:34:19
+
+
+Path: /api/users
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 30.11.2020 17:34:22
+Response: admin@gmail.com
+ResponseCode: 200
+Responded at: 30.11.2020 17:34:22
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 30.11.2020 17:34:41
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 30.11.2020 17:34:42
+
+
+Path: /api/users
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 30.11.2020 17:34:44
+Response: admin@gmail.com
+ResponseCode: 200
+Responded at: 30.11.2020 17:34:44
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 30.11.2020 21:42:46
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 30.11.2020 21:42:46
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 30.11.2020 21:45:48
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 30.11.2020 21:45:48
+
+
+Path: /api/users/login
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "admin",
+    "password": "_Aa123456"
+}
+Requested at: 30.11.2020 21:46:11
+Response: Logged in successfully.
+ResponseCode: 200
+Responded at: 30.11.2020 21:46:11
+
+
+Path: /api/users
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "admin",
+    "password": "_Aa123456"
+}
+Requested at: 30.11.2020 21:46:15
+Response: 
+ResponseCode: 405
+Responded at: 30.11.2020 21:46:15
+
+
+Path: /api/users
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 30.11.2020 21:46:18
+Response: admin
+ResponseCode: 200
+Responded at: 30.11.2020 21:46:18
+
+
+Path: /api/users
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 30.11.2020 21:46:20
+Response: admin
+ResponseCode: 200
+Responded at: 30.11.2020 21:46:20
+
+
+Path: /api/users/logout
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 30.11.2020 21:46:25
+Response: 
+ResponseCode: 405
+Responded at: 30.11.2020 21:46:25
+
+
+Path: /api/users/logout
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "admin",
+    "password": "_Aa123456"
+}
+Requested at: 30.11.2020 21:46:30
+Response: Logged out successfully.
+ResponseCode: 200
+Responded at: 30.11.2020 21:46:30
+
+
+Path: /api/users
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 30.11.2020 21:46:34
+Response: admin
+ResponseCode: 200
+Responded at: 30.11.2020 21:46:34
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 30.11.2020 21:46:38
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 30.11.2020 21:46:38
+
+
