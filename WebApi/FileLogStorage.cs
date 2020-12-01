@@ -14,7 +14,7 @@ namespace WebApi
             _path = path;
         }
 
-        public void Store(Log log)
+        public void Store(LogModel log)
         {
             string[] lines =  
             {

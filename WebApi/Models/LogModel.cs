@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Models
 {
-    public class Log
+    public class LogModel
     {
         public string Path { get; set; }
         public string QueryString { get; set; }

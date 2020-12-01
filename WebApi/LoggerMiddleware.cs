@@ -20,7 +20,7 @@ namespace WebApi
         {
             //managing request
             //creating log object
-            var log = new Log
+            var log = new LogModel
             {
                 Path = context.Request.Path,
                 Method = context.Request.Method,

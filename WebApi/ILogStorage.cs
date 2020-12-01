@@ -8,6 +8,6 @@ namespace WebApi
 {
     public interface ILogStorage
     {
-        public void Store(Log log);
+        public void Store(LogModel log);
     }
 }

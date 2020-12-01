@@ -17,6 +17,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using WebApi.AppData;
 using WebApi.Models;
+using Serilog;
 
 
 namespace WebApi
@@ -52,7 +53,7 @@ namespace WebApi
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/api/users/login";
-                options.AccessDeniedPath = "/api/users/login";
+                options.AccessDeniedPath = "/api/users/forbidden";
             });
 
 
@@ -92,7 +93,8 @@ namespace WebApi
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseMiddleware<LoggerMiddleware>();
+            app.UseSerilogRequestLogging();
+            //app.UseMiddleware<LoggerMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

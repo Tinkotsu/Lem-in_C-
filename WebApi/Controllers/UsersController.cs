@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.Extensions.Configuration;
 using WebApi.Models;
 
@@ -23,6 +25,14 @@ namespace WebApi.Controllers
             _signInManager = signInManager;
         }
 
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("forbidden")]
+        public async Task<IActionResult> Forbidden()
+        {
+            return StatusCode(403, "Access denied!");
+        }
+
         [HttpGet]
         [Authorize(Roles = "admin")]
         public async Task<IActionResult> Get()
@@ -35,7 +45,7 @@ namespace WebApi.Controllers
         [Route("AddUserRole")]
         public async Task<IActionResult> AddUserRole([FromBody] ChangeUserRoleModel model)
         {
-            var user = await _userManager.FindByIdAsync(model.Id);
+            var user = await _userManager.FindByNameAsync(model.UserName);
             if (user == null)
                 return NotFound("User with userName given not found!");
             await _userManager.AddToRoleAsync(user, model.NewRole);
@@ -47,22 +57,28 @@ namespace WebApi.Controllers
         [Route("RemoveUserRole")]
         public async Task<IActionResult> RemoveUserRole([FromBody] ChangeUserRoleModel model)
         {
-            var user = await _userManager.FindByIdAsync(model.Id);
+            var user = await _userManager.FindByNameAsync(model.UserName);
             if (user == null)
                 return NotFound("User with userName given not found!");
             await _userManager.RemoveFromRoleAsync(user, model.NewRole);
             return Ok($"Removed user role successfully.");
         }
 
-        [HttpPost]
+        [HttpGet]
         [Authorize(Roles = "admin")]
-        [Route("GetUserId")]
-        public async Task<IActionResult> GetUserId([FromBody] string userName)
+        [Route("{userName}")]
+        public async Task<IActionResult> UserInfo(string userName)
         {
             var user = await _userManager.FindByNameAsync(userName);
+
             if (user == null)
                 return NotFound("User with userName given not found!");
-            return Ok($"User ID : \"{user.Id}\"");
+
+            return Ok($"User ID : \"{user.Id}\"\n" +
+                      $"User Login UserName : \"{user.UserName}\"\n" +
+                      $"User Email : \"{user.Email}\"\n" +
+                      $"User Name : \"{user.Name}\"\n" +
+                      $"User Password Hash : \"{user.PasswordHash}\"\n");
         }
 
         [HttpPost]
@@ -124,6 +140,9 @@ namespace WebApi.Controllers
         [Route("login")]
         public async Task<IActionResult> Login(LoginModel model)
         {
+            if (User.Identity.IsAuthenticated)
+                return BadRequest("User is already authenticated. Logout to change user.");
+
             if (!ModelState.IsValid)
                 return BadRequest("Wrong login input!");
             
@@ -141,10 +160,13 @@ namespace WebApi.Controllers
         [Route("login")]
         public async Task<IActionResult> Login()
         {
-            return Ok("Send post request with a model (username and password) to login.");
+            if (User.Identity.IsAuthenticated)
+                return BadRequest("User is already authenticated. Logout to change user.");
+
+            return Unauthorized("Unauthorized user. Send post request with a model (username and password) to login.");
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("logout")]
         public async Task<IActionResult> Logout()
         {

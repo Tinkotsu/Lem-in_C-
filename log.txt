@@ -335,3 +335,674 @@ ResponseCode: 200
 Responded at: 01.12.2020 14:19:01
 
 
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:38:02
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 15:38:02
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:38:13
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 15:38:13
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fapi%2Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:39:27
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 15:39:27
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fapi%2Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:39:34
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 15:39:34
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fapi%2Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:39:48
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 15:39:48
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:40:30
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 15:40:30
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fapi%2Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:40:39
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 15:40:39
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:40:57
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 15:40:57
+
+
+Path: /Account/Login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:41:09
+Response: 
+ResponseCode: 404
+Responded at: 01.12.2020 15:41:09
+
+
+Path: /Account/Login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:41:58
+Response: 
+ResponseCode: 404
+Responded at: 01.12.2020 15:41:58
+
+
+Path: /api/values
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:42:29
+Response: ["value1","value2"]
+ResponseCode: 200
+Responded at: 01.12.2020 15:42:29
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:45:37
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 15:45:37
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:46:46
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 15:46:46
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:49:45
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 15:49:45
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fapi%2Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:49:48
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 15:49:48
+
+
+Path: /api/users/register
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "abc2",
+    "password": "abc2",
+    "email": "abc2@gmail.com",
+    "name": "roman"
+}
+Requested at: 01.12.2020 15:50:01
+Response: User created successfully!
+ResponseCode: 200
+Responded at: 01.12.2020 15:50:02
+
+
+Path: /api/users/login
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "abc2",
+    "password": "abc2"
+}
+Requested at: 01.12.2020 15:50:18
+Response: Logged in successfully.
+ResponseCode: 200
+Responded at: 01.12.2020 15:50:18
+
+
+Path: /api/users/login
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "abc2",
+    "password": "abc2"
+}
+Requested at: 01.12.2020 15:50:19
+Response: Logged in successfully.
+ResponseCode: 200
+Responded at: 01.12.2020 15:50:19
+
+
+Path: /api/users/login
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "abc2",
+    "password": "abc2"
+}
+Requested at: 01.12.2020 15:50:20
+Response: Logged in successfully.
+ResponseCode: 200
+Responded at: 01.12.2020 15:50:20
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:50:40
+Response: Access denied
+ResponseCode: 400
+Responded at: 01.12.2020 15:50:40
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:00
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 15:53:00
+
+
+Path: /api/users/login
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "abc2",
+    "password": "abc2"
+}
+Requested at: 01.12.2020 15:53:09
+Response: Logged in successfully.
+ResponseCode: 200
+Responded at: 01.12.2020 15:53:09
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:40
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 15:53:40
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:45
+Response: 
+ResponseCode: 302
+Responded at: 01.12.2020 15:53:45
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers%2Fforbidden%3FReturnUrl%3D%252Fapi%252Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:45
+Response: 
+ResponseCode: 302
+Responded at: 01.12.2020 15:53:45
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers%2Fforbidden%3FReturnUrl%3D%252Fapi%252Fusers%252Fforbidden%253FReturnUrl%253D%25252Fapi%25252Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:45
+Response: 
+ResponseCode: 302
+Responded at: 01.12.2020 15:53:45
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers%2Fforbidden%3FReturnUrl%3D%252Fapi%252Fusers%252Fforbidden%253FReturnUrl%253D%25252Fapi%25252Fusers%25252Fforbidden%25253FReturnUrl%25253D%2525252Fapi%2525252Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:45
+Response: 
+ResponseCode: 302
+Responded at: 01.12.2020 15:53:45
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers%2Fforbidden%3FReturnUrl%3D%252Fapi%252Fusers%252Fforbidden%253FReturnUrl%253D%25252Fapi%25252Fusers%25252Fforbidden%25253FReturnUrl%25253D%2525252Fapi%2525252Fusers%2525252Fforbidden%2525253FReturnUrl%2525253D%252525252Fapi%252525252Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:45
+Response: 
+ResponseCode: 302
+Responded at: 01.12.2020 15:53:45
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers%2Fforbidden%3FReturnUrl%3D%252Fapi%252Fusers%252Fforbidden%253FReturnUrl%253D%25252Fapi%25252Fusers%25252Fforbidden%25253FReturnUrl%25253D%2525252Fapi%2525252Fusers%2525252Fforbidden%2525253FReturnUrl%2525253D%252525252Fapi%252525252Fusers%252525252Fforbidden%252525253FReturnUrl%252525253D%25252525252Fapi%25252525252Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:45
+Response: 
+ResponseCode: 302
+Responded at: 01.12.2020 15:53:45
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers%2Fforbidden%3FReturnUrl%3D%252Fapi%252Fusers%252Fforbidden%253FReturnUrl%253D%25252Fapi%25252Fusers%25252Fforbidden%25253FReturnUrl%25253D%2525252Fapi%2525252Fusers%2525252Fforbidden%2525253FReturnUrl%2525253D%252525252Fapi%252525252Fusers%252525252Fforbidden%252525253FReturnUrl%252525253D%25252525252Fapi%25252525252Fusers%25252525252Fforbidden%25252525253FReturnUrl%25252525253D%2525252525252Fapi%2525252525252Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:45
+Response: 
+ResponseCode: 302
+Responded at: 01.12.2020 15:53:45
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers%2Fforbidden%3FReturnUrl%3D%252Fapi%252Fusers%252Fforbidden%253FReturnUrl%253D%25252Fapi%25252Fusers%25252Fforbidden%25253FReturnUrl%25253D%2525252Fapi%2525252Fusers%2525252Fforbidden%2525253FReturnUrl%2525253D%252525252Fapi%252525252Fusers%252525252Fforbidden%252525253FReturnUrl%252525253D%25252525252Fapi%25252525252Fusers%25252525252Fforbidden%25252525253FReturnUrl%25252525253D%2525252525252Fapi%2525252525252Fusers%2525252525252Fforbidden%2525252525253FReturnUrl%2525252525253D%252525252525252Fapi%252525252525252Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:45
+Response: 
+ResponseCode: 302
+Responded at: 01.12.2020 15:53:45
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers%2Fforbidden%3FReturnUrl%3D%252Fapi%252Fusers%252Fforbidden%253FReturnUrl%253D%25252Fapi%25252Fusers%25252Fforbidden%25253FReturnUrl%25253D%2525252Fapi%2525252Fusers%2525252Fforbidden%2525253FReturnUrl%2525253D%252525252Fapi%252525252Fusers%252525252Fforbidden%252525253FReturnUrl%252525253D%25252525252Fapi%25252525252Fusers%25252525252Fforbidden%25252525253FReturnUrl%25252525253D%2525252525252Fapi%2525252525252Fusers%2525252525252Fforbidden%2525252525253FReturnUrl%2525252525253D%252525252525252Fapi%252525252525252Fusers%252525252525252Fforbidden%252525252525253FReturnUrl%252525252525253D%25252525252525252Fapi%25252525252525252Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:45
+Response: 
+ResponseCode: 302
+Responded at: 01.12.2020 15:53:45
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers%2Fforbidden%3FReturnUrl%3D%252Fapi%252Fusers%252Fforbidden%253FReturnUrl%253D%25252Fapi%25252Fusers%25252Fforbidden%25253FReturnUrl%25253D%2525252Fapi%2525252Fusers%2525252Fforbidden%2525253FReturnUrl%2525253D%252525252Fapi%252525252Fusers%252525252Fforbidden%252525253FReturnUrl%252525253D%25252525252Fapi%25252525252Fusers%25252525252Fforbidden%25252525253FReturnUrl%25252525253D%2525252525252Fapi%2525252525252Fusers%2525252525252Fforbidden%2525252525253FReturnUrl%2525252525253D%252525252525252Fapi%252525252525252Fusers%252525252525252Fforbidden%252525252525253FReturnUrl%252525252525253D%25252525252525252Fapi%25252525252525252Fusers%25252525252525252Fforbidden%25252525252525253FReturnUrl%25252525252525253D%2525252525252525252Fapi%2525252525252525252Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:45
+Response: 
+ResponseCode: 302
+Responded at: 01.12.2020 15:53:45
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:51
+Response: 
+ResponseCode: 302
+Responded at: 01.12.2020 15:53:51
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers%2Fforbidden%3FReturnUrl%3D%252Fapi%252Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:51
+Response: 
+ResponseCode: 302
+Responded at: 01.12.2020 15:53:51
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers%2Fforbidden%3FReturnUrl%3D%252Fapi%252Fusers%252Fforbidden%253FReturnUrl%253D%25252Fapi%25252Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:51
+Response: 
+ResponseCode: 302
+Responded at: 01.12.2020 15:53:51
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers%2Fforbidden%3FReturnUrl%3D%252Fapi%252Fusers%252Fforbidden%253FReturnUrl%253D%25252Fapi%25252Fusers%25252Fforbidden%25253FReturnUrl%25253D%2525252Fapi%2525252Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:51
+Response: 
+ResponseCode: 302
+Responded at: 01.12.2020 15:53:51
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers%2Fforbidden%3FReturnUrl%3D%252Fapi%252Fusers%252Fforbidden%253FReturnUrl%253D%25252Fapi%25252Fusers%25252Fforbidden%25253FReturnUrl%25253D%2525252Fapi%2525252Fusers%2525252Fforbidden%2525253FReturnUrl%2525253D%252525252Fapi%252525252Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:51
+Response: 
+ResponseCode: 302
+Responded at: 01.12.2020 15:53:51
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers%2Fforbidden%3FReturnUrl%3D%252Fapi%252Fusers%252Fforbidden%253FReturnUrl%253D%25252Fapi%25252Fusers%25252Fforbidden%25253FReturnUrl%25253D%2525252Fapi%2525252Fusers%2525252Fforbidden%2525253FReturnUrl%2525253D%252525252Fapi%252525252Fusers%252525252Fforbidden%252525253FReturnUrl%252525253D%25252525252Fapi%25252525252Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:51
+Response: 
+ResponseCode: 302
+Responded at: 01.12.2020 15:53:51
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers%2Fforbidden%3FReturnUrl%3D%252Fapi%252Fusers%252Fforbidden%253FReturnUrl%253D%25252Fapi%25252Fusers%25252Fforbidden%25253FReturnUrl%25253D%2525252Fapi%2525252Fusers%2525252Fforbidden%2525253FReturnUrl%2525253D%252525252Fapi%252525252Fusers%252525252Fforbidden%252525253FReturnUrl%252525253D%25252525252Fapi%25252525252Fusers%25252525252Fforbidden%25252525253FReturnUrl%25252525253D%2525252525252Fapi%2525252525252Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:51
+Response: 
+ResponseCode: 302
+Responded at: 01.12.2020 15:53:51
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers%2Fforbidden%3FReturnUrl%3D%252Fapi%252Fusers%252Fforbidden%253FReturnUrl%253D%25252Fapi%25252Fusers%25252Fforbidden%25253FReturnUrl%25253D%2525252Fapi%2525252Fusers%2525252Fforbidden%2525253FReturnUrl%2525253D%252525252Fapi%252525252Fusers%252525252Fforbidden%252525253FReturnUrl%252525253D%25252525252Fapi%25252525252Fusers%25252525252Fforbidden%25252525253FReturnUrl%25252525253D%2525252525252Fapi%2525252525252Fusers%2525252525252Fforbidden%2525252525253FReturnUrl%2525252525253D%252525252525252Fapi%252525252525252Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:51
+Response: 
+ResponseCode: 302
+Responded at: 01.12.2020 15:53:51
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers%2Fforbidden%3FReturnUrl%3D%252Fapi%252Fusers%252Fforbidden%253FReturnUrl%253D%25252Fapi%25252Fusers%25252Fforbidden%25253FReturnUrl%25253D%2525252Fapi%2525252Fusers%2525252Fforbidden%2525253FReturnUrl%2525253D%252525252Fapi%252525252Fusers%252525252Fforbidden%252525253FReturnUrl%252525253D%25252525252Fapi%25252525252Fusers%25252525252Fforbidden%25252525253FReturnUrl%25252525253D%2525252525252Fapi%2525252525252Fusers%2525252525252Fforbidden%2525252525253FReturnUrl%2525252525253D%252525252525252Fapi%252525252525252Fusers%252525252525252Fforbidden%252525252525253FReturnUrl%252525252525253D%25252525252525252Fapi%25252525252525252Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:51
+Response: 
+ResponseCode: 302
+Responded at: 01.12.2020 15:53:51
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers%2Fforbidden%3FReturnUrl%3D%252Fapi%252Fusers%252Fforbidden%253FReturnUrl%253D%25252Fapi%25252Fusers%25252Fforbidden%25253FReturnUrl%25253D%2525252Fapi%2525252Fusers%2525252Fforbidden%2525253FReturnUrl%2525253D%252525252Fapi%252525252Fusers%252525252Fforbidden%252525253FReturnUrl%252525253D%25252525252Fapi%25252525252Fusers%25252525252Fforbidden%25252525253FReturnUrl%25252525253D%2525252525252Fapi%2525252525252Fusers%2525252525252Fforbidden%2525252525253FReturnUrl%2525252525253D%252525252525252Fapi%252525252525252Fusers%252525252525252Fforbidden%252525252525253FReturnUrl%252525252525253D%25252525252525252Fapi%25252525252525252Fusers%25252525252525252Fforbidden%25252525252525253FReturnUrl%25252525252525253D%2525252525252525252Fapi%2525252525252525252Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:53:51
+Response: 
+ResponseCode: 302
+Responded at: 01.12.2020 15:53:51
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:56:11
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 15:56:12
+
+
+Path: /api/users/forbidden
+QueryString: ?ReturnUrl=%2Fapi%2Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:56:13
+Response: Access denied!
+ResponseCode: 403
+Responded at: 01.12.2020 15:56:13
+
+
+Path: /api/users/logout
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:56:21
+Response: 
+ResponseCode: 405
+Responded at: 01.12.2020 15:56:21
+
+
+Path: /api/users/logout
+QueryString: 
+Method: POST
+RequestBody: 
+Requested at: 01.12.2020 15:56:25
+Response: Logged out successfully.
+ResponseCode: 200
+Responded at: 01.12.2020 15:56:25
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fapi%2Fusers%2F
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:56:32
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 15:56:32
+
+
+Path: /api/users/login
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "admin",
+    "password": "_Aa123456"
+}
+Requested at: 01.12.2020 15:56:46
+Response: Logged in successfully.
+ResponseCode: 200
+Responded at: 01.12.2020 15:56:46
+
+
+Path: /api/users
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 15:56:50
+Response: abc2
+admin
+ResponseCode: 200
+Responded at: 01.12.2020 15:56:50
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 17:11:33
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 17:11:33
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fapi%2Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 17:11:49
+Response: Send post request with a model (username and password) to login.
+ResponseCode: 200
+Responded at: 01.12.2020 17:11:49
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 17:12:49
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 01.12.2020 17:12:49
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fapi%2Fusers
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 17:13:00
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 01.12.2020 17:13:00
+
+
+Path: /api/users/login
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "admin",
+    "password": "_Aa123456"
+}
+Requested at: 01.12.2020 17:13:08
+Response: Logged in successfully.
+ResponseCode: 200
+Responded at: 01.12.2020 17:13:08
+
+
+Path: /api/users/abc
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 17:14:00
+Response: 
+ResponseCode: 405
+Responded at: 01.12.2020 17:14:00
+
+
+Path: /api/users/abc
+QueryString: 
+Method: POST
+RequestBody: 
+Requested at: 01.12.2020 17:14:12
+Response: User with userName given not found!
+ResponseCode: 404
+Responded at: 01.12.2020 17:14:12
+
+
+Path: /api/users/abc2
+QueryString: 
+Method: POST
+RequestBody: 
+Requested at: 01.12.2020 17:14:14
+Response: User ID : "3be12ce8-bd5c-49cc-be52-83f86882c015"
+User Login UserName : "abc2"
+User Email : "abc2@gmail.com"
+User Name : "roman"
+User Password Hash : "AQAAAAEAACcQAAAAEPjxuajnY7wTqoOLEoQ4Nwi9+Pwc5FK52H0tspI5x4ILHovxIYnBed+Rb7tdhZSPTg=="
+
+ResponseCode: 200
+Responded at: 01.12.2020 17:14:14
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 17:17:50
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 01.12.2020 17:17:50
+
+
+Path: /api/users/login
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "admin",
+    "password": "_Aa123456"
+}
+Requested at: 01.12.2020 17:18:12
+Response: User is authenticated. Logout to change user.
+ResponseCode: 400
+Responded at: 01.12.2020 17:18:12
+
+
+Path: /api/users/logout
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "admin",
+    "password": "_Aa123456"
+}
+Requested at: 01.12.2020 17:18:19
+Response: Logged out successfully.
+ResponseCode: 200
+Responded at: 01.12.2020 17:18:19
+
+
+Path: /api/users/login
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "admin",
+    "password": "_Aa123456"
+}
+Requested at: 01.12.2020 17:18:23
+Response: Logged in successfully.
+ResponseCode: 200
+Responded at: 01.12.2020 17:18:23
+
+
+Path: /api/users/login
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "admin",
+    "password": "_Aa123456"
+}
+Requested at: 01.12.2020 17:18:24
+Response: User is authenticated. Logout to change user.
+ResponseCode: 400
+Responded at: 01.12.2020 17:18:24
+
+
