@@ -17,13 +17,13 @@ namespace WebApi
     {
         public static async Task Main(string[] args)
         {
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
+            //var configuration = new ConfigurationBuilder()
+            //    .AddJsonFile("appsettings.json")
+            //    .Build();
 
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
-                .CreateLogger();
+            //Log.Logger = new LoggerConfiguration()
+            //    .ReadFrom.Configuration(configuration)
+            //    .CreateLogger();
 
 
             var host = CreateHostBuilder(args).Build();
@@ -38,27 +38,24 @@ namespace WebApi
                 }
                 catch (Exception ex)
                 {
-                    Log.Error($"An error occurred while initializing roles: {ex.Message}");
+                    Console.WriteLine($"An error occurred while initializing roles: {ex.Message}");
                 }
             }
 
-            try
-            {
-                host.Run();
-            }
-            catch (Exception ex)
-            {
-                Log.Fatal(ex, "The application failed to start.");
-            }
-            finally
-            {
-                Log.CloseAndFlush();
-            }
+            host.Run();
+            //catch (Exception ex)
+            //{
+            //    Log.Fatal(ex, "The application failed to start.");
+            //}
+            //finally
+            //{
+            //    Log.CloseAndFlush();
+            //}
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
-                .UseSerilog()
+                //.UseSerilog()
                 //.ConfigureLogging((context, logging) =>
                 //{
                 //    logging.ClearProviders();

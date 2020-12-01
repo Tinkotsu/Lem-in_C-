@@ -93,8 +93,8 @@ namespace WebApi
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseSerilogRequestLogging();
-            //app.UseMiddleware<LoggerMiddleware>();
+            //app.UseSerilogRequestLogging();
+            app.UseMiddleware<LoggerMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

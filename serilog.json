@@ -1,2 +1,55 @@
-{"Timestamp":"2020-12-01T19:57:50.1968673+03:00","Level":"Information","MessageTemplate":"HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms","Properties":{"RequestMethod":"GET","RequestPath":"/api/users/login?ReturnUrl=%2Fweatherforecast","StatusCode":401,"Elapsed":38.0141,"SourceContext":"Serilog.AspNetCore.RequestLoggingMiddleware","RequestId":"0HM4M38U4J4R7:00000003","SpanId":"|249ae724-438fd9435c9e2efc.","TraceId":"249ae724-438fd9435c9e2efc","ParentId":"","MachineName":"DESKTOP-BC8TNPF","ProcessId":15308,"ThreadId":7},"Renderings":{"Elapsed":[{"Format":"0.0000","Rendering":"38.0141"}]}}
-{"Timestamp":"2020-12-01T19:58:21.1195067+03:00","Level":"Information","MessageTemplate":"HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms","Properties":{"RequestMethod":"GET","RequestPath":"/api/users/login?ReturnUrl=%2Fapi%2Fvalues","StatusCode":401,"Elapsed":34.101,"SourceContext":"Serilog.AspNetCore.RequestLoggingMiddleware","RequestId":"0HM4M38U4J4R7:00000007","SpanId":"|249ae726-438fd9435c9e2efc.","TraceId":"249ae726-438fd9435c9e2efc","ParentId":"","MachineName":"DESKTOP-BC8TNPF","ProcessId":15308,"ThreadId":4},"Renderings":{"Elapsed":[{"Format":"0.0000","Rendering":"34.1010"}]}}
+{
+    "Timestamp": "2020-12-01T19:57:50.1968673+03:00",
+    "Level": "Information",
+    "MessageTemplate": "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms",
+    "Properties": {
+        "RequestMethod": "GET",
+        "RequestPath": "/api/users/login?ReturnUrl=%2Fweatherforecast",
+        "StatusCode": 401,
+        "Elapsed": 38.0141,
+        "SourceContext": "Serilog.AspNetCore.RequestLoggingMiddleware",
+        "RequestId": "0HM4M38U4J4R7:00000003",
+        "SpanId": "|249ae724-438fd9435c9e2efc.",
+        "TraceId": "249ae724-438fd9435c9e2efc",
+        "ParentId": "",
+        "MachineName": "DESKTOP-BC8TNPF",
+        "ProcessId": 15308,
+        "ThreadId": 7
+    },
+    "Renderings": {
+        "Elapsed": [
+            {
+                "Format": "0.0000",
+                "Rendering": "38.0141"
+            }
+        ]
+    }
+}
+{
+    "Timestamp": "2020-12-01T19:58:21.1195067+03:00",
+    "Level": "Information",
+    "MessageTemplate": "HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms",
+    "Properties": {
+        "RequestMethod": "GET",
+        "RequestPath": "/api/users/login?ReturnUrl=%2Fapi%2Fvalues",
+        "StatusCode": 401,
+        "Elapsed": 34.101,
+        "SourceContext": "Serilog.AspNetCore.RequestLoggingMiddleware",
+        "RequestId": "0HM4M38U4J4R7:00000007",
+        "SpanId": "|249ae726-438fd9435c9e2efc.",
+        "TraceId": "249ae726-438fd9435c9e2efc",
+        "ParentId": "",
+        "MachineName": "DESKTOP-BC8TNPF",
+        "ProcessId": 15308,
+        "ThreadId": 4
+    },
+    "Renderings": {
+        "Elapsed": [
+            {
+                "Format": "0.0000",
+                "Rendering": "34.1010"
+            }
+        ]
+    }
+}{"Timestamp":"2020-12-01T20:09:35.9610025+03:00","Level":"Information","MessageTemplate":"HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms","Properties":{"RequestMethod":"GET","RequestPath":"/api/users/login?ReturnUrl=%2Fweatherforecast","StatusCode":401,"Elapsed":23.3563,"SourceContext":"Serilog.AspNetCore.RequestLoggingMiddleware","RequestId":"0HM4M3FGE4S71:00000003","SpanId":"|789280e7-4f8a4b21064a3142.","TraceId":"789280e7-4f8a4b21064a3142","ParentId":"","MachineName":"DESKTOP-BC8TNPF","ProcessId":14332,"ThreadId":8},"Renderings":{"Elapsed":[{"Format":"0.0000","Rendering":"23.3563"}]}}
+{"Timestamp":"2020-12-01T20:09:39.6022894+03:00","Level":"Information","MessageTemplate":"HTTP {RequestMethod} {RequestPath} responded {StatusCode} in {Elapsed:0.0000} ms","Properties":{"RequestMethod":"GET","RequestPath":"/api/users/login","StatusCode":401,"Elapsed":34.5983,"SourceContext":"Serilog.AspNetCore.RequestLoggingMiddleware","RequestId":"0HM4M3FGE4S71:00000005","SpanId":"|789280e8-4f8a4b21064a3142.","TraceId":"789280e8-4f8a4b21064a3142","ParentId":"","MachineName":"DESKTOP-BC8TNPF","ProcessId":14332,"ThreadId":8},"Renderings":{"Elapsed":[{"Format":"0.0000","Rendering":"34.5983"}]}}

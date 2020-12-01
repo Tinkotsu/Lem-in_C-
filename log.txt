@@ -1006,3 +1006,13 @@ ResponseCode: 400
 Responded at: 01.12.2020 17:18:24
 
 
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 01.12.2020 20:15:38
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 01.12.2020 20:15:38
+
+
