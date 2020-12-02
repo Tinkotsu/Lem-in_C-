@@ -36,9 +36,14 @@ namespace WebApi
         {
             services.AddControllers();
 
-            //DB & Identity settings 
+            //DB settings 
             services.AddDbContext<UsersDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddDbContext<FileDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            //Identity settings
             services.AddIdentity<User, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 4;

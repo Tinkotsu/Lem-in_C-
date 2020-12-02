@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using WebApi.Models;
 
-namespace WebApi
+namespace WebApi.AppData
 {
     public class RoleInitializer
     {
@@ -14,6 +14,7 @@ namespace WebApi
             var adminEmail = "admin@gmail.com";
             var adminUserName = "admin";
             var password = "_Aa123456";
+
             if (await roleManager.FindByNameAsync("admin") == null)
             {
                 await roleManager.CreateAsync(new IdentityRole("admin"));
@@ -28,7 +29,7 @@ namespace WebApi
             }
             if (await userManager.FindByNameAsync(adminUserName) == null)
             {
-                var admin = new User { Email = adminEmail, UserName = adminUserName };
+                var admin = new User { Email = adminEmail, UserName = adminUserName, Name = adminUserName };
                 var result = await userManager.CreateAsync(admin, password);
                 if (result.Succeeded)
                 {

@@ -8,7 +8,7 @@ using WebApi.AppData;
 
 namespace WebApi.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
+    [DbContext(typeof(UsersDbContext))]
     partial class UsersDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
@@ -176,7 +176,9 @@ namespace WebApi.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasMaxLength(25)
+                        .HasColumnType("nvarchar(25)");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)

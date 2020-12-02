@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using WebApi.AppData;
 using WebApi.Models;
 
 namespace WebApi
@@ -17,6 +18,7 @@ namespace WebApi
     {
         public static async Task Main(string[] args)
         {
+            ////SeriLog configuration
             //var configuration = new ConfigurationBuilder()
             //    .AddJsonFile("appsettings.json")
             //    .Build();
@@ -43,14 +45,6 @@ namespace WebApi
             }
 
             host.Run();
-            //catch (Exception ex)
-            //{
-            //    Log.Fatal(ex, "The application failed to start.");
-            //}
-            //finally
-            //{
-            //    Log.CloseAndFlush();
-            //}
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

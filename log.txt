@@ -1036,3 +1036,43 @@ ResponseCode: 401
 Responded at: 01.12.2020 21:10:27
 
 
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 02.12.2020 13:58:44
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 02.12.2020 13:58:44
+
+
+Path: /favicon.ico
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 02.12.2020 13:58:44
+Response: 
+ResponseCode: 404
+Responded at: 02.12.2020 13:58:44
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 02.12.2020 14:21:32
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 02.12.2020 14:21:32
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 02.12.2020 15:00:59
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 02.12.2020 15:00:59
+
+
