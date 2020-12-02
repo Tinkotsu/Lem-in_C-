@@ -28,14 +28,14 @@ namespace WebApi.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("forbidden")]
-        public async Task<IActionResult> Forbidden()
+        public ActionResult Forbidden()
         {
             return StatusCode(403, "Access denied!");
         }
 
         [HttpGet]
         [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Get()
+        public ActionResult Get()
         {
             return Ok(string.Join(Environment.NewLine,_userManager.Users.ToList()));
         }
@@ -158,7 +158,7 @@ namespace WebApi.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("login")]
-        public async Task<IActionResult> Login()
+        public ActionResult Login()
         {
             if (User.Identity.IsAuthenticated)
                 return BadRequest("User is already authenticated. Logout to change user.");

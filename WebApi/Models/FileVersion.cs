@@ -13,20 +13,19 @@ namespace WebApi.Models
         [Key]
         public int Id { get; set; }
 
-        [Required]
         [MaxLength(200)]
         public string FilePath { get; set; }
 
         [Required]
         public int FileSize { get; set; }
 
-        [Required]
-        public int VersionId { get; set; }
-        
-        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public int VersionNumber { get; set; }
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreatedAt { get; set; }
 
-        [Required]
+        public File File { get; set; }
         public int FileId { get; set; }
     }
 }

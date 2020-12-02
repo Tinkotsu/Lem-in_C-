@@ -30,7 +30,7 @@ namespace WebApi.Controllers
         // POST api/<ValuesController>
         [Authorize(Roles = "initiator")]
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] string value)
+        public ActionResult Post([FromBody] string value)
         {
             return Ok("Hello initializer");
         }

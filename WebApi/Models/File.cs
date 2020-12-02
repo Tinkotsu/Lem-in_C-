@@ -15,10 +15,11 @@ namespace WebApi.Models
         [MaxLength(50)]
         public string Name { get; set; }
 
+        public virtual FileCategory Category { get; set; }
+        
         [Required]
-        public FileCategory Category { get; set; }
+        public int CategoryId { get; set; }
 
-        [Required]
         public ICollection<FileVersion> Versions { get; set; }
     }
 }
