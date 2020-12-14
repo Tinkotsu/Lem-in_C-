@@ -81,6 +81,9 @@ namespace WebApi
 
             //DI for logger
             services.AddSingleton<ILogStorage, FileLogStorage>();
+
+            //DI for file management
+            services.AddSingleton<IFileManager, FileManager>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

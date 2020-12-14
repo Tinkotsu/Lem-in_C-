@@ -10,46 +10,34 @@ using WebApi.Models;
 
 namespace WebApi
 {
-    public class FileManager
+    public class FileManager : IFileManager
     {
-
-        public async void AddNewFile(string userId, IFormFile file, int categoryId)
+        private const string DirName = "Files";
+        public async Task<string> SaveFile(IFormFile file, string userId, int versionNum)
         {
+            var path = string.Join('/', DirName, userId, file.FileName, versionNum.ToString());
+            Directory.CreateDirectory(path);
+            path += "/" + file.FileName;
+            await using (var fileStream = new FileStream(path, FileMode.Create))
+            {
+                await file.CopyToAsync(fileStream);
+            }
+
+            return path;
         }
 
-        public void AddNewVersion(string userId, IFormFile file, string fileName)
+        public byte[] GetFileByPath(string filePath)
         {
+            var file = System.IO.File.ReadAllBytesAsync(filePath);
 
+            return file.Result;
         }
 
-        public void DeleteFile(string userId, string fileName)
+        public byte[] GetFileByName(string userId, string fileName, int versionNum)
         {
+            var filePath = string.Join('/', DirName, userId, fileName, versionNum.ToString(), fileName);
 
-        }
-
-        public void DownVersion(string userId, string fileName, int destVersion)
-        {
-
-        }
-
-        public string FileInfo(string userId, string fileName)
-        {
-            return "ok";
-        }
-
-        public byte[] GetFile(string userId, string fileName)
-        {
-            return new byte['1'];
-        }
-
-        public byte[] GetFileVersion(string userId, string fileName, int version)
-        {
-            return new byte['1'];
-        }
-
-        public void ChangeFileCategory(string userId, string fileName, int newCategoryId)
-        {
-
+            return GetFileByPath(filePath);
         }
     }
 }

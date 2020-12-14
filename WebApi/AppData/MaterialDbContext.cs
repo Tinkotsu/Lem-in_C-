@@ -27,15 +27,6 @@ namespace WebApi.AppData
                 .WithOne(x => x.Material)
                 .HasForeignKey(x => x.MaterialId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            //modelBuilder.Entity<FileVersion>()
-            //    .Property(f => f.CreatedAt)
-            //    .HasDefaultValueSql("getdate()");
-
-            //modelBuilder.Entity<MaterialCategory>().HasData(
-            //    new MaterialCategory() { Id = 1, Name = "Presentation" },
-            //    new MaterialCategory() { Id = 2, Name = "Application" },
-            //    new MaterialCategory() { Id = 3, Name = "Other" });
         }
 
         public DbSet<Material> Materials { get; set; }

@@ -20,14 +20,15 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     public class MaterialController : ControllerBase
     {
-        const string dirName = "Files";
         //private readonly IFileManager _fileManager;
 
         private readonly MaterialDbContext _dbContext;
+        private readonly IFileManager _fileManager;
 
-        public MaterialController(MaterialDbContext dbContext)
+        public MaterialController(MaterialDbContext dbContext, IFileManager fileManager)
         {
             _dbContext = dbContext;
+            _fileManager = fileManager;
         }
 
         [HttpPost]
@@ -48,13 +49,7 @@ namespace WebApi.Controllers
             }
 
             //saving file
-            var path = string.Join('/', dirName, userId, file.FileName, "1");
-            Directory.CreateDirectory(path);
-            path += "/" + file.FileName;
-            await using (var fileStream = new FileStream(path, FileMode.Create))
-            {
-                await file.CopyToAsync(fileStream);
-            }
+            var path = _fileManager.SaveFile(file, userId, 1).Result;
 
             //creating new material dto
             var material = new Material
@@ -100,13 +95,7 @@ namespace WebApi.Controllers
             var newVersionNum = _dbContext.MaterialVersions.Count(x => x.MaterialId == material.Id) + 1;
 
             //saving file
-            var path = string.Join('/', dirName, userId, file.FileName, newVersionNum.ToString());
-            Directory.CreateDirectory(path);
-            path += "/" + file.FileName;
-            await using (var fileStream = new FileStream(path, FileMode.Create))
-            {
-                await file.CopyToAsync(fileStream);
-            }
+            var path = _fileManager.SaveFile(file, userId, newVersionNum).Result;
 
             //creating new version
             var newVersion = new MaterialVersion
@@ -149,7 +138,7 @@ namespace WebApi.Controllers
             if (materialVersion == null)
                 return NotFound("Version has not been found");
 
-            var dataBytes = await System.IO.File.ReadAllBytesAsync(materialVersion.FilePath);
+            var dataBytes = _fileManager.GetFileByName(userId, fileName, versionNum);
             
             return File(dataBytes, "application/octet-stream");
         }
@@ -204,6 +193,35 @@ namespace WebApi.Controllers
                     materialVersion.FileSize
                 });
 
+            return Ok(output);
+        }
+
+        [HttpGet]
+        [Route("filter_info")]
+        public ActionResult FilteredInfo([FromForm] long minSize, [FromForm] int categoryId, [FromForm] long maxSize=-1)
+        {
+            var materials = _dbContext.Materials.Include(m => m.Versions).ToList();
+
+            if (categoryId != 0)
+            {
+                if (categoryId < 1 || categoryId > 3)
+                    return BadRequest("Wrong category ID");
+                materials = materials.Where(x => x.CategoryId == categoryId).ToList();
+            }
+
+            if (maxSize != -1 || minSize != 0)
+            {
+                materials = materials
+                    .Where(material =>
+                        {
+                            var versionNum = material.ActualVersionNum;
+                            var version = material.Versions.FirstOrDefault(v => v.VersionNumber == versionNum);
+                            return (version.FileSize >= minSize && (maxSize == -1 || version.FileSize <= maxSize));
+                        }
+                    ).ToList();
+            }
+
+            var output = Newtonsoft.Json.JsonConvert.SerializeObject(materials);
             return Ok(output);
         }
     }
