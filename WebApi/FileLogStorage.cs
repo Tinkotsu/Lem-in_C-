@@ -9,7 +9,7 @@ namespace WebApi
     public class FileLogStorage : ILogStorage
     {
         private readonly string _path;
-        public FileLogStorage(string path = @"C:\Users\Roman\source\repos\.NET\log.txt")
+        public FileLogStorage(string path = @"Logs\log.txt")
         {
             _path = path;
         }

@@ -15,6 +15,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using WebApi.AppData;
 using WebApi.Models;
 using Serilog;
@@ -40,7 +41,7 @@ namespace WebApi
             services.AddDbContext<UsersDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDbContext<FileDbContext>(options =>
+            services.AddDbContext<MaterialDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             //Identity settings
@@ -98,6 +99,7 @@ namespace WebApi
             app.UseAuthorization();
 
             //app.UseSerilogRequestLogging();
+
             app.UseMiddleware<LoggerMiddleware>();
 
             app.UseEndpoints(endpoints =>

@@ -145,7 +145,7 @@ namespace WebApi.Controllers
 
             if (!ModelState.IsValid)
                 return BadRequest("Wrong login input!");
-            
+
             var result = await _signInManager.PasswordSignInAsync(
                 model.UserName, model.Password, model.RememberMe, false);
             

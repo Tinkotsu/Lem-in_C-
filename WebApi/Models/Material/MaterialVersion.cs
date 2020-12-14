@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.Models
 {
-    public class FileVersion
+    public class MaterialVersion
     {
         [Key]
         public int Id { get; set; }
@@ -17,15 +17,13 @@ namespace WebApi.Models
         public string FilePath { get; set; }
 
         [Required]
-        public int FileSize { get; set; }
+        public long FileSize { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public int VersionNumber { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public DateTime CreatedAt { get; set; }
-
-        public File File { get; set; }
-        public int FileId { get; set; }
+        
+        public Material Material { get; set; }
+        public int MaterialId { get; set; }
     }
 }
