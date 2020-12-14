@@ -30,6 +30,8 @@ namespace WebApi.Models
         [Required]
         public int ActualVersionNum { get; set; }
 
+        public User OwnerUser { get; set; }
+
         [Required]
         public string OwnerUserId { get; set; }
 

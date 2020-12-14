@@ -29,7 +29,7 @@ namespace WebApi.AppData
             }
             if (await userManager.FindByNameAsync(adminUserName) == null)
             {
-                var admin = new User { Email = adminEmail, UserName = adminUserName, Name = adminUserName };
+                var admin = new User { Email = adminEmail, UserName = adminUserName, Name = adminUserName, Materials = new List<Material>()};
                 var result = await userManager.CreateAsync(admin, password);
                 if (result.Succeeded)
                 {

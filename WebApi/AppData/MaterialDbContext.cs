@@ -27,6 +27,12 @@ namespace WebApi.AppData
                 .WithOne(x => x.Material)
                 .HasForeignKey(x => x.MaterialId)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<User>()
+                .HasMany<Material>(u => u.Materials)
+                .WithOne(x => x.OwnerUser)
+                .HasForeignKey(x => x.OwnerUserId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
 
         public DbSet<Material> Materials { get; set; }

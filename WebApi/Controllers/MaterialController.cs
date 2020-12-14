@@ -22,12 +22,14 @@ namespace WebApi.Controllers
     {
         //private readonly IFileManager _fileManager;
 
-        private readonly MaterialDbContext _dbContext;
+        private readonly UsersDbContext _usersDbContext;
+        private readonly MaterialDbContext _materialDbContext;
         private readonly IFileManager _fileManager;
 
-        public MaterialController(MaterialDbContext dbContext, IFileManager fileManager)
+        public MaterialController(MaterialDbContext materialDbContext, UsersDbContext usersDbContext, IFileManager fileManager)
         {
-            _dbContext = dbContext;
+            _usersDbContext = usersDbContext;
+            _materialDbContext = materialDbContext;
             _fileManager = fileManager;
         }
 
@@ -41,9 +43,9 @@ namespace WebApi.Controllers
                 return BadRequest("No file uploaded");
             if (categoryId < 1 || categoryId > 3)
                 return BadRequest("Wrong category ID");
-            if (_dbContext.Materials.Any())
+            if (_materialDbContext.Materials.Any())
             {
-                if (_dbContext.Materials
+                if (_materialDbContext.Materials
                     .Count(dbFile => dbFile.OwnerUserId == userId && dbFile.Name == file.FileName) != 0)
                     return BadRequest("File already exist");
             }
@@ -51,12 +53,20 @@ namespace WebApi.Controllers
             //saving file
             var path = _fileManager.SaveFile(file, userId, 1).Result;
 
+            var userDb = _usersDbContext.Users
+                .Include(u => u.Materials)
+                .FirstOrDefault(u => u.Id == userId);
+
+            if (userDb == null)
+                return NotFound("User not found");
+
             //creating new material dto
             var material = new Material
             {
                 Name = file.FileName,
                 ActualVersionNum = 1,
                 CategoryId = categoryId,
+                OwnerUser = userDb,
                 OwnerUserId = userId,
                 Versions = new List<MaterialVersion>()
             };
@@ -72,11 +82,12 @@ namespace WebApi.Controllers
             };
 
             material.Versions.Add(version);
+            userDb.Materials.Add(material);
 
             //adding it to db
-            await _dbContext.Materials.AddAsync(material);
+            await _materialDbContext.Materials.AddAsync(material);
 
-            await _dbContext.SaveChangesAsync();
+            await _materialDbContext.SaveChangesAsync();
 
             return Ok();
         }
@@ -87,12 +98,12 @@ namespace WebApi.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var material = _dbContext.Materials
+            var material = _materialDbContext.Materials
                 .FirstOrDefault(x => x.OwnerUserId == userId && x.Name == file.FileName);
             if (material == null)
                 NotFound("File does not exist");
 
-            var newVersionNum = _dbContext.MaterialVersions.Count(x => x.MaterialId == material.Id) + 1;
+            var newVersionNum = _materialDbContext.MaterialVersions.Count(x => x.MaterialId == material.Id) + 1;
 
             //saving file
             var path = _fileManager.SaveFile(file, userId, newVersionNum).Result;
@@ -111,9 +122,9 @@ namespace WebApi.Controllers
                 material.ActualVersionNum = newVersionNum;
 
             //saving changes to db
-            await _dbContext.MaterialVersions.AddAsync(newVersion);
+            await _materialDbContext.MaterialVersions.AddAsync(newVersion);
 
-            await _dbContext.SaveChangesAsync();
+            await _materialDbContext.SaveChangesAsync();
 
             return Ok();
         }
@@ -124,7 +135,7 @@ namespace WebApi.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var material = _dbContext.Materials
+            var material = _materialDbContext.Materials
                 .Include(v => v.Versions)
                 .FirstOrDefault(x => x.OwnerUserId == userId && x.Name == fileName);
             if (material == null)
@@ -138,7 +149,7 @@ namespace WebApi.Controllers
             if (materialVersion == null)
                 return NotFound("Version has not been found");
 
-            var dataBytes = _fileManager.GetFileByName(userId, fileName, versionNum);
+            var dataBytes = _fileManager.GetFileByName(userId, fileName, versionNum).Result;
             
             return File(dataBytes, "application/octet-stream");
         }
@@ -149,7 +160,7 @@ namespace WebApi.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var material = _dbContext.Materials
+            var material = _materialDbContext.Materials
                 .FirstOrDefault(x => x.OwnerUserId == userId && x.Name == fileName);
             if (material == null)
                 return NotFound("File does not exist");
@@ -164,7 +175,7 @@ namespace WebApi.Controllers
 
             material.CategoryId = newCategoryId;
 
-            await _dbContext.SaveChangesAsync();
+            await _materialDbContext.SaveChangesAsync();
 
             return Ok($"File's (\"{fileName}\") category ID changed from {oldCategoryId} to {newCategoryId}.");
         }
@@ -175,7 +186,7 @@ namespace WebApi.Controllers
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var material = _dbContext.Materials
+            var material = _materialDbContext.Materials
                 .Include(v => v.Versions)
                 .FirstOrDefault(x => x.OwnerUserId == userId && x.Name == fileName);
 
@@ -200,7 +211,7 @@ namespace WebApi.Controllers
         [Route("filter_info")]
         public ActionResult FilteredInfo([FromForm] long minSize, [FromForm] int categoryId, [FromForm] long maxSize=-1)
         {
-            var materials = _dbContext.Materials.Include(m => m.Versions).ToList();
+            var materials = _materialDbContext.Materials.Include(m => m.Versions).ToList();
 
             if (categoryId != 0)
             {

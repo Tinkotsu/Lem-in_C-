@@ -122,7 +122,8 @@ namespace WebApi.Controllers
             {
                 Email = model.Email,
                 UserName = model.Username,
-                Name = model.Name
+                Name = model.Name,
+                Materials = new List<Material>()
             };
             var result = await _userManager.CreateAsync(user, model.Password);
             await _userManager.AddToRoleAsync(user, "reader");

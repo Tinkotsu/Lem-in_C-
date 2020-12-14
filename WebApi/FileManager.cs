@@ -26,18 +26,18 @@ namespace WebApi
             return path;
         }
 
-        public byte[] GetFileByPath(string filePath)
+        public async Task<byte[]> GetFileByPath(string filePath)
         {
-            var file = System.IO.File.ReadAllBytesAsync(filePath);
+            var file = await System.IO.File.ReadAllBytesAsync(filePath);
 
-            return file.Result;
+            return file;
         }
 
-        public byte[] GetFileByName(string userId, string fileName, int versionNum)
+        public async Task<byte[]> GetFileByName(string userId, string fileName, int versionNum)
         {
             var filePath = string.Join('/', DirName, userId, fileName, versionNum.ToString(), fileName);
 
-            return GetFileByPath(filePath);
+            return await GetFileByPath(filePath);
         }
     }
 }
