@@ -105,6 +105,7 @@ namespace WebApi.Tests
                     ContentType = "text/plain"
                 };
                 //act
+                var firstResult = _controller.AddNewFile(formFile, 1).Result;
                 result = (BadRequestObjectResult)_controller.AddNewFile(formFile, 1).Result;
             }
 

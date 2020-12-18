@@ -43,24 +43,24 @@ namespace WebApi.Controllers
         [HttpPost]
         [Authorize(Roles = "admin")]
         [Route("AddUserRole")]
-        public async Task<IActionResult> AddUserRole([FromBody] ChangeUserRoleModel model)
+        public async Task<IActionResult> AddUserRole([FromBody] string userName, string newRole)
         {
-            var user = await _userManager.FindByNameAsync(model.UserName);
+            var user = await _userManager.FindByNameAsync(userName);
             if (user == null)
                 return NotFound("User with userName given not found!");
-            await _userManager.AddToRoleAsync(user, model.NewRole);
+            await _userManager.AddToRoleAsync(user, newRole);
             return Ok($"Added user role successfully.");
         }
 
         [HttpPost]
         [Authorize(Roles = "admin")]
         [Route("RemoveUserRole")]
-        public async Task<IActionResult> RemoveUserRole([FromBody] ChangeUserRoleModel model)
+        public async Task<IActionResult> RemoveUserRole([FromBody] string userName, string newRole)
         {
-            var user = await _userManager.FindByNameAsync(model.UserName);
+            var user = await _userManager.FindByNameAsync(userName);
             if (user == null)
                 return NotFound("User with userName given not found!");
-            await _userManager.RemoveFromRoleAsync(user, model.NewRole);
+            await _userManager.RemoveFromRoleAsync(user, newRole);
             return Ok($"Removed user role successfully.");
         }
 
