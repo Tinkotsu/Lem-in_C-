@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace WebApi.Migrations.UsersDb
+namespace WebApi.Migrations
 {
     public partial class Initial : Migration
     {
@@ -153,51 +153,6 @@ namespace WebApi.Migrations.UsersDb
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Material",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    CategoryId = table.Column<int>(type: "int", nullable: false),
-                    ActualVersionNum = table.Column<int>(type: "int", nullable: false),
-                    OwnerUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Material", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Material_AspNetUsers_OwnerUserId",
-                        column: x => x.OwnerUserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MaterialVersion",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FilePath = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    FileSize = table.Column<long>(type: "bigint", nullable: false),
-                    VersionNumber = table.Column<int>(type: "int", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    MaterialId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MaterialVersion", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_MaterialVersion_Material_MaterialId",
-                        column: x => x.MaterialId,
-                        principalTable: "Material",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -236,16 +191,6 @@ namespace WebApi.Migrations.UsersDb
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Material_OwnerUserId",
-                table: "Material",
-                column: "OwnerUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MaterialVersion_MaterialId",
-                table: "MaterialVersion",
-                column: "MaterialId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -266,13 +211,7 @@ namespace WebApi.Migrations.UsersDb
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "MaterialVersion");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "Material");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

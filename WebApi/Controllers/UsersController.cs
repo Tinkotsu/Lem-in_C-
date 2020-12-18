@@ -122,14 +122,14 @@ namespace WebApi.Controllers
             {
                 Email = model.Email,
                 UserName = model.Username,
-                Name = model.Name,
-                Materials = new List<Material>()
+                Name = model.Name
             };
             var result = await _userManager.CreateAsync(user, model.Password);
-            await _userManager.AddToRoleAsync(user, "reader");
 
             if (!result.Succeeded)
-                return BadRequest("User creation failed!");
+                return BadRequest($"User creation failed: {Newtonsoft.Json.JsonConvert.SerializeObject(result.Errors.ToList())}");
+
+            await _userManager.AddToRoleAsync(user, "reader");
 
             await _signInManager.SignInAsync(user, false);
             
@@ -139,7 +139,7 @@ namespace WebApi.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("login")]
-        public async Task<IActionResult> Login(LoginModel model)
+        public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
             if (User.Identity.IsAuthenticated)
                 return BadRequest("User is already authenticated. Logout to change user.");

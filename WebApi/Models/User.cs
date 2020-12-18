@@ -12,7 +12,5 @@ namespace WebApi.Models
         [Required]
         [MaxLength(25)]
         public string Name { get; set; }
-
-        public ICollection<Material> Materials { get; set; }
     }
 }

@@ -9,7 +9,8 @@ namespace WebApi
     public interface IFileManager
     {
         public Task<string> SaveFile(IFormFile file, string userId, int versionNum);
-        public Task<byte[]> GetFileByName(string userId, string fileName, int versionNum);
-        public Task<byte[]> GetFileByPath(string filePath);
+        public byte[] GetFileByName(string userId, string fileName, int versionNum);
+        public byte[] GetFileByPath(string filePath);
+        public List<string> GetAllFiles();
     }
 }

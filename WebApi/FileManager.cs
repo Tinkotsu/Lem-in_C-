@@ -13,6 +13,8 @@ namespace WebApi
     public class FileManager : IFileManager
     {
         private const string DirName = "Files";
+        private readonly List<string> _files = new List<string>();
+
         public async Task<string> SaveFile(IFormFile file, string userId, int versionNum)
         {
             var path = string.Join('/', DirName, userId, file.FileName, versionNum.ToString());
@@ -22,22 +24,30 @@ namespace WebApi
             {
                 await file.CopyToAsync(fileStream);
             }
+            _files.Add(file.FileName);
 
             return path;
         }
 
-        public async Task<byte[]> GetFileByPath(string filePath)
+        public byte[] GetFileByPath(string filePath)
         {
-            var file = await System.IO.File.ReadAllBytesAsync(filePath);
+            var file = System.IO.File.ReadAllBytesAsync(filePath);
 
-            return file;
+            return file.Result;
         }
 
-        public async Task<byte[]> GetFileByName(string userId, string fileName, int versionNum)
+        public byte[] GetFileByName(string userId, string fileName, int versionNum)
         {
             var filePath = string.Join('/', DirName, userId, fileName, versionNum.ToString(), fileName);
 
-            return await GetFileByPath(filePath);
+            return GetFileByPath(filePath);
+        }
+
+        public List<string> GetAllFiles()
+        {
+            var outList = new List<string>(_files);
+
+            return outList;
         }
     }
 }

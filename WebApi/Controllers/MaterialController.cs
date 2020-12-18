@@ -20,16 +20,15 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     public class MaterialController : ControllerBase
     {
-        //private readonly IFileManager _fileManager;
-
-        private readonly UsersDbContext _usersDbContext;
-        private readonly MaterialDbContext _materialDbContext;
+        
+        private readonly MaterialDbContext _dbContext;
         private readonly IFileManager _fileManager;
+        private string _userId;
 
-        public MaterialController(MaterialDbContext materialDbContext, UsersDbContext usersDbContext, IFileManager fileManager)
+        public MaterialController(MaterialDbContext dbContext, IFileManager fileManager, string userId=null) // ? userId ? 
         {
-            _usersDbContext = usersDbContext;
-            _materialDbContext = materialDbContext;
+            _userId = userId;
+            _dbContext = dbContext;
             _fileManager = fileManager;
         }
 
@@ -37,28 +36,20 @@ namespace WebApi.Controllers
         [Route("add_new_material")]
         public async Task<IActionResult> AddNewFile([FromForm] IFormFile file, [FromForm] int categoryId)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
+            _userId ??= User.FindFirstValue(ClaimTypes.NameIdentifier);
             if (file == null)
                 return BadRequest("No file uploaded");
             if (categoryId < 1 || categoryId > 3)
                 return BadRequest("Wrong category ID");
-            if (_materialDbContext.Materials.Any())
+            if (_dbContext.Materials.Any())
             {
-                if (_materialDbContext.Materials
-                    .Count(dbFile => dbFile.OwnerUserId == userId && dbFile.Name == file.FileName) != 0)
+                if (_dbContext.Materials
+                    .Count(dbFile => dbFile.OwnerUserId == _userId && dbFile.Name == file.FileName) != 0)
                     return BadRequest("File already exist");
             }
 
             //saving file
-            var path = _fileManager.SaveFile(file, userId, 1).Result;
-
-            var userDb = _usersDbContext.Users
-                .Include(u => u.Materials)
-                .FirstOrDefault(u => u.Id == userId);
-
-            if (userDb == null)
-                return NotFound("User not found");
+            var path = _fileManager.SaveFile(file, _userId, 1).Result;
 
             //creating new material dto
             var material = new Material
@@ -66,8 +57,7 @@ namespace WebApi.Controllers
                 Name = file.FileName,
                 ActualVersionNum = 1,
                 CategoryId = categoryId,
-                OwnerUser = userDb,
-                OwnerUserId = userId,
+                OwnerUserId = _userId,
                 Versions = new List<MaterialVersion>()
             };
 
@@ -82,31 +72,31 @@ namespace WebApi.Controllers
             };
 
             material.Versions.Add(version);
-            userDb.Materials.Add(material);
 
             //adding it to db
-            await _materialDbContext.Materials.AddAsync(material);
+            await _dbContext.Materials.AddAsync(material);
 
-            await _materialDbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
 
-            return Ok();
+            return Ok("File created successfully.");
         }
 
         [HttpPost]
         [Route("add_new_version")]
         public async Task<IActionResult> AddNewVersion([FromForm] IFormFile file, [FromForm] bool isActual=true)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var material = _materialDbContext.Materials
-                .FirstOrDefault(x => x.OwnerUserId == userId && x.Name == file.FileName);
+            _userId ??= User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            var material = _dbContext.Materials
+                .FirstOrDefault(x => x.OwnerUserId == _userId && x.Name == file.FileName);
+            
             if (material == null)
-                NotFound("File does not exist");
+                return NotFound("File does not exist");
 
-            var newVersionNum = _materialDbContext.MaterialVersions.Count(x => x.MaterialId == material.Id) + 1;
+            var newVersionNum = _dbContext.MaterialVersions.Count(x => x.MaterialId == material.Id) + 1;
 
             //saving file
-            var path = _fileManager.SaveFile(file, userId, newVersionNum).Result;
+            var path = _fileManager.SaveFile(file, _userId, newVersionNum).Result;
 
             //creating new version
             var newVersion = new MaterialVersion
@@ -122,22 +112,21 @@ namespace WebApi.Controllers
                 material.ActualVersionNum = newVersionNum;
 
             //saving changes to db
-            await _materialDbContext.MaterialVersions.AddAsync(newVersion);
+            await _dbContext.MaterialVersions.AddAsync(newVersion);
 
-            await _materialDbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
 
-            return Ok();
+            return Ok("New version added successfully.");
         }
 
         [HttpGet]
         [Route("download/{fileName}/{versionNum?}")]
-        public async Task<IActionResult> DownloadFile(string fileName, int versionNum)
+        public async Task<IActionResult> DownloadFile(string fileName, int versionNum=0)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var material = _materialDbContext.Materials
+            _userId ??= User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var material = _dbContext.Materials
                 .Include(v => v.Versions)
-                .FirstOrDefault(x => x.OwnerUserId == userId && x.Name == fileName);
+                .FirstOrDefault(x => x.OwnerUserId == _userId && x.Name == fileName);
             if (material == null)
                 return NotFound("File does not exist");
 
@@ -149,19 +138,18 @@ namespace WebApi.Controllers
             if (materialVersion == null)
                 return NotFound("Version has not been found");
 
-            var dataBytes = _fileManager.GetFileByName(userId, fileName, versionNum).Result;
+            var dataBytes = _fileManager.GetFileByName(_userId, fileName, versionNum);
             
-            return File(dataBytes, "application/octet-stream");
+            return File(dataBytes, "application/octet-stream", fileName);
         }
 
         [HttpPost]
         [Route("edit_category")]
         public async Task<IActionResult> EditFileCategory([FromForm] string fileName, [FromForm] int newCategoryId)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var material = _materialDbContext.Materials
-                .FirstOrDefault(x => x.OwnerUserId == userId && x.Name == fileName);
+            _userId ??= User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var material = _dbContext.Materials
+                .FirstOrDefault(x => x.OwnerUserId == _userId && x.Name == fileName);
             if (material == null)
                 return NotFound("File does not exist");
 
@@ -175,7 +163,7 @@ namespace WebApi.Controllers
 
             material.CategoryId = newCategoryId;
 
-            await _materialDbContext.SaveChangesAsync();
+            await _dbContext.SaveChangesAsync();
 
             return Ok($"File's (\"{fileName}\") category ID changed from {oldCategoryId} to {newCategoryId}.");
         }
@@ -184,11 +172,10 @@ namespace WebApi.Controllers
         [Route("info/{fileName}")]
         public ActionResult MaterialInfo(string fileName)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var material = _materialDbContext.Materials
+            _userId ??= User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var material = _dbContext.Materials
                 .Include(v => v.Versions)
-                .FirstOrDefault(x => x.OwnerUserId == userId && x.Name == fileName);
+                .FirstOrDefault(x => x.OwnerUserId == _userId && x.Name == fileName);
 
             if (material == null)
                 return NotFound("File does not exist");
@@ -209,9 +196,19 @@ namespace WebApi.Controllers
 
         [HttpGet]
         [Route("filter_info")]
-        public ActionResult FilteredInfo([FromForm] long minSize, [FromForm] int categoryId, [FromForm] long maxSize=-1)
+        [Authorize(Roles = "admin")]
+        public ActionResult FilteredInfo([FromForm] int categoryId, [FromForm] long? minSize=null, [FromForm] long? maxSize=null)
         {
-            var materials = _materialDbContext.Materials.Include(m => m.Versions).ToList();
+            var materials = _dbContext.Materials.Include(m => m.Versions).ToList();
+
+            if (minSize != null && maxSize != null)
+            {
+                if (maxSize < minSize || maxSize < 0 || minSize < 0)
+                    return BadRequest("Wrong min max size");
+            }
+
+            minSize ??= 0;
+            maxSize ??= -1;
 
             if (categoryId != 0)
             {
@@ -228,12 +225,25 @@ namespace WebApi.Controllers
                             var versionNum = material.ActualVersionNum;
                             var version = material.Versions.FirstOrDefault(v => v.VersionNumber == versionNum);
                             return (version.FileSize >= minSize && (maxSize == -1 || version.FileSize <= maxSize));
-                        }
-                    ).ToList();
+                        })
+                    .ToList();
             }
 
-            var output = Newtonsoft.Json.JsonConvert.SerializeObject(materials);
+            var output = Newtonsoft.Json.JsonConvert.SerializeObject(materials.Select(material =>
+                new
+                {
+                    material.Name,
+                    material.CategoryId,
+                    material.ActualVersionNum,
+                    versionsCount = material.Versions.Count
+                }).ToList());
+
             return Ok(output);
+        }
+
+        public List<string> GetAllLocalMaterialsList()
+        {
+            return _fileManager.GetAllFiles();
         }
     }
 }

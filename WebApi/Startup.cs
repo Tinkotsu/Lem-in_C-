@@ -18,7 +18,6 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using WebApi.AppData;
 using WebApi.Models;
-using Serilog;
 
 
 namespace WebApi
