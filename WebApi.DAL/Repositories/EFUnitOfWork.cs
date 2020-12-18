@@ -14,9 +14,9 @@ namespace WebApi.DAL.Repositories
         private MaterialRepository _materialRepository;
         private MaterialVersionRepository _materialVersionRepository;
 
-        public EFUnitOfWork(string connectionString)
+        public EFUnitOfWork(MaterialDbContext context)
         {
-            _db = new MaterialDbContext(new DbContextOptionsBuilder<MaterialDbContext>().UseSqlServer(connectionString).Options);
+            _db = context;
         }
 
         public IRepository<Material> Materials
