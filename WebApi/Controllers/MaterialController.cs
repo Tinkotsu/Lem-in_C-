@@ -33,7 +33,6 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        [Route("add_new_material")]
         public async Task<IActionResult> AddNewFile([FromForm] IFormFile file, [FromForm] int categoryId)
         {
             _userId ??= User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -82,7 +81,7 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        [Route("add_new_version")]
+        [Route("version")]
         public async Task<IActionResult> AddNewVersion([FromForm] IFormFile file, [FromForm] bool isActual=true)
         {
             _userId ??= User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -120,7 +119,7 @@ namespace WebApi.Controllers
         }
 
         [HttpGet]
-        [Route("download/{fileName}/{versionNum?}")]
+        [Route("{fileName}/{versionNum?}")]
         public async Task<IActionResult> DownloadFile(string fileName, int versionNum=0)
         {
             _userId ??= User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -143,8 +142,8 @@ namespace WebApi.Controllers
             return File(dataBytes, "application/octet-stream", fileName);
         }
 
-        [HttpPost]
-        [Route("edit_category")]
+        [HttpPatch]
+        [Route("category")]
         public async Task<IActionResult> EditFileCategory([FromForm] string fileName, [FromForm] int newCategoryId)
         {
             _userId ??= User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -197,7 +196,7 @@ namespace WebApi.Controllers
         [HttpGet]
         [Route("filter_info")]
         [Authorize(Roles = "admin")]
-        public ActionResult FilteredInfo([FromForm] int categoryId, [FromForm] long? minSize=null, [FromForm] long? maxSize=null)
+        public IActionResult FilteredInfo([FromForm] int categoryId, [FromForm] long? minSize=null, [FromForm] long? maxSize=null)
         {
             var materials = _dbContext.Materials.Include(m => m.Versions).ToList();
 
