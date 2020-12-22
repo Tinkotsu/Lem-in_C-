@@ -38,7 +38,7 @@ namespace WebApi.DAL.Repositories
             _db.Entry(version).State = EntityState.Modified;
         }
 
-        public IEnumerable<MaterialVersion> Find(Func<MaterialVersion, Boolean> predicate)
+        public IEnumerable<MaterialVersion> Find(Func<MaterialVersion, bool> predicate)
         {
             return _db.MaterialVersions.Where(predicate).ToList();
         }

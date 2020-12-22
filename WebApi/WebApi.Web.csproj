@@ -23,5 +23,10 @@
     <Folder Include="Logs\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\WebApi.BLL\WebApi.BLL.csproj" />
+    <ProjectReference Include="..\WebApi.DAL\WebApi.DAL.csproj" />
+  </ItemGroup>
+
 
 </Project>

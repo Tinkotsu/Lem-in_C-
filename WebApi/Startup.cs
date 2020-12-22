@@ -15,9 +15,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
 using WebApi.AppData;
+using WebApi.DAL.Interfaces;
+using WebApi.DAL.Repositories;
 using WebApi.Models;
+using WebApi.BLL.Interfaces;
+using WebApi.BLL.Services;
 
 
 namespace WebApi
@@ -81,8 +84,15 @@ namespace WebApi
             //DI for logger
             services.AddSingleton<ILogStorage, FileLogStorage>();
 
+            //DI for Unit of work
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             //DI for file management
             services.AddSingleton<IFileManager, FileManager>();
+
+            //DI for file management
+            services.AddTransient<IMaterialService, MaterialService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -99,8 +109,6 @@ namespace WebApi
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            //app.UseSerilogRequestLogging();
 
             app.UseMiddleware<LoggerMiddleware>();
 

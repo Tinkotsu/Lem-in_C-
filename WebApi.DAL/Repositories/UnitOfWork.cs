@@ -8,13 +8,13 @@ using WebApi.DAL.Interfaces;
 
 namespace WebApi.DAL.Repositories
 {
-    class EFUnitOfWork : IUnitOfWork
+    public class UnitOfWork : IUnitOfWork
     {
         private readonly MaterialDbContext _db;
         private MaterialRepository _materialRepository;
         private MaterialVersionRepository _materialVersionRepository;
 
-        public EFUnitOfWork(MaterialDbContext context)
+        public UnitOfWork(MaterialDbContext context)
         {
             _db = context;
         }

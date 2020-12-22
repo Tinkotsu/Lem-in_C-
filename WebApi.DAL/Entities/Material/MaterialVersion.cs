@@ -11,7 +11,7 @@ namespace WebApi.DAL.Entities.Material
     public class MaterialVersion
     {
         [Key]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [MaxLength(200)]
         public string FilePath { get; set; }
