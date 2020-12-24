@@ -41,10 +41,10 @@ namespace WebApi
 
             //DB settings 
             services.AddDbContext<UsersDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDbContext<MaterialDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
 
             //Identity settings
             services.AddIdentity<User, IdentityRole>(options =>

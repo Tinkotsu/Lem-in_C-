@@ -1,10 +1,10 @@
-﻿namespace WebApi.BLL.DTO.Material
-{
-    public class MaterialDTO
-    {
+﻿using System;
+using System.Collections.Generic;
 
-        public int Id { get; set; }
-        
+namespace WebApi.BLL.BusinessModels.Material
+{
+    public class MaterialBM
+    {
         public string Name { get; set; }
 
         public int CategoryId { get; set; }

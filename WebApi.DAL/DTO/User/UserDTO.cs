@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace WebApi.DAL.Entities.User
 {
-    public class User : IdentityUser
+    public class UserDTO : IdentityUser
     {
         [Required]
         [MaxLength(25)]

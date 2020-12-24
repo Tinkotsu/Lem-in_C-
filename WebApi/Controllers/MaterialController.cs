@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.EntityFrameworkCore;
-using WebApi.AppData;
 using WebApi.Models;
+using WebApi.BLL.Interfaces;
+using WebApi.BLL.BusinessModels.Material;
+using WebApi.BLL.Infrastructure;
 
 namespace WebApi.Controllers
 {
@@ -20,229 +21,165 @@ namespace WebApi.Controllers
     [Route("api/[controller]")]
     public class MaterialController : ControllerBase
     {
-        
-        private readonly MaterialDbContext _dbContext;
-        private readonly IFileManager _fileManager;
-        private string _userId;
+        IMaterialService _materialService;
 
-        public MaterialController(MaterialDbContext dbContext, IFileManager fileManager, string userId=null) // ? userId ? 
+        public MaterialController(IMaterialService materialService) 
         {
-            _userId = userId;
-            _dbContext = dbContext;
-            _fileManager = fileManager;
+            _materialService = materialService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddNewFile([FromForm] IFormFile file, [FromForm] int categoryId)
+        public ActionResult AddNewFile([FromForm] IFormFile file, [FromForm] int categoryId)
         {
-            _userId ??= User.FindFirstValue(ClaimTypes.NameIdentifier);
-            if (file == null)
-                return BadRequest("No file uploaded");
-            if (categoryId < 1 || categoryId > 3)
-                return BadRequest("Wrong category ID");
-            if (_dbContext.Materials.Any())
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var newSaveMaterialBM = new SaveMaterialBM {
+                File = file,
+                CategoryId = categoryId,
+                UserId = userId
+            };
+
+            try
             {
-                if (_dbContext.Materials
-                    .Count(dbFile => dbFile.OwnerUserId == _userId && dbFile.Name == file.FileName) != 0)
-                    return BadRequest("File already exist");
+                _materialService.SaveMaterial(newSaveMaterialBM);
+                return Ok("Material has been added successfully");
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest($"Error: {ex.Message} ({ex.Property})");
             }
 
-            //saving file
-            var path = _fileManager.SaveFile(file, _userId, 1).Result;
-
-            //creating new material dto
-            var material = new Material
-            {
-                Name = file.FileName,
-                ActualVersionNum = 1,
-                CategoryId = categoryId,
-                OwnerUserId = _userId,
-                Versions = new List<MaterialVersion>()
-            };
-
-            //creating new version dto
-            var version = new MaterialVersion
-            {
-                FileSize = file.Length,
-                FilePath = path,
-                Material = material,
-                VersionNumber = 1,
-                CreatedAt = DateTime.Now
-            };
-
-            material.Versions.Add(version);
-
-            //adding it to db
-            await _dbContext.Materials.AddAsync(material);
-
-            await _dbContext.SaveChangesAsync();
-
-            return Ok("File created successfully.");
         }
 
         [HttpPost]
         [Route("version")]
-        public async Task<IActionResult> AddNewVersion([FromForm] IFormFile file, [FromForm] bool isActual=true)
+        public ActionResult AddNewVersion([FromForm] IFormFile file, [FromForm] bool isActual=true)
         {
-            _userId ??= User.FindFirstValue(ClaimTypes.NameIdentifier);
-            
-            var material = _dbContext.Materials
-                .FirstOrDefault(x => x.OwnerUserId == _userId && x.Name == file.FileName);
-            
-            if (material == null)
-                return NotFound("File does not exist");
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var newVersionNum = _dbContext.MaterialVersions.Count(x => x.MaterialId == material.Id) + 1;
-
-            //saving file
-            var path = _fileManager.SaveFile(file, _userId, newVersionNum).Result;
-
-            //creating new version
-            var newVersion = new MaterialVersion
+            var newSaveMaterialVersionBM = new SaveMaterialVersionBM
             {
-                FileSize = file.Length,
-                FilePath = path,
-                Material = material,
-                VersionNumber = newVersionNum,
-                CreatedAt = DateTime.Now
+                File = file,
+                UserId = userId,
+                IsActual = isActual
             };
 
-            if (isActual)
-                material.ActualVersionNum = newVersionNum;
-
-            //saving changes to db
-            await _dbContext.MaterialVersions.AddAsync(newVersion);
-
-            await _dbContext.SaveChangesAsync();
-
-            return Ok("New version added successfully.");
+            try
+            {
+                _materialService.SaveMaterialVersion(newSaveMaterialVersionBM);
+                return Ok("New material version added successfully.");
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest($"Error: {ex.Message} ({ex.Property})");
+            }
+            
         }
 
         [HttpGet]
         [Route("{fileName}/{versionNum?}")]
-        public async Task<IActionResult> DownloadFile(string fileName, int versionNum=0)
+        public ActionResult DownloadFile(string fileName, int? versionNum)
         {
-            _userId ??= User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var material = _dbContext.Materials
-                .Include(v => v.Versions)
-                .FirstOrDefault(x => x.OwnerUserId == _userId && x.Name == fileName);
-            if (material == null)
-                return NotFound("File does not exist");
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (versionNum == 0)
-                versionNum = material.ActualVersionNum;
-
-            var materialVersion = material.Versions.FirstOrDefault(v => v.VersionNumber == versionNum);
-
-            if (materialVersion == null)
-                return NotFound("Version has not been found");
-
-            var dataBytes = _fileManager.GetFileByName(_userId, fileName, versionNum);
+            try
+            {
+                var getMaterialFileBM = new GetMaterialFileBM
+                {
+                    FileName = fileName,
+                    VersionNumber = versionNum,
+                    UserId = userId
+                };
+                var dataBytes = _materialService.GetMaterialFile(getMaterialFileBM);
+                return File(dataBytes, "application/octet-stream", fileName);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest($"Error {ex.Message}");
+            }
             
-            return File(dataBytes, "application/octet-stream", fileName);
         }
 
         [HttpPatch]
         [Route("category")]
-        public async Task<IActionResult> EditFileCategory([FromForm] string fileName, [FromForm] int newCategoryId)
+        public ActionResult EditFileCategory([FromForm] string fileName, [FromForm] int newCategoryId)
         {
-            _userId ??= User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var material = _dbContext.Materials
-                .FirstOrDefault(x => x.OwnerUserId == _userId && x.Name == fileName);
-            if (material == null)
-                return NotFound("File does not exist");
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (newCategoryId < 1 || newCategoryId > 3)
-                return BadRequest("Wrong category ID");
+            try
+            {
+                var editCategoryBM = new EditCategoryBM
+                {
+                    FileName = fileName,
+                    NewCategoryID = newCategoryId,
+                    UserId = userId
+                };
 
-            if (material.CategoryId == newCategoryId)
-                return Ok($"Category ID is already {newCategoryId}");
+                _materialService.EditMaterialCategory(editCategoryBM);
 
-            var oldCategoryId = material.CategoryId;
+                return Ok($"File's (\"{fileName}\") category ID changed to {newCategoryId}.");
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest($"Error {ex.Message}");
+            }
 
-            material.CategoryId = newCategoryId;
-
-            await _dbContext.SaveChangesAsync();
-
-            return Ok($"File's (\"{fileName}\") category ID changed from {oldCategoryId} to {newCategoryId}.");
         }
 
         [HttpGet]
         [Route("info/{fileName}")]
         public ActionResult MaterialInfo(string fileName)
         {
-            _userId ??= User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var material = _dbContext.Materials
-                .Include(v => v.Versions)
-                .FirstOrDefault(x => x.OwnerUserId == _userId && x.Name == fileName);
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            if (material == null)
-                return NotFound("File does not exist");
+            try
+            {
+                var material = _materialService.GetMaterial(fileName, userId);
 
-            var materialVersion = material.Versions.FirstOrDefault(v => v.VersionNumber == material.ActualVersionNum);
+                var materialVersion = _materialService.GetMaterialVersion(material);
 
-            var output = Newtonsoft.Json.JsonConvert.SerializeObject(
-                new
-                {
-                    material.Name,
-                    category = ((MaterialCategories)material.CategoryId).ToString(),
-                    material.ActualVersionNum,
-                    materialVersion.FileSize
-                });
+                var output = Newtonsoft.Json.JsonConvert.SerializeObject(
+                    new
+                    {
+                        material.Name,
+                        category = ((MaterialCategories)material.CategoryId).ToString(),
+                        material.ActualVersionNum,
+                        materialVersion.CreatedAt,
+                        materialVersion.FileSize
+                    });
 
-            return Ok(output);
+                return Ok(output);
+            }
+            catch (ValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
         }
 
         [HttpGet]
         [Route("filter_info")]
         [Authorize(Roles = "admin")]
-        public IActionResult FilteredInfo([FromForm] int categoryId, [FromForm] long? minSize=null, [FromForm] long? maxSize=null)
+        public IActionResult FilteredInfo([FromBody] MaterialsFilterRequestBM materialFilterRequest)
         {
-            var materials = _dbContext.Materials.Include(m => m.Versions).ToList();
-
-            if (minSize != null && maxSize != null)
+            try
             {
-                if (maxSize < minSize || maxSize < 0 || minSize < 0)
-                    return BadRequest("Wrong min max size");
+                var materials = _materialService.GetFilteredMaterials(materialFilterRequest);
+
+                var output = Newtonsoft.Json.JsonConvert.SerializeObject(materials.Select(material =>
+                    new
+                    {
+                        material.Name,
+                        material.CategoryId,
+                        material.ActualVersionNum
+                    }).ToList());
+
+                return Ok(output);
             }
-
-            minSize ??= 0;
-            maxSize ??= -1;
-
-            if (categoryId != 0)
+            catch (ValidationException ex)
             {
-                if (categoryId < 1 || categoryId > 3)
-                    return BadRequest("Wrong category ID");
-                materials = materials.Where(x => x.CategoryId == categoryId).ToList();
+                return BadRequest($"Error: {ex.Message}");
             }
-
-            if (maxSize != -1 || minSize != 0)
-            {
-                materials = materials
-                    .Where(material =>
-                        {
-                            var versionNum = material.ActualVersionNum;
-                            var version = material.Versions.FirstOrDefault(v => v.VersionNumber == versionNum);
-                            return (version.FileSize >= minSize && (maxSize == -1 || version.FileSize <= maxSize));
-                        })
-                    .ToList();
-            }
-
-            var output = Newtonsoft.Json.JsonConvert.SerializeObject(materials.Select(material =>
-                new
-                {
-                    material.Name,
-                    material.CategoryId,
-                    material.ActualVersionNum,
-                    versionsCount = material.Versions.Count
-                }).ToList());
-
-            return Ok(output);
-        }
-
-        public List<string> GetAllLocalMaterialsList()
-        {
-            return _fileManager.GetAllFiles();
         }
     }
 }

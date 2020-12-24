@@ -8,8 +8,8 @@ namespace WebApi.DAL.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        IRepository<Material> Materials { get; }
-        IRepository<MaterialVersion> MaterialVersions { get; }
+        IRepository<MaterialDTO> Materials { get; }
+        IRepository<MaterialVersionDTO> MaterialVersions { get; }
         void Save();
     }
 }

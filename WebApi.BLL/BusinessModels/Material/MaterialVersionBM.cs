@@ -1,10 +1,9 @@
 ﻿using System;
-
-namespace WebApi.BLL.DTO.Material
+namespace WebApi.BLL.BusinessModels.Material
 {
-    public class MaterialVersionDTO
+    public class MaterialVersionBM
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         public string FilePath { get; set; }
 
@@ -13,7 +12,11 @@ namespace WebApi.BLL.DTO.Material
         public int VersionNumber { get; set; }
 
         public DateTime CreatedAt { get; set; }
-        
+
+        public string OwnerUserId { get; set; }
+
+        public MaterialBM Material { get; set; }
+
         public int MaterialId { get; set; }
     }
 }

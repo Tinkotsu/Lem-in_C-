@@ -9,7 +9,7 @@ using WebApi.DAL.Interfaces;
 
 namespace WebApi.DAL.Repositories
 {
-    public class MaterialRepository : IRepository<Material>
+    public class MaterialRepository : IRepository<MaterialDTO>
     {
         private readonly MaterialDbContext _db;
 
@@ -18,27 +18,27 @@ namespace WebApi.DAL.Repositories
             _db = context;
         }
 
-        public IEnumerable<Material> GetAll()
+        public IEnumerable<MaterialDTO> GetAll()
         {
             return _db.Materials;
         }
 
-        public Material Get(int id)
+        public MaterialDTO Get(string id)
         {
-            return _db.Materials.Find(id);
+            return _db.Materials.Find(int.Parse(id));
         }
 
-        public void Create(Material material)
+        public void Create(MaterialDTO material)
         {
             _db.Materials.Add(material);
         }
 
-        public void Update(Material material)
+        public void Update(MaterialDTO material)
         {
             _db.Entry(material).State = EntityState.Modified;
         }
 
-        public IEnumerable<Material> Find(Func<Material, bool> predicate)
+        public IEnumerable<MaterialDTO> Find(Func<MaterialDTO, bool> predicate)
         {
             return _db.Materials.Include(x => x.Versions).Where(predicate).ToList();
         }

@@ -4,7 +4,7 @@ using WebApi.DAL.Entities.User;
 
 namespace WebApi.DAL.EF
 {
-    public class UserDbContext : IdentityDbContext<User>
+    public class UserDbContext : IdentityDbContext<UserDTO>
     {
         public UserDbContext(DbContextOptions<UserDbContext> options)
             : base(options)

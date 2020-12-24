@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace WebApi.DAL.Entities.Material
 {
-    public class MaterialVersion
+    public class MaterialVersionDTO
     {
         [Key]
         public string Id { get; set; }
@@ -22,8 +22,12 @@ namespace WebApi.DAL.Entities.Material
         public int VersionNumber { get; set; }
 
         public DateTime CreatedAt { get; set; }
-        
-        public Material Material { get; set; }
+
+        [Required]
+        public string OwnerUserId { get; set; }
+
+        public MaterialDTO Material { get; set; }
+
         public int MaterialId { get; set; }
     }
 }

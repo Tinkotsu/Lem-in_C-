@@ -14,7 +14,7 @@ namespace WebApi.DAL.Entities.Material
         Other = 3
     }
 
-    public class Material
+    public class MaterialDTO
     {
 
         [Key]
@@ -33,6 +33,6 @@ namespace WebApi.DAL.Entities.Material
         [Required]
         public string OwnerUserId { get; set; }
 
-        public ICollection<MaterialVersion> Versions { get; set; }
+        public ICollection<MaterialVersionDTO> Versions { get; set; }
     }
 }
