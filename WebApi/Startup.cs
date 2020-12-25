@@ -37,10 +37,14 @@ namespace WebApi
 
             //DB settings 
             services.AddDbContext<UserDbContext>(options =>
-                options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySql(
+                    Configuration.GetConnectionString("DefaultConnection"),
+                    new MySqlServerVersion(new Version(8, 0, 22))));
 
             services.AddDbContext<MaterialDbContext>(options =>
-                options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseMySql(
+                    Configuration.GetConnectionString("DefaultConnection"),
+                    new MySqlServerVersion(new Version(8, 0, 22))));
 
             //Identity settings
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
@@ -87,7 +91,7 @@ namespace WebApi
             services.AddScoped<IIdentityUnitOfWork, IdentityUnitOfWork>();
 
             //DI for file management
-            services.AddScoped<IFileManager, FileManager>();
+            services.AddSingleton<IFileManager, FileManager>();
 
             //DI for material management
             services.AddScoped<IMaterialService, MaterialService>();
