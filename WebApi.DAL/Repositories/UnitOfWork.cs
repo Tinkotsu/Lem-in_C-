@@ -19,7 +19,7 @@ namespace WebApi.DAL.Repositories
             _db = context;
         }
 
-        public IRepository<MaterialDTO> Materials
+        public IRepository<Material> Materials
         {
             get
             {
@@ -27,7 +27,7 @@ namespace WebApi.DAL.Repositories
                 return _materialRepository;
             }
         }
-        public IRepository<MaterialVersionDTO> MaterialVersions
+        public IRepository<MaterialVersion> MaterialVersions
         {
             get
             {

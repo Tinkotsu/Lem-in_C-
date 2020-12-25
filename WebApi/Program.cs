@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using WebApi.AppData;
+using WebApi.DAL.Entities.User;
 using WebApi.Models;
 
 namespace WebApi
@@ -28,20 +28,20 @@ namespace WebApi
 
 
             var host = CreateHostBuilder(args).Build();
-            using (var scope = host.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                try
-                {
-                    var userManager = services.GetRequiredService<UserManager<User>>();
-                    var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                    await RoleInitializer.InitializeAsync(userManager, rolesManager);
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"An error occurred while initializing roles: {ex.Message}");
-                }
-            }
+            //using (var scope = host.Services.CreateScope())
+            //{
+            //    var services = scope.ServiceProvider;
+            //    try
+            //    {
+            //        var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+            //        var rolesManager = services.GetRequiredService<RoleManager<IdentityRole>>();
+            //        //await RoleInitializer.InitializeAsync(userManager, rolesManager);
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        Console.WriteLine($"An error occurred while initializing roles: {ex.Message}");
+            //    }
+            //}
 
             host.Run();
         }

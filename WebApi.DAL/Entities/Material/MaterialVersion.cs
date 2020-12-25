@@ -6,12 +6,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebApi.Models
+namespace WebApi.DAL.Entities.Material
 {
     public class MaterialVersion
     {
         [Key]
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [MaxLength(200)]
         public string FilePath { get; set; }
@@ -22,8 +22,12 @@ namespace WebApi.Models
         public int VersionNumber { get; set; }
 
         public DateTime CreatedAt { get; set; }
-        
+
+        [Required]
+        public string OwnerUserId { get; set; }
+
         public Material Material { get; set; }
+
         public int MaterialId { get; set; }
     }
 }

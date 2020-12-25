@@ -9,7 +9,7 @@ using WebApi.DAL.Interfaces;
 
 namespace WebApi.DAL.Repositories
 {
-    public class MaterialVersionRepository : IRepository<MaterialVersionDTO>
+    public class MaterialVersionRepository : IRepository<MaterialVersion>
     {
         private readonly MaterialDbContext _db;
 
@@ -18,32 +18,32 @@ namespace WebApi.DAL.Repositories
             _db = context;
         }
 
-        public IEnumerable<MaterialVersionDTO> GetAll()
+        public IEnumerable<MaterialVersion> GetAll()
         {
             return _db.MaterialVersions;
         }
 
-        public MaterialVersionDTO Get(string id)
+        public MaterialVersion Get(string id)
         {
             return _db.MaterialVersions.Find(id);
         }
 
-        public void Create(MaterialVersionDTO version)
+        public void Create(MaterialVersion version)
         {
             _db.MaterialVersions.Add(version);
         }
 
-        public void Update(MaterialVersionDTO version)
+        public void Update(MaterialVersion version)
         {
             _db.Entry(version).State = EntityState.Modified;
         }
 
-        public IEnumerable<MaterialVersionDTO> Find(Func<MaterialVersionDTO, bool> predicate)
+        public IEnumerable<MaterialVersion> Find(Func<MaterialVersion, bool> predicate)
         {
             return _db.MaterialVersions.Where(predicate).ToList();
         }
 
-        public void Delete(int id)
+        public void Delete(string id)
         {
             var version = _db.MaterialVersions.Find(id);
             if (version != null)

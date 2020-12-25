@@ -47,20 +47,20 @@ namespace WebApi.BLL.Services
 
             //creating material & version DTOs
 
-            MaterialDTO materialDTO = new MaterialDTO
+            Material materialDb = new Material
             {
                 Name = material.File.FileName,
                 ActualVersionNum = 1,
                 CategoryId = material.CategoryId,
                 OwnerUserId = material.UserId,
-                Versions = new List<MaterialVersionDTO>()
+                Versions = new List<MaterialVersion>()
             };
 
-            MaterialVersionDTO materialVersionDTO = new MaterialVersionDTO
+            MaterialVersion materialVersionDb = new MaterialVersion
             {
                 FileSize = material.File.Length,
                 FilePath = path,
-                Material = materialDTO,
+                Material = materialDb,
                 VersionNumber = 1,
                 CreatedAt = DateTime.Now,
                 OwnerUserId = material.UserId
@@ -68,8 +68,8 @@ namespace WebApi.BLL.Services
 
             //saving material and material version to db
 
-            _unitOfWork.MaterialVersions.Create(materialVersionDTO);
-            _unitOfWork.Materials.Create(materialDTO);
+            _unitOfWork.MaterialVersions.Create(materialVersionDb);
+            _unitOfWork.Materials.Create(materialDb);
             _unitOfWork.Save();
         }
 
@@ -107,7 +107,7 @@ namespace WebApi.BLL.Services
 
             var newVersionNum = _unitOfWork.MaterialVersions.Find(x => x.MaterialId == materialDTO.Id).Count() + 1;
 
-            MaterialVersionDTO materialVersionDTO = new MaterialVersionDTO
+            MaterialVersion materialVersionDb = new MaterialVersion
             {
                 FileSize = materialVersion.File.Length,
                 FilePath = path,
@@ -119,7 +119,7 @@ namespace WebApi.BLL.Services
             if (materialVersion.IsActual == true)
                 materialDTO.ActualVersionNum = newVersionNum;
 
-            _unitOfWork.MaterialVersions.Create(materialVersionDTO);
+            _unitOfWork.MaterialVersions.Create(materialVersionDb);
             _unitOfWork.Save();
         }
 
@@ -154,9 +154,9 @@ namespace WebApi.BLL.Services
             if (material == null)
                 throw new ValidationException("Material has not been found", "");
 
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MaterialDTO, MaterialBM>()).CreateMapper();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Material, MaterialBM>()).CreateMapper();
 
-            return mapper.Map<MaterialDTO, MaterialBM>(material);
+            return mapper.Map<Material, MaterialBM>(material);
         }
 
         public MaterialVersionBM GetMaterialVersion(MaterialBM materialBM)
@@ -170,21 +170,21 @@ namespace WebApi.BLL.Services
 
             var materialVersion = material.Versions.FirstOrDefault(version => version.VersionNumber == material.ActualVersionNum);
 
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MaterialVersionDTO, MaterialVersionBM>()).CreateMapper();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MaterialVersion, MaterialVersionBM>()).CreateMapper();
 
-            return mapper.Map<MaterialVersionDTO, MaterialVersionBM>(materialVersion);
+            return mapper.Map<MaterialVersion, MaterialVersionBM>(materialVersion);
         }
 
         public IEnumerable<MaterialVersionBM> GetMaterialVersions()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MaterialVersionDTO, MaterialVersionBM>()).CreateMapper();
-            return mapper.Map<IEnumerable<MaterialVersionDTO>, List<MaterialVersionBM>>(_unitOfWork.MaterialVersions.GetAll());
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MaterialVersion, MaterialVersionBM>()).CreateMapper();
+            return mapper.Map<IEnumerable<MaterialVersion>, List<MaterialVersionBM>>(_unitOfWork.MaterialVersions.GetAll());
         }
 
         public IEnumerable<MaterialBM> GetMaterials()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MaterialDTO, MaterialBM>()).CreateMapper();
-            return mapper.Map<IEnumerable<MaterialDTO>, List<MaterialBM>>(_unitOfWork.Materials.GetAll());
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Material, MaterialBM>()).CreateMapper();
+            return mapper.Map<IEnumerable<Material>, List<MaterialBM>>(_unitOfWork.Materials.GetAll());
         }
 
         public byte[] GetMaterialFile(GetMaterialFileBM getMaterialFileBM)
@@ -243,8 +243,8 @@ namespace WebApi.BLL.Services
                     .ToList();
             }
 
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MaterialDTO, MaterialBM>()).CreateMapper();
-            return mapper.Map<IEnumerable<MaterialDTO>, List<MaterialBM>>(materials);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Material, MaterialBM>()).CreateMapper();
+            return mapper.Map<IEnumerable<Material>, List<MaterialBM>>(materials);
         }
 
         public void Dispose()

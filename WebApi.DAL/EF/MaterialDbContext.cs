@@ -16,14 +16,14 @@ namespace WebApi.DAL.EF
         {
             //modelBuilder.ApplyConfigurationsFromAssembly(GetType().Assembly);
 
-            modelBuilder.Entity<MaterialDTO>()
-                .HasMany<MaterialVersionDTO>(x => x.Versions)
+            modelBuilder.Entity<Material>()
+                .HasMany<MaterialVersion>(x => x.Versions)
                 .WithOne(x => x.Material)
                 .HasForeignKey(x => x.MaterialId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
 
-        public DbSet<MaterialDTO> Materials { get; set; }
-        public DbSet<MaterialVersionDTO> MaterialVersions { get; set; }
+        public DbSet<Material> Materials { get; set; }
+        public DbSet<MaterialVersion> MaterialVersions { get; set; }
     }
 }

@@ -6,22 +6,18 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using WebApi.AppData;
 using WebApi.DAL.Interfaces;
 using WebApi.DAL.Repositories;
 using WebApi.Models;
 using WebApi.BLL.Interfaces;
 using WebApi.BLL.Services;
-
+using WebApi.DAL.EF;
+using WebApi.DAL.Entities.User;
 
 namespace WebApi
 {
@@ -40,21 +36,21 @@ namespace WebApi
             services.AddControllers();
 
             //DB settings 
-            services.AddDbContext<UsersDbContext>(options =>
+            services.AddDbContext<UserDbContext>(options =>
                 options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDbContext<MaterialDbContext>(options =>
                 options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
 
             //Identity settings
-            services.AddIdentity<User, IdentityRole>(options =>
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 4;
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
                 options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(1d);
                 options.Lockout.MaxFailedAccessAttempts = 5;
-            }).AddEntityFrameworkStores<UsersDbContext>();
+            }).AddEntityFrameworkStores<UserDbContext>();
 
             //redirect 
             services.ConfigureApplicationCookie(options =>
@@ -85,13 +81,19 @@ namespace WebApi
             services.AddSingleton<ILogStorage, FileLogStorage>();
 
             //DI for Unit of work
-            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+
+            //DI for Identity Unit of work
+            services.AddSingleton<IIdentityUnitOfWork, IdentityUnitOfWork>();
 
             //DI for file management
             services.AddSingleton<IFileManager, FileManager>();
 
-            //DI for file management
+            //DI for material management
             services.AddTransient<IMaterialService, MaterialService>();
+
+            //DI for User management
+            services.AddTransient<IUserService, UserService>();
 
         }
 
