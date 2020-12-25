@@ -24,15 +24,13 @@ namespace WebApi.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IUserService _userService;
         private readonly UserDbContext _db;
-        private readonly RoleManager<ApplicationRole> _roleManager;
 
-        public UsersController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IUserService userService, RoleManager<ApplicationRole> roleManager, UserDbContext db)
+        public UsersController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IUserService userService, UserDbContext db)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _userService = userService;
             _db = db;
-            _roleManager = roleManager;
         }
 
         [AllowAnonymous]
@@ -173,9 +171,11 @@ namespace WebApi.Controllers
         [Route("login")]
         public async Task<IActionResult> Login()
         {
-            await _roleManager.CreateAsync(new ApplicationRole
+            await _userManager.CreateAsync(new ApplicationUser
             {
-                Name = "admin"
+                Email = "admin@gmail.com",
+                UserName = "admin",
+                Name = "Roman",
             });
             await _db.SaveChangesAsync();
             //await SetInitialDataAsync();

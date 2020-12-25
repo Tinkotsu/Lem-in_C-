@@ -37,10 +37,12 @@ namespace WebApi
 
             //DB settings 
             services.AddDbContext<UserDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                x => x.MigrationsAssembly("WebApi.DAL")));
 
             services.AddDbContext<MaterialDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                x => x.MigrationsAssembly("WebApi.DAL")));
 
             //Identity settings
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
