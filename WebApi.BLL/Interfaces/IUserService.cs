@@ -6,7 +6,7 @@ using WebApi.BLL.BusinessModels.User;
 
 namespace WebApi.BLL.Interfaces
 {
-    public interface IUserService : IDisposable
+    public interface IUserService // : IDisposable
     {
         Task Create(UserDTO userDTO);
         Task SetInitialData(UserDTO adminDTO, List<string> roles);

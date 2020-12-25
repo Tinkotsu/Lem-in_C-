@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.Extensions.Configuration;
 using WebApi.BLL.BusinessModels.User;
 using WebApi.BLL.Interfaces;
+using WebApi.DAL.EF;
 using WebApi.DAL.Entities.User;
 using WebApi.Models;
 
@@ -22,12 +23,16 @@ namespace WebApi.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IUserService _userService;
+        private readonly UserDbContext _db;
+        private readonly RoleManager<ApplicationRole> _roleManager;
 
-        public UsersController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IUserService userService)
+        public UsersController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IUserService userService, RoleManager<ApplicationRole> roleManager, UserDbContext db)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _userService = userService;
+            _db = db;
+            _roleManager = roleManager;
         }
 
         [AllowAnonymous]
@@ -166,8 +171,14 @@ namespace WebApi.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("login")]
-        public ActionResult Login()
+        public async Task<IActionResult> Login()
         {
+            await _roleManager.CreateAsync(new ApplicationRole
+            {
+                Name = "admin"
+            });
+            await _db.SaveChangesAsync();
+            //await SetInitialDataAsync();
             if (User.Identity.IsAuthenticated)
                 return BadRequest("User is already authenticated. Logout to change user.");
 

@@ -41,22 +41,22 @@ namespace WebApi.DAL.Repositories
             _db.SaveChanges();
         }
 
-        private bool _disposed = false;
+        //private bool _disposed = false;
 
-        public virtual void Dispose(bool disposing)
-        {
-            if (_disposed) return;
-            if (disposing)
-            {
-                _db.Dispose();
-            }
-            _disposed = true;
-        }
+        //public virtual void Dispose(bool disposing)
+        //{
+        //    if (_disposed) return;
+        //    if (disposing)
+        //    {
+        //        _db.Dispose();
+        //    }
+        //    _disposed = true;
+        //}
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
+        //public void Dispose()
+        //{
+        //    Dispose(true);
+        //    GC.SuppressFinalize(this);
+        //}
     }
 }

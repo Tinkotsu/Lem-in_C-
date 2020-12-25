@@ -7,7 +7,7 @@ using WebApi.DAL.Entities.User;
 
 namespace WebApi.DAL.Interfaces
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork // : IDisposable
     {
         IRepository<Material> Materials { get; }
         IRepository<MaterialVersion> MaterialVersions { get; }

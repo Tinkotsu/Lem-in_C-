@@ -25,6 +25,6 @@ namespace WebApi.BLL.Interfaces
 
         byte[] GetMaterialFile(GetMaterialFileBM getMaterialFileBM);
 
-        void Dispose();
+       // void Dispose();
     }
 }

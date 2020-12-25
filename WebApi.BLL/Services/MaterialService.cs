@@ -247,9 +247,9 @@ namespace WebApi.BLL.Services
             return mapper.Map<IEnumerable<Material>, List<MaterialBM>>(materials);
         }
 
-        public void Dispose()
-        {
-            _unitOfWork.Dispose();
-        }
+        //public void Dispose()
+        //{
+        //    _unitOfWork.Dispose();
+        //}
     }
 }

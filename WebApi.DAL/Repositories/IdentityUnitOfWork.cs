@@ -25,25 +25,25 @@ namespace WebApi.DAL.Repositories
             await _db.SaveChangesAsync();
         }
 
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-        private bool _disposed = false;
+        //public void Dispose()
+        //{
+        //    Dispose(true);
+        //    GC.SuppressFinalize(this);
+        //}
+        //private bool _disposed = false;
 
-        public virtual void Dispose(bool disposing)
-        {
-            if (!_disposed)
-            {
-                if (disposing)
-                {
-                    UserManager.Dispose();
-                    RoleManager.Dispose();
-                }
-                _disposed = true;
-            }
-        }
+        //public virtual void Dispose(bool disposing)
+        //{
+        //    if (!_disposed)
+        //    {
+        //        if (disposing)
+        //        {
+        //            UserManager.Dispose();
+        //            RoleManager.Dispose();
+        //        }
+        //        _disposed = true;
+        //    }
+        //}
 
     }
 }

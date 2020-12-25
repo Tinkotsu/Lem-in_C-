@@ -37,14 +37,10 @@ namespace WebApi
 
             //DB settings 
             services.AddDbContext<UserDbContext>(options =>
-                options.UseMySql(
-                    Configuration.GetConnectionString("DefaultConnection"),
-                    new MySqlServerVersion(new Version(8, 0, 22))));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDbContext<MaterialDbContext>(options =>
-                options.UseMySql(
-                    Configuration.GetConnectionString("DefaultConnection"),
-                    new MySqlServerVersion(new Version(8, 0, 22))));
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             //Identity settings
             services.AddIdentity<ApplicationUser, ApplicationRole>(options =>

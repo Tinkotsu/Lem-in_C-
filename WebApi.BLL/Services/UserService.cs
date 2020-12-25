@@ -22,7 +22,7 @@ namespace WebApi.BLL.Services
 
         public async Task Create(UserDTO userDto)
         {
-            ApplicationUser user = await _unitOfWork.UserManager.FindByEmailAsync(userDto.Email);
+            var user = await _unitOfWork.UserManager.FindByEmailAsync(userDto.Email);
             if (user == null)
             {
                 user = new ApplicationUser { Email = userDto.Email, UserName = userDto.Email };
@@ -48,9 +48,9 @@ namespace WebApi.BLL.Services
             await Create(adminDto);
         }
 
-        public void Dispose()
-        {
-            _unitOfWork.Dispose();
-        }
+        //public void Dispose()
+        //{
+        //    _unitOfWork.Dispose();
+        //}
     }
 }
