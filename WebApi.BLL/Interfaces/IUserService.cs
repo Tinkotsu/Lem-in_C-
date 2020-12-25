@@ -9,7 +9,6 @@ namespace WebApi.BLL.Interfaces
     public interface IUserService : IDisposable
     {
         Task Create(UserDTO userDTO);
-        Task<ClaimsIdentity> Authenticate(UserDTO userDTO);
         Task SetInitialData(UserDTO adminDTO, List<string> roles);
     }
 }

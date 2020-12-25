@@ -8,6 +8,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ActionConstraints;
 using Microsoft.Extensions.Configuration;
+using WebApi.BLL.BusinessModels.User;
+using WebApi.BLL.Interfaces;
+using WebApi.DAL.Entities.User;
 using WebApi.Models;
 
 namespace WebApi.Controllers
@@ -16,13 +19,15 @@ namespace WebApi.Controllers
     [ApiController] 
     public class UsersController : ControllerBase
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IUserService _userService;
 
-        public UsersController(UserManager<User> userManager, SignInManager<User> signInManager)
+        public UsersController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IUserService userService)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _userService = userService;
         }
 
         [AllowAnonymous]
@@ -84,7 +89,7 @@ namespace WebApi.Controllers
         [HttpPost]
         [Authorize(Roles = "admin")]
         [Route("Edit")]
-        public async Task<IActionResult> Edit([FromBody] User model)
+        public async Task<IActionResult> Edit([FromBody] ApplicationUser model)
         {
             var user = await _userManager.FindByIdAsync(model.Id.ToString());
             if (user == null)
@@ -112,13 +117,14 @@ namespace WebApi.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
+            await SetInitialDataAsync();
             if (!ModelState.IsValid)
                 return BadRequest("Invalid request body!");
             var userExists = await _userManager.FindByNameAsync(model.Username);
             if (userExists != null)
                 return BadRequest("User already exists!");
 
-            var user = new User()
+            var user = new ApplicationUser()
             {
                 Email = model.Email,
                 UserName = model.Username,
@@ -141,6 +147,7 @@ namespace WebApi.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
+            await SetInitialDataAsync();
             if (User.Identity.IsAuthenticated)
                 return BadRequest("User is already authenticated. Logout to change user.");
 
@@ -174,6 +181,18 @@ namespace WebApi.Controllers
             // deleting Cookie
             await _signInManager.SignOutAsync();
             return Ok("Logged out successfully.");
+        }
+
+        private async Task SetInitialDataAsync()
+        {
+            await _userService.SetInitialData(new UserDTO
+            {
+                Email = "admin@gmail.com",
+                UserName = "admin",
+                Password = "admin",
+                Name = "Roman",
+                Role = "admin",
+            }, new List<string> { "reader", "admin", "initiator" });
         }
     }
 }

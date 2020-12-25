@@ -7,6 +7,9 @@ namespace WebApi.DAL.Repositories
 {
     public interface IIdentityUnitOfWork : IDisposable
     {
+        RoleManager<ApplicationRole> RoleManager { get; }
+        UserManager<ApplicationUser> UserManager { get; }
+
         Task SaveAsync();
     }
 }

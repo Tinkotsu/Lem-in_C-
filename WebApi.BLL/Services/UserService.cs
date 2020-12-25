@@ -26,28 +26,14 @@ namespace WebApi.BLL.Services
             if (user == null)
             {
                 user = new ApplicationUser { Email = userDto.Email, UserName = userDto.Email };
-                var result = await _unitOfWork.UserManager.CreateAsync(user, userDto.Password);
-                if (result.Errors.Count() > 0)
-                    throw new ValidationException("User has not been created", "");
+                await _unitOfWork.UserManager.CreateAsync(user, userDto.Password);
+
                 // adding role to user
-                await _unitOfWork.UserManager.AddToRoleAsync(user.Id, userDto.Role);
+                await _unitOfWork.UserManager.AddToRoleAsync(user, userDto.Role);
                 await _unitOfWork.SaveAsync();
             }
         }
 
-        public async Task<ClaimsIdentity> Authenticate(UserDTO userDto)
-        {
-            ClaimsIdentity claim = null;
-            // находим пользователя
-            ApplicationUser user = await _unitOfWork.UserManager.FindAsync(userDto.Email, userDto.Password);
-            // авторизуем его и возвращаем объект ClaimsIdentity
-            if (user != null)
-                claim = await _unitOfWork.UserManager.CreateIdentityAsync(user,
-                                            DefaultAuthenticationTypes.ApplicationCookie);
-            return claim;
-        }
-
-        // начальная инициализация бд
         public async Task SetInitialData(UserDTO adminDto, List<string> roles)
         {
             foreach (string roleName in roles)

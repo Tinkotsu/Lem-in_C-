@@ -14,6 +14,7 @@ using WebApi.Models;
 using WebApi.BLL.Interfaces;
 using WebApi.BLL.BusinessModels.Material;
 using WebApi.BLL.Infrastructure;
+using WebApi.DAL.Entities.Material;
 
 namespace WebApi.Controllers
 {
