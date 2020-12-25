@@ -43,7 +43,7 @@ namespace WebApi
                 options.UseMySQL(Configuration.GetConnectionString("DefaultConnection")));
 
             //Identity settings
-            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
             {
                 options.Password.RequiredLength = 4;
                 options.Password.RequireNonAlphanumeric = false;
@@ -81,19 +81,19 @@ namespace WebApi
             services.AddSingleton<ILogStorage, FileLogStorage>();
 
             //DI for Unit of work
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             //DI for Identity Unit of work
-            services.AddSingleton<IIdentityUnitOfWork, IdentityUnitOfWork>();
+            services.AddScoped<IIdentityUnitOfWork, IdentityUnitOfWork>();
 
             //DI for file management
-            services.AddSingleton<IFileManager, FileManager>();
+            services.AddScoped<IFileManager, FileManager>();
 
             //DI for material management
-            services.AddTransient<IMaterialService, MaterialService>();
+            services.AddScoped<IMaterialService, MaterialService>();
 
             //DI for User management
-            services.AddTransient<IUserService, UserService>();
+            services.AddScoped<IUserService, UserService>();
 
         }
 
