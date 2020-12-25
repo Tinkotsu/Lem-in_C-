@@ -1,6 +1,0 @@
-12/01/2020 19:55:56 HTTP "GET" "/api/users/login?ReturnUrl=%2Fweatherforecast" responded 401 in 22.4925 ms
-12/01/2020 19:56:03 HTTP "GET" "/api/users/login?ReturnUrl=%2Fapi%2Fusers" responded 401 in 33.3426 ms
-12/01/2020 19:57:50 HTTP "GET" "/api/users/login?ReturnUrl=%2Fweatherforecast" responded 401 in 38.0141 ms
-12/01/2020 19:58:21 HTTP "GET" "/api/users/login?ReturnUrl=%2Fapi%2Fvalues" responded 401 in 34.1010 ms
-12/01/2020 20:09:35 HTTP "GET" "/api/users/login?ReturnUrl=%2Fweatherforecast" responded 401 in 23.3563 ms
-12/01/2020 20:09:39 HTTP "GET" "/api/users/login" responded 401 in 34.5983 ms
