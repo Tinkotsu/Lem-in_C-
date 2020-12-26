@@ -24,12 +24,16 @@ namespace WebApi.Controllers
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly IUserService _userService;
         private readonly UserDbContext _db;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public UsersController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IUserService userService, UserDbContext db)
+        public UsersController(UserManager<ApplicationUser> userManager,
+            SignInManager<ApplicationUser> signInManager, UserDbContext db,
+            RoleManager<IdentityRole> roleManager, IUserService userService)
         {
+            _userService = userService;
+            _roleManager = roleManager;
             _userManager = userManager;
             _signInManager = signInManager;
-            _userService = userService;
             _db = db;
         }
 
@@ -120,7 +124,7 @@ namespace WebApi.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
-            await SetInitialDataAsync();
+            //await SetInitialDataAsync();
             if (!ModelState.IsValid)
                 return BadRequest("Invalid request body!");
             var userExists = await _userManager.FindByNameAsync(model.Username);
@@ -150,7 +154,7 @@ namespace WebApi.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            await SetInitialDataAsync();
+            //await SetInitialDataAsync();
             if (User.Identity.IsAuthenticated)
                 return BadRequest("User is already authenticated. Logout to change user.");
 
@@ -171,14 +175,16 @@ namespace WebApi.Controllers
         [Route("login")]
         public async Task<IActionResult> Login()
         {
-            await _userManager.CreateAsync(new ApplicationUser
+            try
             {
-                Email = "admin@gmail.com",
-                UserName = "admin",
-                Name = "Roman",
-            });
-            await _db.SaveChangesAsync();
-            //await SetInitialDataAsync();
+                await SetInitialDataAsync();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            //await _userManager.FindByNameAsync("admin");
+            //await _db.SaveChangesAsync();
             if (User.Identity.IsAuthenticated)
                 return BadRequest("User is already authenticated. Logout to change user.");
 
@@ -200,9 +206,9 @@ namespace WebApi.Controllers
             {
                 Email = "admin@gmail.com",
                 UserName = "admin",
-                Password = "admin",
+                Password = "admin12",
                 Name = "Roman",
-                Role = "admin",
+                Role = "admin"
             }, new List<string> { "reader", "admin", "initiator" });
         }
     }

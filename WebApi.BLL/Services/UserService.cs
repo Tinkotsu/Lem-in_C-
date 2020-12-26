@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using WebApi.BLL.BusinessModels.User;
 using WebApi.BLL.Infrastructure;
 using WebApi.BLL.Interfaces;
@@ -25,7 +26,7 @@ namespace WebApi.BLL.Services
             var user = await _unitOfWork.UserManager.FindByEmailAsync(userDto.Email);
             if (user == null)
             {
-                user = new ApplicationUser { Email = userDto.Email, UserName = userDto.Email };
+                user = new ApplicationUser { Email = userDto.Email, UserName = userDto.Email, Name = userDto.Name };
                 await _unitOfWork.UserManager.CreateAsync(user, userDto.Password);
 
                 // adding role to user
@@ -41,7 +42,7 @@ namespace WebApi.BLL.Services
                 var role = await _unitOfWork.RoleManager.FindByNameAsync(roleName);
                 if (role == null)
                 {
-                    role = new ApplicationRole { Name = roleName };
+                    role = new IdentityRole { Name = roleName };
                     await _unitOfWork.RoleManager.CreateAsync(role);
                 }
             }

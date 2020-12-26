@@ -11,9 +11,9 @@ namespace WebApi.DAL.Repositories
     {
         private readonly UserDbContext _db;
         public UserManager<ApplicationUser> UserManager { get; private set; }
-        public RoleManager<ApplicationRole> RoleManager { get; private set; }
+        public RoleManager<IdentityRole> RoleManager { get; private set; }
 
-        public IdentityUnitOfWork(UserDbContext db, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+        public IdentityUnitOfWork(UserDbContext db, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _db = db;
             UserManager = userManager;

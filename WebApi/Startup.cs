@@ -45,7 +45,7 @@ namespace WebApi
                 x => x.MigrationsAssembly("WebApi.DAL")));
 
             //Identity settings
-            services.AddIdentity<ApplicationUser, ApplicationRole>(options =>
+            services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 options.Password.RequiredLength = 4;
                 options.Password.RequireNonAlphanumeric = false;
