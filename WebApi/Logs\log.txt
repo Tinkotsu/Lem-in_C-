@@ -358,3 +358,458 @@ ResponseCode: 401
 Responded at: 12/26/2020 15:27:29
 
 
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 12:19:45
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/27/2020 12:19:50
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 12:19:51
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/27/2020 12:19:51
+
+
+Path: /favicon.ico
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 12:19:51
+Response: 
+ResponseCode: 404
+Responded at: 12/27/2020 12:19:51
+
+
+Path: /api/users/login
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 12:20:15
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/27/2020 12:20:15
+
+
+Path: /api/users/login
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "admin",
+    "password": "admin12"
+}
+Requested at: 12/27/2020 12:20:52
+Response: Wrong login and/or password!
+ResponseCode: 400
+Responded at: 12/27/2020 12:20:52
+
+
+Path: /api/users/login
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "admin@gmail.com",
+    "password": "admin12"
+}
+Requested at: 12/27/2020 12:21:10
+Response: Logged in successfully.
+ResponseCode: 200
+Responded at: 12/27/2020 12:21:11
+
+
+Path: /api/materials/info/abc.txt
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 12:22:07
+Response: 
+ResponseCode: 404
+Responded at: 12/27/2020 12:22:07
+
+
+Path: /api/material/info/abc.txt
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 12:22:22
+Response: Material has not been found
+ResponseCode: 400
+Responded at: 12/27/2020 12:23:18
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 12:24:02
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/27/2020 12:24:04
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 12:24:05
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/27/2020 12:24:05
+
+
+Path: /api/material/info/abc.txt
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 12:24:09
+Response: Material has not been found
+ResponseCode: 400
+Responded at: 12/27/2020 12:24:09
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 15:10:24
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/27/2020 15:10:27
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 15:10:28
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/27/2020 15:10:28
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 15:14:06
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/27/2020 15:14:09
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 15:18:17
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/27/2020 15:18:20
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 15:18:21
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/27/2020 15:18:21
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 15:20:10
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/27/2020 15:20:13
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 15:20:14
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/27/2020 15:20:14
+
+
+Path: /api/material/
+QueryString: 
+Method: POST
+RequestBody: ----------------------------148125260719781811982795
+Content-Disposition: form-data; name="categoryId"
+
+1
+----------------------------148125260719781811982795
+Content-Disposition: form-data; name="file"; filename="1.txt"
+Content-Type: text/plain
+
+123
+----------------------------148125260719781811982795--
+
+Requested at: 12/27/2020 15:20:16
+Response: Material has been added successfully
+ResponseCode: 200
+Responded at: 12/27/2020 15:20:30
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 22:01:58
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/27/2020 22:02:02
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 22:02:03
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/27/2020 22:02:03
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fapi%2Fmaterial%2Finfo%2F1.txt
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 22:03:05
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/27/2020 22:03:05
+
+
+Path: /api/users/login
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "admin@gmail.com",
+    "password": "admin12"
+}
+Requested at: 12/27/2020 22:03:12
+Response: Logged in successfully.
+ResponseCode: 200
+Responded at: 12/27/2020 22:03:13
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 22:06:16
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/27/2020 22:06:19
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/27/2020 22:06:20
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/27/2020 22:06:20
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 00:46:38
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/28/2020 00:46:40
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 00:46:42
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/28/2020 00:46:42
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fapi%2Fmaterial%2Finfo%2F1.txt
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 00:46:45
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/28/2020 00:46:45
+
+
+Path: /api/users/login
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "admin@gmail.com",
+    "password": "admin12"
+}
+Requested at: 12/28/2020 00:46:51
+Response: Logged in successfully.
+ResponseCode: 200
+Responded at: 12/28/2020 00:46:52
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 00:48:53
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/28/2020 00:48:55
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 00:48:57
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/28/2020 00:48:57
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 00:55:51
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/28/2020 00:55:53
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 00:55:54
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/28/2020 00:55:54
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 01:01:42
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/28/2020 01:01:44
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 01:01:46
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/28/2020 01:01:46
+
+
+Path: /api/material/info/1.txt
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 01:01:49
+Response: {"Name":"1.txt","category":"Presentation","ActualVersionNum":1,"CreatedAt":"2020-12-27T15:20:17.109079","FileSize":3}
+ResponseCode: 200
+Responded at: 12/28/2020 01:01:49
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 04:35:32
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/28/2020 04:35:34
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 04:35:35
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/28/2020 04:35:36
+
+
+Path: /api/users/login
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "admin@gmail.com",
+    "password": "admin12"
+}
+Requested at: 12/28/2020 04:35:47
+Response: User is already authenticated. Logout to change user.
+ResponseCode: 400
+Responded at: 12/28/2020 04:35:47
+
+
+Path: /api/users
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 04:35:52
+Response: WebApi.BLL.BusinessModels.User.UserDTO
+ResponseCode: 200
+Responded at: 12/28/2020 04:35:53
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 04:38:05
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/28/2020 04:38:07
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 04:38:08
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/28/2020 04:38:08
+
+
+Path: /api/users
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 04:38:11
+Response: [{"Id":"beb91bd2-5bb7-481a-9165-a47a147acdda","Email":"admin@gmail.com","Password":null,"UserName":"admin@gmail.com","Name":"Roman","Address":null,"Role":null}]
+ResponseCode: 200
+Responded at: 12/28/2020 04:38:12
+
+

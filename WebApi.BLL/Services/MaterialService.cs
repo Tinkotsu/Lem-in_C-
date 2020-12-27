@@ -58,6 +58,7 @@ namespace WebApi.BLL.Services
 
             MaterialVersion materialVersionDb = new MaterialVersion
             {
+                Id = hash,
                 FileSize = material.File.Length,
                 FilePath = path,
                 Material = materialDb,

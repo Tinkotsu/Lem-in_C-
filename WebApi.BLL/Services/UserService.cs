@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using WebApi.BLL.BusinessModels.User;
 using WebApi.BLL.Infrastructure;
@@ -33,6 +34,12 @@ namespace WebApi.BLL.Services
                 await _unitOfWork.UserManager.AddToRoleAsync(user, userDto.Role);
                 await _unitOfWork.SaveAsync();
             }
+        }
+
+        public IEnumerable<UserDTO> GetUsers()
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ApplicationUser, UserDTO>()).CreateMapper();
+            return mapper.Map<IEnumerable<ApplicationUser>, List<UserDTO>>(_unitOfWork.UserManager.Users);
         }
 
         public async Task SetInitialData(UserDTO adminDto, List<string> roles)
