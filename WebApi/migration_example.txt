@@ -1,0 +1,1 @@
+dotnet ef --startup-project WebApi.Web.csproj migrations add Initial -p ../WebApi.DAL/WebApi.DAL.csproj --context materialdbcontext
