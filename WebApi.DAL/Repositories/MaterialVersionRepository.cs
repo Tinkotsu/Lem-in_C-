@@ -40,7 +40,7 @@ namespace WebApi.DAL.Repositories
 
         public IEnumerable<MaterialVersion> Find(Func<MaterialVersion, bool> predicate)
         {
-            return _db.MaterialVersions.Where(predicate).ToList();
+            return _db.MaterialVersions.Include(v => v.OwningUsers).Where(predicate).ToList();
         }
 
         public void Delete(string id)

@@ -10,6 +10,11 @@ namespace WebApi.DAL.Entities.Material
 {
     public class MaterialVersion
     {
+        public MaterialVersion()
+        {
+            this.OwningUsers = new HashSet<UserMaterialVersion>();
+        }
+
         [Key]
         public string Id { get; set; }
 
@@ -23,8 +28,7 @@ namespace WebApi.DAL.Entities.Material
 
         public DateTime CreatedAt { get; set; }
 
-        [Required]
-        public string OwnerUserId { get; set; }
+        public ICollection<UserMaterialVersion> OwningUsers { get; set; }
 
         public Material Material { get; set; }
 

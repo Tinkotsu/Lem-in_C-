@@ -11,6 +11,7 @@ namespace WebApi.DAL.Interfaces
     {
         IRepository<Material> Materials { get; }
         IRepository<MaterialVersion> MaterialVersions { get; }
+        IRepository<UserMaterialVersion> UserMaterialVersions { get; }
         void Save();
     }
 }

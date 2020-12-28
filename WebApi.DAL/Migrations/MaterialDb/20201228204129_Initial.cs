@@ -24,6 +24,17 @@ namespace WebApi.DAL.Migrations.MaterialDb
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserMaterialVersions",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserMaterialVersions", x => x.UserId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MaterialVersions",
                 columns: table => new
                 {
@@ -32,7 +43,6 @@ namespace WebApi.DAL.Migrations.MaterialDb
                     FileSize = table.Column<long>(type: "bigint", nullable: false),
                     VersionNumber = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OwnerUserId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MaterialId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -46,16 +56,51 @@ namespace WebApi.DAL.Migrations.MaterialDb
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "MaterialVersionUserMaterialVersion",
+                columns: table => new
+                {
+                    MaterialVersionsId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    OwningUsersUserId = table.Column<string>(type: "nvarchar(450)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MaterialVersionUserMaterialVersion", x => new { x.MaterialVersionsId, x.OwningUsersUserId });
+                    table.ForeignKey(
+                        name: "FK_MaterialVersionUserMaterialVersion_MaterialVersions_MaterialVersionsId",
+                        column: x => x.MaterialVersionsId,
+                        principalTable: "MaterialVersions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MaterialVersionUserMaterialVersion_UserMaterialVersions_OwningUsersUserId",
+                        column: x => x.OwningUsersUserId,
+                        principalTable: "UserMaterialVersions",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_MaterialVersions_MaterialId",
                 table: "MaterialVersions",
                 column: "MaterialId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MaterialVersionUserMaterialVersion_OwningUsersUserId",
+                table: "MaterialVersionUserMaterialVersion",
+                column: "OwningUsersUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "MaterialVersionUserMaterialVersion");
+
+            migrationBuilder.DropTable(
                 name: "MaterialVersions");
+
+            migrationBuilder.DropTable(
+                name: "UserMaterialVersions");
 
             migrationBuilder.DropTable(
                 name: "Materials");

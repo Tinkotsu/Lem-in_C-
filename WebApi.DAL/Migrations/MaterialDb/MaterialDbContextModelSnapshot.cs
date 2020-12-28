@@ -19,6 +19,21 @@ namespace WebApi.DAL.Migrations.MaterialDb
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.1");
 
+            modelBuilder.Entity("MaterialVersionUserMaterialVersion", b =>
+                {
+                    b.Property<string>("MaterialVersionsId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("OwningUsersUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("MaterialVersionsId", "OwningUsersUserId");
+
+                    b.HasIndex("OwningUsersUserId");
+
+                    b.ToTable("MaterialVersionUserMaterialVersion");
+                });
+
             modelBuilder.Entity("WebApi.DAL.Entities.Material.Material", b =>
                 {
                     b.Property<int>("Id")
@@ -64,10 +79,6 @@ namespace WebApi.DAL.Migrations.MaterialDb
                     b.Property<int>("MaterialId")
                         .HasColumnType("int");
 
-                    b.Property<string>("OwnerUserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("VersionNumber")
                         .HasColumnType("int");
 
@@ -76,6 +87,31 @@ namespace WebApi.DAL.Migrations.MaterialDb
                     b.HasIndex("MaterialId");
 
                     b.ToTable("MaterialVersions");
+                });
+
+            modelBuilder.Entity("WebApi.DAL.Entities.Material.UserMaterialVersion", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UserMaterialVersions");
+                });
+
+            modelBuilder.Entity("MaterialVersionUserMaterialVersion", b =>
+                {
+                    b.HasOne("WebApi.DAL.Entities.Material.MaterialVersion", null)
+                        .WithMany()
+                        .HasForeignKey("MaterialVersionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("WebApi.DAL.Entities.Material.UserMaterialVersion", null)
+                        .WithMany()
+                        .HasForeignKey("OwningUsersUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("WebApi.DAL.Entities.Material.MaterialVersion", b =>

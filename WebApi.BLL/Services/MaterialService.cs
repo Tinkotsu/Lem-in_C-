@@ -34,7 +34,7 @@ namespace WebApi.BLL.Services
 
             var identicalMaterials = _unitOfWork.MaterialVersions.Find(v => v.Id == hash);
 
-            if (identicalMaterials.Any(v => v.OwnerUserId == material.UserId))
+            if (identicalMaterials.Any(v => v.OwningUsers.Any(u => u.UserId == material.UserId)))
                 throw new ValidationException("File already exists", "");
 
             //saving file locally
@@ -63,12 +63,20 @@ namespace WebApi.BLL.Services
                 FilePath = path,
                 Material = materialDb,
                 VersionNumber = 1,
-                CreatedAt = DateTime.Now,
-                OwnerUserId = material.UserId
+                CreatedAt = DateTime.Now
             };
+
+            UserMaterialVersion userMaterialVersion = new UserMaterialVersion
+            {
+                UserId = material.UserId
+            };
+
+            userMaterialVersion.MaterialVersions.Add(materialVersionDb);
+            materialVersionDb.OwningUsers.Add(userMaterialVersion);
 
             //saving material and material version to db
 
+            _unitOfWork.UserMaterialVersions.Create(userMaterialVersion);
             _unitOfWork.MaterialVersions.Create(materialVersionDb);
             _unitOfWork.Materials.Create(materialDb);
             _unitOfWork.Save();
@@ -90,11 +98,11 @@ namespace WebApi.BLL.Services
 
             var identicalMaterials = _unitOfWork.MaterialVersions.Find(v => v.Id == hash);
 
-            if (identicalMaterials.Any(v => v.OwnerUserId == materialVersion.UserId))
+            if (identicalMaterials.Any(v => v.OwningUsers.Any(u => u.UserId == materialVersion.UserId)))
                 throw new ValidationException("File already exists", "");
 
-            var materialDTO = _unitOfWork.Materials.Get(materialVersion.MaterialId.ToString());
-            if (materialDTO == null)
+            var materialDb = _unitOfWork.Materials.Get(materialVersion.MaterialId.ToString());
+            if (materialDb == null)
                 throw new ValidationException("Material ID is not valid", "materialId");
 
             string path = null;
@@ -106,20 +114,28 @@ namespace WebApi.BLL.Services
 
             //saving material version to db
 
-            var newVersionNum = _unitOfWork.MaterialVersions.Find(x => x.MaterialId == materialDTO.Id).Count() + 1;
+            var newVersionNum = _unitOfWork.MaterialVersions.Find(x => x.MaterialId == materialDb.Id).Count() + 1;
 
             MaterialVersion materialVersionDb = new MaterialVersion
             {
                 FileSize = materialVersion.File.Length,
                 FilePath = path,
-                Material = materialDTO,
+                Material = materialDb,
                 VersionNumber = newVersionNum,
-                CreatedAt = DateTime.Now,
-                OwnerUserId = materialVersion.UserId
+                CreatedAt = DateTime.Now
             };
             if (materialVersion.IsActual == true)
-                materialDTO.ActualVersionNum = newVersionNum;
+                materialDb.ActualVersionNum = newVersionNum;
 
+            UserMaterialVersion userMaterialVersion = new UserMaterialVersion
+            {
+                UserId = materialVersion.UserId
+            };
+
+            userMaterialVersion.MaterialVersions.Add(materialVersionDb);
+            materialVersionDb.OwningUsers.Add(userMaterialVersion);
+
+            _unitOfWork.UserMaterialVersions.Create(userMaterialVersion);
             _unitOfWork.MaterialVersions.Create(materialVersionDb);
             _unitOfWork.Save();
         }

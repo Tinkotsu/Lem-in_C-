@@ -13,6 +13,7 @@ namespace WebApi.DAL.Repositories
         private readonly MaterialDbContext _db;
         private MaterialRepository _materialRepository;
         private MaterialVersionRepository _materialVersionRepository;
+        private UserMaterialVersionRepository _userMaterialVersionRepository;
 
         public UnitOfWork(MaterialDbContext context)
         {
@@ -35,6 +36,16 @@ namespace WebApi.DAL.Repositories
                 return _materialVersionRepository;
             }
         }
+
+        public IRepository<UserMaterialVersion> UserMaterialVersions
+        {
+            get
+            {
+                _userMaterialVersionRepository ??= new UserMaterialVersionRepository(_db);
+                return _userMaterialVersionRepository;
+            }
+        }
+
 
         public void Save()
         {
