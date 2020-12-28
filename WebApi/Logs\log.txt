@@ -813,3 +813,76 @@ ResponseCode: 200
 Responded at: 12/28/2020 04:38:12
 
 
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 17:22:03
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/28/2020 17:22:05
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 17:22:07
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/28/2020 17:22:07
+
+
+Path: /favicon.ico
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 17:22:07
+Response: 
+ResponseCode: 404
+Responded at: 12/28/2020 17:22:07
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fapi%2Fusers
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 17:22:12
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/28/2020 17:22:12
+
+
+Path: /api/users/login
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "admin@gmail.com",
+    "password": "admin12"
+}
+Requested at: 12/28/2020 17:22:17
+Response: Logged in successfully.
+ResponseCode: 200
+Responded at: 12/28/2020 17:22:17
+
+
+Path: /api/users
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 17:22:19
+Response: [{"Id":"beb91bd2-5bb7-481a-9165-a47a147acdda","Email":"admin@gmail.com","Password":null,"UserName":"admin@gmail.com","Name":"Roman","Address":null,"Role":null}]
+ResponseCode: 200
+Responded at: 12/28/2020 17:22:20
+
+
+Path: /api/users/admin
+QueryString: 
+Method: GET
+RequestBody: 
+Requested at: 12/28/2020 17:22:26
+Response: [{"Id":"beb91bd2-5bb7-481a-9165-a47a147acdda","Email":"admin@gmail.com","Password":null,"UserName":"admin@gmail.com","Name":"Roman","Address":null,"Role":null}]
+ResponseCode: 200
+Responded at: 12/28/2020 17:22:26
+
+

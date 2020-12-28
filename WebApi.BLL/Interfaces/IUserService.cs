@@ -12,6 +12,14 @@ namespace WebApi.BLL.Interfaces
 
         Task SetInitialData(UserDTO adminDTO, List<string> roles);
 
-        public IEnumerable<UserDTO> GetUsers();
+        public IEnumerable<UserDTO> GetAllUsers();
+
+        public Task<UserDTO> GetUser(string userName);
+
+        public Task AddUserRole(string userName, string newRole);
+
+        public Task RemoveUserRole(string userName, string role);
+
+        public Task DeleteUser(string userName);
     }
 }

@@ -25,21 +25,66 @@ namespace WebApi.BLL.Services
         public async Task Create(UserDTO userDto)
         {
             var user = await _unitOfWork.UserManager.FindByEmailAsync(userDto.Email);
-            if (user == null)
-            {
-                user = new ApplicationUser { Email = userDto.Email, UserName = userDto.Email, Name = userDto.Name };
-                await _unitOfWork.UserManager.CreateAsync(user, userDto.Password);
+            if (user != null)
+                throw new ValidationException("User with given email already exists", "Email");
+            user = await _unitOfWork.UserManager.FindByNameAsync(userDto.UserName);
+            if (user != null)
+                throw new ValidationException("User with given user name already exists", "userName");
 
-                // adding role to user
-                await _unitOfWork.UserManager.AddToRoleAsync(user, userDto.Role);
-                await _unitOfWork.SaveAsync();
-            }
+            user = new ApplicationUser { Email = userDto.Email, UserName = userDto.Email, Name = userDto.Name };
+            await _unitOfWork.UserManager.CreateAsync(user, userDto.Password);
+
+            // adding role to user
+            await _unitOfWork.UserManager.AddToRoleAsync(user, userDto.Role);
+            await _unitOfWork.SaveAsync();
         }
 
-        public IEnumerable<UserDTO> GetUsers()
+        public async Task<UserDTO> GetUser(string userName)
+        {
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ApplicationUser, UserDTO>()).CreateMapper();
+
+            var user = await _unitOfWork.UserManager.FindByNameAsync(userName);
+
+            if (user == null)
+                throw new ValidationException("User not found", "userName");
+
+            return mapper.Map<ApplicationUser, UserDTO>(user);
+        }
+
+        public IEnumerable<UserDTO> GetAllUsers()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<ApplicationUser, UserDTO>()).CreateMapper();
             return mapper.Map<IEnumerable<ApplicationUser>, List<UserDTO>>(_unitOfWork.UserManager.Users);
+        }
+
+        public async Task AddUserRole(string userName, string newRole)
+        {
+            var user = await _unitOfWork.UserManager.FindByNameAsync(userName);
+
+            if (user == null)
+                throw new ValidationException("User not found", userName);
+
+            await _unitOfWork.UserManager.AddToRoleAsync(user, newRole);
+        }
+
+        public async Task RemoveUserRole(string userName, string role)
+        {
+            var user = await _unitOfWork.UserManager.FindByNameAsync(userName);
+
+            if (user == null)
+                throw new ValidationException("User not found", userName);
+
+            await _unitOfWork.UserManager.RemoveFromRoleAsync(user, role);
+        }
+
+        public async Task DeleteUser(string userName)
+        {
+            var user = await _unitOfWork.UserManager.FindByNameAsync(userName);
+
+            if (user == null)
+                throw new ValidationException("User not found", userName);
+
+            await _unitOfWork.UserManager.DeleteAsync(user);
         }
 
         public async Task SetInitialData(UserDTO adminDto, List<string> roles)
