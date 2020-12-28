@@ -886,3 +886,52 @@ ResponseCode: 200
 Responded at: 12/28/2020 17:22:26
 
 
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/29/2020 01:00:41
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/29/2020 01:00:47
+
+
+Path: /api/users/login
+QueryString: ?ReturnUrl=%2Fweatherforecast
+Method: GET
+RequestBody: 
+Requested at: 12/29/2020 01:00:48
+Response: Unauthorized user. Send post request with a model (username and password) to login.
+ResponseCode: 401
+Responded at: 12/29/2020 01:00:48
+
+
+Path: /api/users/register
+QueryString: 
+Method: POST
+RequestBody: {
+    "username": "new_user@gmail.com",
+    "password": "user12",
+    "name": "User"
+}
+Requested at: 12/29/2020 01:02:17
+Response: {"type":"https://tools.ietf.org/html/rfc7231#section-6.5.1","title":"One or more validation errors occurred.","status":400,"traceId":"|90f24f0a-4c542d7dec4c23dd.","errors":{"Email":["Email is required"]}}
+ResponseCode: 400
+Responded at: 12/29/2020 01:02:17
+
+
+Path: /api/users/register
+QueryString: 
+Method: POST
+RequestBody: {
+    "Email": "new_user@gmail.com",
+    "Username": "newUser",
+    "password": "user12",
+    "name": "User"
+}
+Requested at: 12/29/2020 01:02:40
+Response: User created
+ResponseCode: 200
+Responded at: 12/29/2020 01:02:41
+
+

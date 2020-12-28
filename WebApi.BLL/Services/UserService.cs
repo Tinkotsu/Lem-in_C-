@@ -24,6 +24,9 @@ namespace WebApi.BLL.Services
 
         public async Task Create(UserDTO userDto)
         {
+            if (userDto.Email == null || userDto.Password == null || userDto.Name == null)
+                throw new ValidationException("Wrong register model", "");
+
             var user = await _unitOfWork.UserManager.FindByEmailAsync(userDto.Email);
             if (user != null)
                 throw new ValidationException("User with given email already exists", "Email");
@@ -31,7 +34,7 @@ namespace WebApi.BLL.Services
             if (user != null)
                 throw new ValidationException("User with given user name already exists", "userName");
 
-            user = new ApplicationUser { Email = userDto.Email, UserName = userDto.Email, Name = userDto.Name };
+            user = new ApplicationUser { Email = userDto.Email, UserName = userDto.UserName, Name = userDto.Name };
             await _unitOfWork.UserManager.CreateAsync(user, userDto.Password);
 
             // adding role to user
@@ -98,7 +101,9 @@ namespace WebApi.BLL.Services
                     await _unitOfWork.RoleManager.CreateAsync(role);
                 }
             }
-            await Create(adminDto);
+            var user = await _unitOfWork.UserManager.FindByNameAsync(adminDto.UserName);
+            if (user == null)
+                await Create(adminDto);
         }
 
         //public void Dispose()

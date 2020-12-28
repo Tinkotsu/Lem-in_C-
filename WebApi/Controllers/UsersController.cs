@@ -189,7 +189,7 @@ namespace WebApi.Controllers
         {
             await _userService.SetInitialData(new UserDTO
             {
-                Email = "admin@gmail.com",
+                Email = "admin2@gmail.com",
                 UserName = "admin",
                 Password = "admin12",
                 Name = "Roman",
