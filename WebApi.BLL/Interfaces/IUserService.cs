@@ -8,13 +8,13 @@ namespace WebApi.BLL.Interfaces
 {
     public interface IUserService // : IDisposable
     {
-        Task Create(UserDTO userDTO);
+        Task Create(UserBM userDTO);
 
-        Task SetInitialData(UserDTO adminDTO, List<string> roles);
+        Task SetInitialData(UserBM adminDTO, List<string> roles);
 
-        public IEnumerable<UserDTO> GetAllUsers();
+        public IEnumerable<UserBM> GetAllUsers();
 
-        public Task<UserDTO> GetUser(string userName);
+        public Task<UserBM> GetUser(string userName);
 
         public Task AddUserRole(string userName, string newRole);
 

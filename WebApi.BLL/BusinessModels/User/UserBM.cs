@@ -1,7 +1,7 @@
 ﻿using System;
 namespace WebApi.BLL.BusinessModels.User
 {
-    public class UserDTO
+    public class UserBM
     {
         public string Id { get; set; }
         public string Email { get; set; }

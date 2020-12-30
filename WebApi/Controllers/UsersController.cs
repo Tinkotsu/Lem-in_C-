@@ -64,9 +64,9 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPost] // ?
+        [HttpPost]
         [Authorize(Roles = "admin")]
-        [Route("role/add")]
+        [Route("role")]
         public async Task<IActionResult> AddUserRole([FromBody] string userName, string newRole)
         {   
             try
@@ -80,9 +80,9 @@ namespace WebApi.Controllers
             }
         }
 
-        [HttpPost] // ?
+        [HttpDelete]
         [Authorize(Roles = "admin")]
-        [Route("role/remove")]
+        [Route("role")]
         public async Task<IActionResult> RemoveUserRole([FromBody] string userName, string role)
         {
             try
@@ -119,7 +119,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                await _userService.Create(new UserDTO
+                await _userService.Create(new UserBM
                 {
                     Email = model.Email,
                     UserName = model.Username,
@@ -187,7 +187,7 @@ namespace WebApi.Controllers
 
         private async Task SetInitialDataAsync()
         {
-            await _userService.SetInitialData(new UserDTO
+            await _userService.SetInitialData(new UserBM
             {
                 Email = "admin2@gmail.com",
                 UserName = "admin",
