@@ -10,10 +10,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebApi.DAL\WebApi.DAL.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="BusinessModels\User\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WebApi.DAL\WebApi.DAL.csproj" />
   </ItemGroup>
 </Project>

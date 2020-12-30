@@ -120,6 +120,6 @@ namespace WebApi
             {
                 endpoints.MapControllers().RequireAuthorization();
             });
-        }   
+        }
     }
 }

@@ -124,6 +124,7 @@ namespace WebApi.BLL.Services
                 VersionNumber = newVersionNum,
                 CreatedAt = DateTime.Now
             };
+
             if (materialVersion.IsActual == true)
                 materialDb.ActualVersionNum = newVersionNum;
 
@@ -195,13 +196,19 @@ namespace WebApi.BLL.Services
         public IEnumerable<MaterialVersionBM> GetMaterialVersions()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MaterialVersion, MaterialVersionBM>()).CreateMapper();
-            return mapper.Map<IEnumerable<MaterialVersion>, List<MaterialVersionBM>>(_unitOfWork.MaterialVersions.GetAll());
+
+            var materialVersionsDb = _unitOfWork.MaterialVersions.GetAll();
+
+            return mapper.Map<IEnumerable<MaterialVersion>, List<MaterialVersionBM>>(materialVersionsDb);
         }
 
         public IEnumerable<MaterialBM> GetMaterials()
         {
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Material, MaterialBM>()).CreateMapper();
-            return mapper.Map<IEnumerable<Material>, List<MaterialBM>>(_unitOfWork.Materials.GetAll());
+
+            var materialsDb = _unitOfWork.Materials.GetAll();
+
+            return mapper.Map<IEnumerable<Material>, List<MaterialBM>>(materialsDb);
         }
 
         public byte[] GetMaterialFile(GetMaterialFileBM getMaterialFileBM)
