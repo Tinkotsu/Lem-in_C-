@@ -6,7 +6,7 @@ namespace WebApi.BLL.Interfaces
 {
     public interface IFileManager
     {
-        public Task<string> SaveFile(IFormFile file, string hash);
+        public Task<string> SaveFile(byte[] fileBytes, string hash);
         public byte[] GetFile(string hash);
     }
 }

@@ -3,38 +3,21 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebApi.DAL.EF;
 
-namespace WebApi.DAL.Migrations.MaterialDb
+namespace WebApi.DAL.Migrations
 {
     [DbContext(typeof(MaterialDbContext))]
-    [Migration("20201228204129_Initial")]
-    partial class Initial
+    partial class MaterialDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .UseIdentityColumns()
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.1");
-
-            modelBuilder.Entity("MaterialVersionUserMaterialVersion", b =>
-                {
-                    b.Property<string>("MaterialVersionsId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("OwningUsersUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("MaterialVersionsId", "OwningUsersUserId");
-
-                    b.HasIndex("OwningUsersUserId");
-
-                    b.ToTable("MaterialVersionUserMaterialVersion");
-                });
 
             modelBuilder.Entity("WebApi.DAL.Entities.Material.Material", b =>
                 {
@@ -46,7 +29,7 @@ namespace WebApi.DAL.Migrations.MaterialDb
                     b.Property<int>("ActualVersionNum")
                         .HasColumnType("int");
 
-                    b.Property<int>("CategoryId")
+                    b.Property<int>("Category")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -56,11 +39,23 @@ namespace WebApi.DAL.Migrations.MaterialDb
 
                     b.Property<string>("OwnerUserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("OwnerUserId");
+
                     b.ToTable("Materials");
+                });
+
+            modelBuilder.Entity("WebApi.DAL.Entities.Material.MaterialUser", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MaterialUsers");
                 });
 
             modelBuilder.Entity("WebApi.DAL.Entities.Material.MaterialVersion", b =>
@@ -91,29 +86,15 @@ namespace WebApi.DAL.Migrations.MaterialDb
                     b.ToTable("MaterialVersions");
                 });
 
-            modelBuilder.Entity("WebApi.DAL.Entities.Material.UserMaterialVersion", b =>
+            modelBuilder.Entity("WebApi.DAL.Entities.Material.Material", b =>
                 {
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("UserMaterialVersions");
-                });
-
-            modelBuilder.Entity("MaterialVersionUserMaterialVersion", b =>
-                {
-                    b.HasOne("WebApi.DAL.Entities.Material.MaterialVersion", null)
-                        .WithMany()
-                        .HasForeignKey("MaterialVersionsId")
+                    b.HasOne("WebApi.DAL.Entities.Material.MaterialUser", "OwnerUser")
+                        .WithMany("Materials")
+                        .HasForeignKey("OwnerUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("WebApi.DAL.Entities.Material.UserMaterialVersion", null)
-                        .WithMany()
-                        .HasForeignKey("OwningUsersUserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("OwnerUser");
                 });
 
             modelBuilder.Entity("WebApi.DAL.Entities.Material.MaterialVersion", b =>
@@ -130,6 +111,11 @@ namespace WebApi.DAL.Migrations.MaterialDb
             modelBuilder.Entity("WebApi.DAL.Entities.Material.Material", b =>
                 {
                     b.Navigation("Versions");
+                });
+
+            modelBuilder.Entity("WebApi.DAL.Entities.Material.MaterialUser", b =>
+                {
+                    b.Navigation("Materials");
                 });
 #pragma warning restore 612, 618
         }

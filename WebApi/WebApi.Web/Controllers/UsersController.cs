@@ -119,7 +119,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                await _userService.Create(new UserBM
+                await _userService.Create(new UserBm
                 {
                     Email = model.Email,
                     UserName = model.Username,
@@ -187,7 +187,7 @@ namespace WebApi.Controllers
 
         private async Task SetInitialDataAsync()
         {
-            await _userService.SetInitialData(new UserBM
+            await _userService.SetInitialData(new UserBm
             {
                 Email = "admin2@gmail.com",
                 UserName = "admin",

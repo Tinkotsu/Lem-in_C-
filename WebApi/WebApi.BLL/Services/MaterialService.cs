@@ -21,166 +21,166 @@ namespace WebApi.BLL.Services
             _fileManager = fileManager;
         }
 
-        public void SaveMaterial(SaveMaterialBM material)
+        public void SaveMaterial(MaterialBm material, MaterialFileBm file)
         {
-            if (material.File == null)
-                throw new ValidationException("No file uploaded", "formFile");
-            if (material.CategoryId < 1 || material.CategoryId > 3)
+            if (file?.FileBytes == null)
+                throw new ValidationException("No file uploaded", "file");
+            if (material.Category != MaterialCategories.Application && 
+                material.Category != MaterialCategories.Presentation &&
+                material.Category != MaterialCategories.Other)
                 throw new ValidationException("Wrong category ID", "categoryId");
-            if (material.UserId == null)
+            if (material.OwnerUserId == null)
                 throw new ValidationException("Wrong user ID", "user ID");
             
-            var hash = HashCalculator.CalculateMD5(material.File);
+            var hash = HashCalculator.CalculateMd5(file.FileBytes);
 
-            var identicalMaterials = _unitOfWork.MaterialVersions.Find(v => v.Id == hash);
-
-            if (identicalMaterials.Any(v => v.OwningUsers.Any(u => u.UserId == material.UserId)))
+            var identicalMaterialVersions = _unitOfWork.MaterialVersions.Find(v => v.Id == hash).ToList();
+            
+            if (identicalMaterialVersions.Any(v => v.Material.OwnerUserId == material.OwnerUserId))
                 throw new ValidationException("File already exists", "");
 
             //saving file locally
-            string path = null;
 
-            if (identicalMaterials.Any())
-                path = identicalMaterials.FirstOrDefault().FilePath;
-            else
-                path = _fileManager.SaveFile(material.File, hash).Result;
+            var path = identicalMaterialVersions.FirstOrDefault()?.FilePath;
+            path ??= _fileManager.SaveFile(file.FileBytes, hash).Result;
 
-            //creating material & version DTOs
+            //creating material & version
 
-            Material materialDb = new Material
+            var materialDb = new Material
             {
-                Name = material.File.FileName,
+                Name = file.FileName,
                 ActualVersionNum = 1,
-                CategoryId = material.CategoryId,
-                OwnerUserId = material.UserId,
+                Category = (MaterialCategories) material.Category,
+                OwnerUserId = material.OwnerUserId,
                 Versions = new List<MaterialVersion>()
             };
 
-            MaterialVersion materialVersionDb = new MaterialVersion
+            var id = identicalMaterialVersions.Any() ? hash + identicalMaterialVersions.Count : hash;
+            
+            var materialVersionDb = new MaterialVersion
             {
-                Id = hash,
-                FileSize = material.File.Length,
+                Id = id,
+                FileSize = file.FileSize,
                 FilePath = path,
                 Material = materialDb,
                 VersionNumber = 1,
                 CreatedAt = DateTime.Now
             };
 
-            UserMaterialVersion userMaterialVersion = new UserMaterialVersion
+            var materialUser = _unitOfWork.MaterialUsers.Find(u => u.Id == material.OwnerUserId).FirstOrDefault();
+
+            materialUser ??= new MaterialUser
             {
-                UserId = material.UserId
+                Id = material.OwnerUserId,
+                Materials = new List<Material>()
             };
 
-            userMaterialVersion.MaterialVersions.Add(materialVersionDb);
-            materialVersionDb.OwningUsers.Add(userMaterialVersion);
-
+            materialDb.Versions.Add(materialVersionDb);
+            materialUser.Materials.Add(materialDb);
+            
             //saving material and material version to db
 
-            _unitOfWork.UserMaterialVersions.Create(userMaterialVersion);
+            _unitOfWork.MaterialUsers.Create(materialUser);
             _unitOfWork.MaterialVersions.Create(materialVersionDb);
             _unitOfWork.Materials.Create(materialDb);
-            _unitOfWork.Save();
+            _unitOfWork.SaveAsync();
         }
 
-        public void SaveMaterialVersion(SaveMaterialVersionBM materialVersion)
+        public void SaveMaterialVersion(MaterialFileBm file, string userId, bool isActual)
         {
-            if (materialVersion.MaterialId == null)
-                throw new ValidationException("Material ID must be set", "materialId");
-            if (materialVersion.File == null)
-                throw new ValidationException("No file uploaded", "formFile");
-            if (materialVersion.UserId == null)
-                throw new ValidationException("Wrong user ID", "user ID");
-
+            if (file?.FileBytes == null)
+                throw new ValidationException("No file uploaded", "file");
 
             //saving file locally
 
-            var hash = HashCalculator.CalculateMD5(materialVersion.File);
+            var hash = HashCalculator.CalculateMd5(file.FileBytes);
 
-            var identicalMaterials = _unitOfWork.MaterialVersions.Find(v => v.Id == hash);
-
-            if (identicalMaterials.Any(v => v.OwningUsers.Any(u => u.UserId == materialVersion.UserId)))
+            var identicalMaterialVersions = _unitOfWork.MaterialVersions.Find(v => v.Id == hash).ToList();
+            
+            if (identicalMaterialVersions.Any(v => v.Material.OwnerUserId == userId))
                 throw new ValidationException("File already exists", "");
 
-            var materialDb = _unitOfWork.Materials.Get(materialVersion.MaterialId.ToString());
+            var materialUser = _unitOfWork.MaterialUsers.Get(userId);
+            if (materialUser == null)
+                throw new ValidationException("User has not been found", "UserId");
+
+            var materialDb = materialUser.Materials.FirstOrDefault(m => m.Name == file.FileName);
             if (materialDb == null)
-                throw new ValidationException("Material ID is not valid", "materialId");
+                throw new ValidationException("Material with the name given has not been found", "fileName");
 
-            string path = null;
-
-            if (identicalMaterials.Any())
-                path = identicalMaterials.FirstOrDefault().FilePath;
-            else
-                path = _fileManager.SaveFile(materialVersion.File, hash).Result;
-
+            var path = identicalMaterialVersions.FirstOrDefault()?.FilePath;
+            path ??= _fileManager.SaveFile(file.FileBytes, hash).Result;
+            
             //saving material version to db
 
             var newVersionNum = _unitOfWork.MaterialVersions.Find(x => x.MaterialId == materialDb.Id).Count() + 1;
 
-            MaterialVersion materialVersionDb = new MaterialVersion
+            var id = identicalMaterialVersions.Any() ? hash + identicalMaterialVersions.Count : hash;
+            
+            var materialVersionDb = new MaterialVersion
             {
-                FileSize = materialVersion.File.Length,
+                Id = id,
+                FileSize = file.FileSize,
                 FilePath = path,
                 Material = materialDb,
                 VersionNumber = newVersionNum,
                 CreatedAt = DateTime.Now
             };
 
-            if (materialVersion.IsActual == true)
+            if (isActual == true)
                 materialDb.ActualVersionNum = newVersionNum;
 
-            UserMaterialVersion userMaterialVersion = new UserMaterialVersion
-            {
-                UserId = materialVersion.UserId
-            };
+            materialDb.Versions.Add(materialVersionDb);
+            materialUser.Materials.Add(materialDb);
+            
+            //saving material and material version to db
 
-            userMaterialVersion.MaterialVersions.Add(materialVersionDb);
-            materialVersionDb.OwningUsers.Add(userMaterialVersion);
-
-            _unitOfWork.UserMaterialVersions.Create(userMaterialVersion);
             _unitOfWork.MaterialVersions.Create(materialVersionDb);
-            _unitOfWork.Save();
+            _unitOfWork.SaveAsync();
         }
 
-        public void EditMaterialCategory(EditCategoryBM editCategoryBM)
+        public void EditMaterialCategory(MaterialBm materialBm)
         {
-            if (editCategoryBM.FileName == null)
+            if (materialBm?.Name == null)
                 throw new ValidationException("Material file name must be set", "FileName");
-            if (editCategoryBM.NewCategoryID == null)
-                throw new ValidationException("New category ID must be set", "NewCategoryId");
-            if (editCategoryBM.NewCategoryID < 1 || editCategoryBM.NewCategoryID > 3)
+            if (materialBm.Category == null)
+                throw new ValidationException("Category must be set", "Category");
+            if (materialBm.Category != MaterialCategories.Application && 
+                materialBm.Category != MaterialCategories.Presentation &&
+                materialBm.Category != MaterialCategories.Other)
                 throw new ValidationException("Wrong category ID", "NewCategoryId");
 
-            var materialDTO = _unitOfWork.Materials
-                .Find(material => material.OwnerUserId == editCategoryBM.UserId && material.Name == editCategoryBM.FileName)
+            var materialDb = _unitOfWork.Materials
+                .Find(material => material.OwnerUserId == materialBm.OwnerUserId && material.Name == materialBm.Name)
                 .FirstOrDefault();
-            if (materialDTO == null)
+            if (materialDb == null)
                 throw new ValidationException("Material ID is not valid", "MaterialId");
 
-            materialDTO.CategoryId = editCategoryBM.NewCategoryID.Value;
-            _unitOfWork.Save();
+            materialDb.Category = (MaterialCategories) materialBm.Category;
+            _unitOfWork.SaveAsync();
         }
 
-        public MaterialBM GetMaterial(string fileName, string userId)
+        public MaterialBm GetMaterial(string fileName, string userId)
         {
             if (fileName == null)
                 throw new ValidationException("File name must be set", "fileName");
 
             var material = _unitOfWork.Materials
-                .Find(material => material.Name == fileName && material.OwnerUserId == userId)
+                .Find(m => m.Name == fileName && m.OwnerUserId == userId)
                 .FirstOrDefault();
 
             if (material == null)
                 throw new ValidationException("Material has not been found", "");
 
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Material, MaterialBM>()).CreateMapper();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Material, MaterialBm>()).CreateMapper();
 
-            return mapper.Map<Material, MaterialBM>(material);
+            return mapper.Map<Material, MaterialBm>(material);
         }
 
-        public MaterialVersionBM GetMaterialVersion(MaterialBM materialBM)
+        public MaterialVersionBm GetMaterialVersion(MaterialBm materialBm)
         {
             var material = _unitOfWork.Materials
-                .Find(material => material.Name == materialBM.Name && material.OwnerUserId == materialBM.OwnerUserId)
+                .Find(m => m.Name == materialBm.Name && m.OwnerUserId == materialBm.OwnerUserId)
                 .FirstOrDefault();
 
             if (material == null)
@@ -188,41 +188,41 @@ namespace WebApi.BLL.Services
 
             var materialVersion = material.Versions.FirstOrDefault(version => version.VersionNumber == material.ActualVersionNum);
 
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MaterialVersion, MaterialVersionBM>()).CreateMapper();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MaterialVersion, MaterialVersionBm>()).CreateMapper();
 
-            return mapper.Map<MaterialVersion, MaterialVersionBM>(materialVersion);
+            return mapper.Map<MaterialVersion, MaterialVersionBm>(materialVersion);
         }
 
-        public IEnumerable<MaterialVersionBM> GetMaterialVersions()
+        public IEnumerable<MaterialVersionBm> GetMaterialVersions()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MaterialVersion, MaterialVersionBM>()).CreateMapper();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<MaterialVersion, MaterialVersionBm>()).CreateMapper();
 
             var materialVersionsDb = _unitOfWork.MaterialVersions.GetAll();
 
-            return mapper.Map<IEnumerable<MaterialVersion>, List<MaterialVersionBM>>(materialVersionsDb);
+            return mapper.Map<IEnumerable<MaterialVersion>, List<MaterialVersionBm>>(materialVersionsDb);
         }
 
-        public IEnumerable<MaterialBM> GetMaterials()
+        public IEnumerable<MaterialBm> GetMaterials()
         {
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Material, MaterialBM>()).CreateMapper();
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Material, MaterialBm>()).CreateMapper();
 
             var materialsDb = _unitOfWork.Materials.GetAll();
 
-            return mapper.Map<IEnumerable<Material>, List<MaterialBM>>(materialsDb);
+            return mapper.Map<IEnumerable<Material>, List<MaterialBm>>(materialsDb);
         }
 
-        public byte[] GetMaterialFile(GetMaterialFileBM getMaterialFileBM)
+        public byte[] GetMaterialFile(MaterialBm materialBm)
         {
-            if (getMaterialFileBM.FileName == null)
+            if (materialBm?.Name == null)
                 throw new ValidationException("File name must be set", "FileName");
 
             var material = _unitOfWork.Materials
-                .Find(material => material.OwnerUserId == getMaterialFileBM.UserId && material.Name == getMaterialFileBM.FileName).FirstOrDefault();
+                .Find(m => m.OwnerUserId == materialBm.OwnerUserId && m.Name == materialBm.Name).FirstOrDefault();
 
             if (material == null)
                 throw new ValidationException("File can not be found", "");
 
-            int materialVersionNum = getMaterialFileBM.VersionNumber == null ? material.ActualVersionNum : getMaterialFileBM.VersionNumber.Value;
+            var materialVersionNum = materialBm.ActualVersionNum ?? material.ActualVersionNum;
 
             var materialVersion = material.Versions.FirstOrDefault(v => v.VersionNumber == materialVersionNum);
             if (materialVersion == null)
@@ -231,11 +231,8 @@ namespace WebApi.BLL.Services
             return _fileManager.GetFile(materialVersion.Id);
         }
 
-        public IEnumerable<MaterialBM> GetFilteredMaterials(MaterialsFilterRequestBM materialsFilterRequestBM)
+        public IEnumerable<MaterialBm> GetFilteredMaterials(MaterialBm materialBm, long? minSize, long? maxSize)
         {
-            var minSize = materialsFilterRequestBM.MinSize;
-            var maxSize = materialsFilterRequestBM.MaxSize;
-            var categoryId = materialsFilterRequestBM.CategoryId;
 
             if (minSize != null && maxSize != null)
             {
@@ -246,15 +243,11 @@ namespace WebApi.BLL.Services
             minSize ??= 0;
             maxSize ??= -1;
 
-            var materials = _unitOfWork.Materials.Find(material => true);
+            var materials = _unitOfWork.Materials.GetAll();
 
-            if (categoryId != 0)
-            {
-                if (categoryId < 1 || categoryId > 3)
-                    throw new ValidationException("Wrong category ID", "categoryID");
-                materials = materials.Where(material => material.CategoryId == categoryId);
-            }
-
+            if (materialBm.Category != null)
+                materials = materials.Where(m => m.Category == materialBm.Category);
+            
             if (maxSize != -1 || minSize != 0)
             {
                 materials = materials
@@ -262,13 +255,13 @@ namespace WebApi.BLL.Services
                     {
                         var versionNum = material.ActualVersionNum;
                         var version = material.Versions.FirstOrDefault(v => v.VersionNumber == versionNum);
-                        return (version.FileSize >= minSize && (maxSize == -1 || version.FileSize <= maxSize));
+                        return (version?.FileSize >= minSize && (maxSize == -1 || version.FileSize <= maxSize));
                     })
                     .ToList();
             }
 
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Material, MaterialBM>()).CreateMapper();
-            return mapper.Map<IEnumerable<Material>, List<MaterialBM>>(materials);
+            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Material, MaterialBm>()).CreateMapper();
+            return mapper.Map<IEnumerable<Material>, List<MaterialBm>>(materials);
         }
 
         //public void Dispose()

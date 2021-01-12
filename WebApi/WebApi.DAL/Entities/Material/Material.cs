@@ -16,23 +16,19 @@ namespace WebApi.DAL.Entities.Material
 
     public class Material
     {
-
         [Key]
         public int Id { get; set; }
-        
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
-
         [Required]
-        public int CategoryId { get; set; }
-
+        public MaterialCategories Category { get; set; }
         [Required]
         public int ActualVersionNum { get; set; }
-
+        [Required]
+        public MaterialUser OwnerUser { get; set; }
         [Required]
         public string OwnerUserId { get; set; }
-
         public ICollection<MaterialVersion> Versions { get; set; }
     }
 }

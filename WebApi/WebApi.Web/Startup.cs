@@ -1,25 +1,19 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
-using WebApi.DAL.Interfaces;
-using WebApi.DAL.Repositories;
-using WebApi.Models;
 using WebApi.BLL.Interfaces;
 using WebApi.BLL.Services;
 using WebApi.DAL.EF;
 using WebApi.DAL.Entities.User;
+using WebApi.DAL.Interfaces;
+using WebApi.DAL.Repositories;
 
-namespace WebApi
+namespace WebApi.Web
 {
     public class Startup
     {
@@ -84,9 +78,6 @@ namespace WebApi
 
             //DI for Unit of work
             services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-            //DI for Identity Unit of work
-            services.AddScoped<IIdentityUnitOfWork, IdentityUnitOfWork>();
 
             //DI for file management
             services.AddSingleton<IFileManager, FileManager>();

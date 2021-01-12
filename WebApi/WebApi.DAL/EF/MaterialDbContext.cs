@@ -24,6 +24,6 @@ namespace WebApi.DAL.EF
 
         public DbSet<Material> Materials { get; set; }
         public DbSet<MaterialVersion> MaterialVersions { get; set; }
-        public DbSet<UserMaterialVersion> UserMaterialVersions { get; set; }
+        public DbSet<MaterialUser> MaterialUsers { get; set; }
     }
 }

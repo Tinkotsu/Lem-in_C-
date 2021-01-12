@@ -7,24 +7,24 @@ namespace WebApi.BLL.Interfaces
 {
     public interface IMaterialService
     {
-        void SaveMaterial(SaveMaterialBM material);
+        void SaveMaterial(MaterialBm material, MaterialFileBm file);
 
-        void SaveMaterialVersion(SaveMaterialVersionBM materialVersion);
+        void SaveMaterialVersion(MaterialFileBm file, string userId, bool isActual);
 
-        void EditMaterialCategory(EditCategoryBM editCategoryBM);
+        void EditMaterialCategory(MaterialBm materialBm);
 
-        MaterialBM GetMaterial(string fileName, string userId);
+        MaterialBm GetMaterial(string fileName, string userId);
 
-        MaterialVersionBM GetMaterialVersion(MaterialBM materialBM);
+        MaterialVersionBm GetMaterialVersion(MaterialBm materialBm);
 
-        IEnumerable<MaterialVersionBM> GetMaterialVersions();
+        IEnumerable<MaterialVersionBm> GetMaterialVersions();
 
-        IEnumerable<MaterialBM> GetMaterials();
+        IEnumerable<MaterialBm> GetMaterials();
 
-        IEnumerable<MaterialBM> GetFilteredMaterials(MaterialsFilterRequestBM materialsFilterRequestBM);
+        IEnumerable<MaterialBm> GetFilteredMaterials(MaterialBm materialBm, long? minSize, long? maxSize);
 
-        byte[] GetMaterialFile(GetMaterialFileBM getMaterialFileBM);
+        byte[] GetMaterialFile(MaterialBm materialBm);
 
-       // void Dispose();
+        // void Dispose();
     }
 }

@@ -7,23 +7,13 @@ using Microsoft.AspNetCore.Http;
 
 namespace WebApi.BLL.Services
 {
-    public class HashCalculator
+    public static class HashCalculator
     {
-        public static string CalculateMD5(IFormFile file)
+        public static string CalculateMd5(byte[] fileBytes)
         {
-            byte[] fileBytes = null;
-
-            using (var memoryStream = new MemoryStream())
-            {
-                file.CopyTo(memoryStream);
-                fileBytes = memoryStream.ToArray();
-            }
-
-            using (var md5 = MD5.Create())
-            {
-                var hash = md5.ComputeHash(fileBytes);
-                return BitConverter.ToString(hash).Replace("-", "").ToLower();
-            }
+            using var md5 = MD5.Create();
+            var hash = md5.ComputeHash(fileBytes);
+            return BitConverter.ToString(hash).Replace("-", "").ToLower();
         }
     }
 }

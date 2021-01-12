@@ -17,14 +17,11 @@ namespace WebApi.BLL.Services
             Directory.CreateDirectory(DirName);
         }
 
-        public async Task<string> SaveFile(IFormFile file, string hash)
+        public async Task<string> SaveFile(byte[] fileBytes, string hash)
         { 
             var path = DirName + '/' + hash;
 
-            await using (var fileStream = new FileStream(path, FileMode.Create))
-            {
-                await file.CopyToAsync(fileStream);
-            }
+            await File.WriteAllBytesAsync(path, fileBytes);
 
             return hash;
         }

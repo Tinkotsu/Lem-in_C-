@@ -5,26 +5,39 @@ using Microsoft.EntityFrameworkCore;
 using WebApi.DAL.EF;
 using WebApi.DAL.Entities.Material;
 using WebApi.DAL.Interfaces;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using WebApi.DAL.Entities.User;
 
 namespace WebApi.DAL.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly MaterialDbContext _db;
+        private readonly UserDbContext _userDbContext;
+        private readonly MaterialDbContext _materialDb;
         private MaterialRepository _materialRepository;
         private MaterialVersionRepository _materialVersionRepository;
-        private UserMaterialVersionRepository _userMaterialVersionRepository;
-
-        public UnitOfWork(MaterialDbContext context)
+        private MaterialUserRepository _materialUserRepository;
+        public UserManager<ApplicationUser> UserManager { get; }
+        public RoleManager<IdentityRole> RoleManager { get; }
+        
+        public UnitOfWork(
+            MaterialDbContext materialDbContext,
+            UserDbContext userDbContext,
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager)
         {
-            _db = context;
+            _materialDb = materialDbContext;
+            _userDbContext = userDbContext;
+            UserManager = userManager;
+            RoleManager = roleManager;
         }
 
         public IRepository<Material> Materials
         {
             get
             {
-                _materialRepository ??= new MaterialRepository(_db);
+                _materialRepository ??= new MaterialRepository(_materialDb);
                 return _materialRepository;
             }
         }
@@ -32,24 +45,24 @@ namespace WebApi.DAL.Repositories
         {
             get
             {
-                _materialVersionRepository ??= new MaterialVersionRepository(_db);
+                _materialVersionRepository ??= new MaterialVersionRepository(_materialDb);
                 return _materialVersionRepository;
             }
         }
 
-        public IRepository<UserMaterialVersion> UserMaterialVersions
+        public IRepository<MaterialUser> MaterialUsers
         {
             get
             {
-                _userMaterialVersionRepository ??= new UserMaterialVersionRepository(_db);
-                return _userMaterialVersionRepository;
+                _materialUserRepository ??= new MaterialUserRepository(_materialDb);
+                return _materialUserRepository;
             }
         }
 
 
-        public void Save()
+        public async Task SaveAsync()
         {
-            _db.SaveChanges();
+            await _materialDb.SaveChangesAsync();
         }
 
         //private bool _disposed = false;

@@ -1,16 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using WebApi.DAL.Entities.Material;
 
 namespace WebApi.BLL.BusinessModels.Material
 {
-    public class MaterialBM
+    public class MaterialBm
     {
         public string Name { get; set; }
-
-        public int CategoryId { get; set; }
-
-        public int ActualVersionNum { get; set; }
-
+        public MaterialCategories? Category { get; set; }
+        public int? ActualVersionNum { get; set; }
         public string OwnerUserId { get; set; }
     }
 }

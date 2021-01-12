@@ -13,30 +13,7 @@ namespace WebApi.Tests
 {
     public class MaterialServiceTests
     {
-        [Fact]
-        public void GetMaterials_ValidCall()
-        {
-            //arange
-            var unitOfWorkMock = new Mock<IUnitOfWork>();
-
-            var samples = GetSampleMaterials();
-
-            unitOfWorkMock.Setup(p => p.Materials.GetAll()).Returns(samples);
-
-            var materialService = new MaterialService(unitOfWorkMock.Object, null);
-
-            //act
-            var result = materialService.GetMaterials();
-
-            var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Material, MaterialBM>()).CreateMapper();
-
-            var mappedSamples = mapper.Map<IEnumerable<Material>, List<MaterialBM>>(samples);
-            
-            //assert
-            Assert.Equal(mappedSamples, result);
-        }
-
-        private IEnumerable<Material> GetSampleMaterials()
+        private static IEnumerable<Material> GetSampleMaterials()
         {
             var output = new List<Material>
             {
@@ -44,7 +21,7 @@ namespace WebApi.Tests
                 {
                     Id = 1,
                     Name = "name1",
-                    CategoryId = 1,
+                    Category = MaterialCategories.Presentation,
                     ActualVersionNum = 1,
                     OwnerUserId = "name1"
                 },
@@ -53,7 +30,7 @@ namespace WebApi.Tests
                 {
                     Id = 2,
                     Name = "name2",
-                    CategoryId = 2,
+                    Category = MaterialCategories.Application,
                     ActualVersionNum = 1,
                     OwnerUserId = "name2"
                 },
@@ -62,7 +39,7 @@ namespace WebApi.Tests
                 {
                     Id = 3,
                     Name = "name3",
-                    CategoryId = 3,
+                    Category = MaterialCategories.Other,
                     ActualVersionNum = 1,
                     OwnerUserId = "name3"
                 },

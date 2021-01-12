@@ -1,28 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using WebApi.Models;
-using WebApi.BLL.Interfaces;
 using WebApi.BLL.BusinessModels.Material;
 using WebApi.BLL.Infrastructure;
+using WebApi.BLL.Interfaces;
 using WebApi.DAL.Entities.Material;
 
-namespace WebApi.Controllers
+namespace WebApi.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
     public class MaterialController : ControllerBase
     {
-        IMaterialService _materialService;
+        private readonly IMaterialService _materialService;
 
         public MaterialController(IMaterialService materialService) 
         {
@@ -30,19 +24,34 @@ namespace WebApi.Controllers
         }
 
         [HttpPost]
-        public ActionResult AddNewFile([FromForm] IFormFile file, [FromForm] int categoryId)
+        public async Task<IActionResult> AddNewFile([FromForm] IFormFile file, [FromForm] MaterialCategories category)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var newSaveMaterialBM = new SaveMaterialBM {
-                File = file,
-                CategoryId = categoryId,
-                UserId = userId
+            byte[] fileBytes;
+
+            await using (var memoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(memoryStream);
+                fileBytes = memoryStream.ToArray();
+            }
+            
+            var materialBm = new MaterialBm
+            {
+                Category = category,
+                OwnerUserId = userId
             };
 
+            var materialFileBm = new MaterialFileBm
+            {
+                FileName = file.FileName,
+                FileSize = file.Length,
+                FileBytes = fileBytes
+            };
+            
             try
             {
-                _materialService.SaveMaterial(newSaveMaterialBM);
+                _materialService.SaveMaterial(materialBm, materialFileBm);
                 return Ok("Material has been added successfully");
             }
             catch (ValidationException ex)
@@ -54,20 +63,29 @@ namespace WebApi.Controllers
 
         [HttpPost]
         [Route("version")]
-        public ActionResult AddNewVersion([FromForm] IFormFile file, [FromForm] bool isActual=true)
+        public async Task <IActionResult> AddNewVersion([FromForm] IFormFile file, [FromForm] bool isActual=true)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            
+            
+            byte[] fileBytes;
 
-            var newSaveMaterialVersionBM = new SaveMaterialVersionBM
+            await using (var memoryStream = new MemoryStream())
             {
-                File = file,
-                UserId = userId,
-                IsActual = isActual
+                await file.CopyToAsync(memoryStream);
+                fileBytes = memoryStream.ToArray();
+            }
+
+            var fileBm = new MaterialFileBm
+            {
+                FileBytes = fileBytes,
+                FileName = file.FileName,
+                FileSize = file.Length
             };
 
             try
             {
-                _materialService.SaveMaterialVersion(newSaveMaterialVersionBM);
+                _materialService.SaveMaterialVersion(fileBm, userId, isActual);
                 return Ok("New material version added successfully.");
             }
             catch (ValidationException ex)
@@ -85,13 +103,13 @@ namespace WebApi.Controllers
 
             try
             {
-                var getMaterialFileBM = new GetMaterialFileBM
+                var materialFileBm = new MaterialBm
                 {
-                    FileName = fileName,
-                    VersionNumber = versionNum,
-                    UserId = userId
+                    Name = fileName,
+                    ActualVersionNum = versionNum,
+                    OwnerUserId = userId
                 };
-                var dataBytes = _materialService.GetMaterialFile(getMaterialFileBM);
+                var dataBytes = _materialService.GetMaterialFile(materialFileBm);
                 return File(dataBytes, "application/octet-stream", fileName);
             }
             catch (ValidationException ex)
@@ -103,22 +121,21 @@ namespace WebApi.Controllers
 
         [HttpPatch]
         [Route("category")]
-        public ActionResult EditFileCategory([FromForm] string fileName, [FromForm] int newCategoryId)
+        public ActionResult EditFileCategory([FromForm] string fileName, [FromForm] MaterialCategories newCategory)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
+            var materialBm = new MaterialBm
+            {
+                Name = fileName,
+                OwnerUserId = userId,
+                Category = newCategory
+            };
+            
             try
             {
-                var editCategoryBM = new EditCategoryBM
-                {
-                    FileName = fileName,
-                    NewCategoryID = newCategoryId,
-                    UserId = userId
-                };
-
-                _materialService.EditMaterialCategory(editCategoryBM);
-
-                return Ok($"File's (\"{fileName}\") category ID changed to {newCategoryId}.");
+                _materialService.EditMaterialCategory(materialBm);
+                return Ok($"File's (\"{fileName}\") category ID changed to {newCategory}.");
             }
             catch (ValidationException ex)
             {
@@ -143,7 +160,7 @@ namespace WebApi.Controllers
                     new
                     {
                         material.Name,
-                        category = ((MaterialCategories)material.CategoryId).ToString(),
+                        category = material.Category,
                         material.ActualVersionNum,
                         materialVersion.CreatedAt,
                         materialVersion.FileSize
@@ -161,17 +178,17 @@ namespace WebApi.Controllers
         [HttpGet]
         [Route("filter_info")]
         [Authorize(Roles = "admin")]
-        public IActionResult FilteredInfo([FromBody] MaterialsFilterRequestBM materialFilterRequest)
+        public IActionResult FilteredInfo([FromBody] MaterialBm materialFilterRequest, long? minSize, long? maxSize)
         {
             try
             {
-                var materials = _materialService.GetFilteredMaterials(materialFilterRequest);
+                var materials = _materialService.GetFilteredMaterials(materialFilterRequest, minSize, maxSize);
 
                 var output = Newtonsoft.Json.JsonConvert.SerializeObject(materials.Select(material =>
                     new
                     {
                         material.Name,
-                        material.CategoryId,
+                        material.Category,
                         material.ActualVersionNum
                     }).ToList());
 
