@@ -50,7 +50,7 @@ namespace WebApi.BLL.Services
             var user = await _unitOfWork.UserManager.FindByNameAsync(userName);
 
             if (user == null)
-                throw new ValidationException("User not found", "userName");
+                throw new NotFoundException("User not found", "userName");
 
             return mapper.Map<ApplicationUser, UserBm>(user);
         }
@@ -66,7 +66,7 @@ namespace WebApi.BLL.Services
             var user = await _unitOfWork.UserManager.FindByNameAsync(userName);
 
             if (user == null)
-                throw new ValidationException("User not found", userName);
+                throw new NotFoundException("User not found", userName);
 
             await _unitOfWork.UserManager.AddToRoleAsync(user, newRole);
         }
@@ -76,7 +76,7 @@ namespace WebApi.BLL.Services
             var user = await _unitOfWork.UserManager.FindByNameAsync(userName);
 
             if (user == null)
-                throw new ValidationException("User not found", userName);
+                throw new NotFoundException("User not found", userName);
 
             await _unitOfWork.UserManager.RemoveFromRoleAsync(user, role);
         }
@@ -86,7 +86,7 @@ namespace WebApi.BLL.Services
             var user = await _unitOfWork.UserManager.FindByNameAsync(userName);
 
             if (user == null)
-                throw new ValidationException("User not found", userName);
+                throw new NotFoundException("User not found", userName);
 
             await _unitOfWork.UserManager.DeleteAsync(user);
         }

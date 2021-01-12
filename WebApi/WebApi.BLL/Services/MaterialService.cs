@@ -102,11 +102,11 @@ namespace WebApi.BLL.Services
 
             var materialUser = _unitOfWork.MaterialUsers.Get(userId);
             if (materialUser == null)
-                throw new ValidationException("User has not been found", "UserId");
+                throw new NotFoundException("User has not been found", "UserId");
 
             var materialDb = materialUser.Materials.FirstOrDefault(m => m.Name == file.FileName);
             if (materialDb == null)
-                throw new ValidationException("Material with the name given has not been found", "fileName");
+                throw new NotFoundException("Material with the name given has not been found", "fileName");
 
             var path = identicalMaterialVersions.FirstOrDefault()?.FilePath;
             path ??= _fileManager.SaveFile(file.FileBytes, hash).Result;
@@ -170,7 +170,7 @@ namespace WebApi.BLL.Services
                 .FirstOrDefault();
 
             if (material == null)
-                throw new ValidationException("Material has not been found", "");
+                throw new NotFoundException("Material has not been found", "");
 
             var mapper = new MapperConfiguration(cfg => cfg.CreateMap<Material, MaterialBm>()).CreateMapper();
 
@@ -184,7 +184,7 @@ namespace WebApi.BLL.Services
                 .FirstOrDefault();
 
             if (material == null)
-                throw new ValidationException("Material has not been found", "");
+                throw new NotFoundException("Material has not been found", "");
 
             var materialVersion = material.Versions.FirstOrDefault(version => version.VersionNumber == material.ActualVersionNum);
 
@@ -220,13 +220,13 @@ namespace WebApi.BLL.Services
                 .Find(m => m.OwnerUserId == materialBm.OwnerUserId && m.Name == materialBm.Name).FirstOrDefault();
 
             if (material == null)
-                throw new ValidationException("File can not be found", "");
+                throw new NotFoundException("File can not be found", "");
 
             var materialVersionNum = materialBm.ActualVersionNum ?? material.ActualVersionNum;
 
             var materialVersion = material.Versions.FirstOrDefault(v => v.VersionNumber == materialVersionNum);
             if (materialVersion == null)
-                throw new ValidationException("Version has not been found", "");
+                throw new NotFoundException("Version has not been found", "");
 
             return _fileManager.GetFile(materialVersion.Id);
         }

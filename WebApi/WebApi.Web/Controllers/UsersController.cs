@@ -43,41 +43,27 @@ namespace WebApi.Controllers
         [Route("{userName?}")]
         public async Task<ActionResult> GetAsync(string userName)
         {
-            try
+            string output;
+            if (userName != null)
             {
-                string output = null;
-                if (userName != null)
-                {
-                    var user = await _userService.GetUser(userName);
-                    output = Newtonsoft.Json.JsonConvert.SerializeObject(user);
-                }
-                else
-                {
-                    var users = _userService.GetAllUsers();
-                    output = Newtonsoft.Json.JsonConvert.SerializeObject(users);
-                }
-                return Ok(output);
+                var user = await _userService.GetUser(userName);
+                output = Newtonsoft.Json.JsonConvert.SerializeObject(user);
             }
-            catch (ValidationException ex)
+            else
             {
-                return NotFound(ex.Message);
+                var users = _userService.GetAllUsers();
+                output = Newtonsoft.Json.JsonConvert.SerializeObject(users);
             }
+            return Ok(output);
         }
 
         [HttpPost]
         [Authorize(Roles = "admin")]
         [Route("role")]
         public async Task<IActionResult> AddUserRole([FromBody] string userName, string newRole)
-        {   
-            try
-            {
-                await _userService.AddUserRole(userName, newRole);
-                return Ok($"Added user role successfully.");
-            }
-            catch (ValidationException ex)
-            {
-                return NotFound(ex.Message);
-            }
+        {
+            await _userService.AddUserRole(userName, newRole);
+            return Ok($"Added user role successfully.");
         }
 
         [HttpDelete]
@@ -85,15 +71,8 @@ namespace WebApi.Controllers
         [Route("role")]
         public async Task<IActionResult> RemoveUserRole([FromBody] string userName, string role)
         {
-            try
-            {
-                await _userService.RemoveUserRole(userName, role);
-                return Ok($"Removed user role successfully.");
-            }
-            catch (ValidationException ex)
-            {
-                return NotFound(ex.Message);
-            }
+            await _userService.RemoveUserRole(userName, role);
+            return Ok($"Removed user role successfully.");
         }
 
         [HttpDelete]
@@ -101,15 +80,8 @@ namespace WebApi.Controllers
         [Route("userName")]
         public async Task<ActionResult> Delete([FromQuery] string userName)
         {
-            try
-            {
-                await _userService.DeleteUser(userName);
-                return Ok("User deleted");
-            }
-            catch (ValidationException ex)
-            {
-                return NotFound(ex.Message);
-            }
+            await _userService.DeleteUser(userName);
+            return Ok("User deleted");
         }
 
         [HttpPost]
@@ -117,23 +89,16 @@ namespace WebApi.Controllers
         [Route("register")]
         public async Task<IActionResult> Register([FromBody] RegisterModel model)
         {
-            try
+            await _userService.Create(new UserBm
             {
-                await _userService.Create(new UserBm
-                {
-                    Email = model.Email,
-                    UserName = model.Username,
-                    Name = model.Name,
-                    Password = model.Password,
-                    Role = "reader"
-                });
+                Email = model.Email,
+                UserName = model.Username,
+                Name = model.Name,
+                Password = model.Password,
+                Role = "reader"
+            });
 
-                return Ok("User created");
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok("User created");
         }
 
         [HttpPost]
@@ -162,14 +127,8 @@ namespace WebApi.Controllers
         [Route("login")]
         public async Task<IActionResult> Login()
         {
-            try
-            {
-                await SetInitialDataAsync();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
+            await SetInitialDataAsync();
+
             if (User.Identity.IsAuthenticated)
                 return BadRequest("User is already authenticated. Logout to change user.");
 

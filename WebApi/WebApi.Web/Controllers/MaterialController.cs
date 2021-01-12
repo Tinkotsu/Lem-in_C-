@@ -49,15 +49,8 @@ namespace WebApi.Web.Controllers
                 FileBytes = fileBytes
             };
             
-            try
-            {
-                _materialService.SaveMaterial(materialBm, materialFileBm);
-                return Ok("Material has been added successfully");
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest($"Error: {ex.Message} ({ex.Property})");
-            }
+            _materialService.SaveMaterial(materialBm, materialFileBm);
+            return Ok("Material has been added successfully");
 
         }
 
@@ -83,16 +76,8 @@ namespace WebApi.Web.Controllers
                 FileSize = file.Length
             };
 
-            try
-            {
-                _materialService.SaveMaterialVersion(fileBm, userId, isActual);
-                return Ok("New material version added successfully.");
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest($"Error: {ex.Message} ({ex.Property})");
-            }
-            
+            _materialService.SaveMaterialVersion(fileBm, userId, isActual);
+            return Ok("New material version added successfully.");
         }
 
         [HttpGet]
@@ -100,23 +85,15 @@ namespace WebApi.Web.Controllers
         public ActionResult DownloadFile(string fileName, int? versionNum)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            try
-            {
-                var materialFileBm = new MaterialBm
-                {
-                    Name = fileName,
-                    ActualVersionNum = versionNum,
-                    OwnerUserId = userId
-                };
-                var dataBytes = _materialService.GetMaterialFile(materialFileBm);
-                return File(dataBytes, "application/octet-stream", fileName);
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest($"Error {ex.Message}");
-            }
             
+            var materialFileBm = new MaterialBm
+            {
+                Name = fileName,
+                ActualVersionNum = versionNum,
+                OwnerUserId = userId
+            };
+            var dataBytes = _materialService.GetMaterialFile(materialFileBm);
+            return File(dataBytes, "application/octet-stream", fileName);
         }
 
         [HttpPatch]
@@ -132,16 +109,8 @@ namespace WebApi.Web.Controllers
                 Category = newCategory
             };
             
-            try
-            {
-                _materialService.EditMaterialCategory(materialBm);
-                return Ok($"File's (\"{fileName}\") category ID changed to {newCategory}.");
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest($"Error {ex.Message}");
-            }
-
+            _materialService.EditMaterialCategory(materialBm);
+            return Ok($"File's (\"{fileName}\") category ID changed to {newCategory}.");
         }
 
         [HttpGet]
@@ -149,30 +118,22 @@ namespace WebApi.Web.Controllers
         public ActionResult MaterialInfo(string fileName)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            try
-            {
-                var material = _materialService.GetMaterial(fileName, userId);
-
-                var materialVersion = _materialService.GetMaterialVersion(material);
-
-                var output = Newtonsoft.Json.JsonConvert.SerializeObject(
-                    new
-                    {
-                        material.Name,
-                        category = material.Category,
-                        material.ActualVersionNum,
-                        materialVersion.CreatedAt,
-                        materialVersion.FileSize
-                    });
-
-                return Ok(output);
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
             
+            var material = _materialService.GetMaterial(fileName, userId);
+
+            var materialVersion = _materialService.GetMaterialVersion(material);
+
+            var output = Newtonsoft.Json.JsonConvert.SerializeObject(
+                new
+                {
+                    material.Name,
+                    category = material.Category,
+                    material.ActualVersionNum,
+                    materialVersion.CreatedAt,
+                    materialVersion.FileSize
+                });
+
+            return Ok(output);
         }
 
         [HttpGet]
@@ -180,24 +141,17 @@ namespace WebApi.Web.Controllers
         [Authorize(Roles = "admin")]
         public IActionResult FilteredInfo([FromBody] MaterialBm materialFilterRequest, long? minSize, long? maxSize)
         {
-            try
-            {
-                var materials = _materialService.GetFilteredMaterials(materialFilterRequest, minSize, maxSize);
+            var materials = _materialService.GetFilteredMaterials(materialFilterRequest, minSize, maxSize);
 
-                var output = Newtonsoft.Json.JsonConvert.SerializeObject(materials.Select(material =>
-                    new
-                    {
-                        material.Name,
-                        material.Category,
-                        material.ActualVersionNum
-                    }).ToList());
+            var output = Newtonsoft.Json.JsonConvert.SerializeObject(materials.Select(material =>
+                new
+                {
+                    material.Name,
+                    material.Category,
+                    material.ActualVersionNum
+                }).ToList());
 
-                return Ok(output);
-            }
-            catch (ValidationException ex)
-            {
-                return BadRequest($"Error: {ex.Message}");
-            }
+            return Ok(output);
         }
     }
 }

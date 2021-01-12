@@ -1,5 +1,8 @@
 using System;
+using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -97,6 +100,22 @@ namespace WebApi.Web
             {
                 app.UseDeveloperExceptionPage();
             }
+            app.UseExceptionHandler(new ExceptionHandlerOptions
+            {
+                ExceptionHandler = (c) =>
+                {
+                    var exception = c.Features.Get<IExceptionHandlerFeature>();
+                    var statusCode = exception.Error.GetType().Name switch
+                    {
+                        "ValidationException" => HttpStatusCode.BadRequest,
+                        "NotFoundException" => HttpStatusCode.NotFound,
+                        _ => HttpStatusCode.ServiceUnavailable
+                    };
+                    c.Response.StatusCode = (int) statusCode;
+                    
+                    return Task.CompletedTask;
+                }
+            });
 
             app.UseHttpsRedirection();
 
