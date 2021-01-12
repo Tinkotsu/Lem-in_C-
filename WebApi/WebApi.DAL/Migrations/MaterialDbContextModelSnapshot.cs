@@ -76,12 +76,17 @@ namespace WebApi.DAL.Migrations
                     b.Property<int>("MaterialId")
                         .HasColumnType("int");
 
+                    b.Property<string>("MaterialUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("VersionNumber")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("MaterialId");
+
+                    b.HasIndex("MaterialUserId");
 
                     b.ToTable("MaterialVersions");
                 });
@@ -105,6 +110,10 @@ namespace WebApi.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WebApi.DAL.Entities.Material.MaterialUser", null)
+                        .WithMany("MaterialVersions")
+                        .HasForeignKey("MaterialUserId");
+
                     b.Navigation("Material");
                 });
 
@@ -116,6 +125,8 @@ namespace WebApi.DAL.Migrations
             modelBuilder.Entity("WebApi.DAL.Entities.Material.MaterialUser", b =>
                 {
                     b.Navigation("Materials");
+
+                    b.Navigation("MaterialVersions");
                 });
 #pragma warning restore 612, 618
         }

@@ -10,7 +10,7 @@ using WebApi.DAL.EF;
 namespace WebApi.DAL.Migrations.UserDb
 {
     [DbContext(typeof(UserDbContext))]
-    [Migration("20210112105353_Initial")]
+    [Migration("20210112162151_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

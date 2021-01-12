@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using WebApi.Models;
 
 namespace WebApi
@@ -9,9 +10,9 @@ namespace WebApi
     public class FileLogStorage : ILogStorage
     {
         private readonly string _path;
-        public FileLogStorage(string path = @"Logs/log.txt")
+        public FileLogStorage(IConfiguration configuration)
         {
-            _path = path;
+            _path = configuration["LogFile"];
         }
 
         public void Store(LogModel log)

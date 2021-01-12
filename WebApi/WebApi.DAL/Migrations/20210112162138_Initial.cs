@@ -49,7 +49,8 @@ namespace WebApi.DAL.Migrations
                     FileSize = table.Column<long>(type: "bigint", nullable: false),
                     VersionNumber = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    MaterialId = table.Column<int>(type: "int", nullable: false)
+                    MaterialId = table.Column<int>(type: "int", nullable: false),
+                    MaterialUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -60,6 +61,12 @@ namespace WebApi.DAL.Migrations
                         principalTable: "Materials",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MaterialVersions_MaterialUsers_MaterialUserId",
+                        column: x => x.MaterialUserId,
+                        principalTable: "MaterialUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -71,6 +78,11 @@ namespace WebApi.DAL.Migrations
                 name: "IX_MaterialVersions_MaterialId",
                 table: "MaterialVersions",
                 column: "MaterialId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MaterialVersions_MaterialUserId",
+                table: "MaterialVersions",
+                column: "MaterialUserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

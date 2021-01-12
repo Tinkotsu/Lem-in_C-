@@ -10,7 +10,7 @@ using WebApi.DAL.EF;
 namespace WebApi.DAL.Migrations
 {
     [DbContext(typeof(MaterialDbContext))]
-    [Migration("20210112105330_Initial")]
+    [Migration("20210112162138_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,12 +78,17 @@ namespace WebApi.DAL.Migrations
                     b.Property<int>("MaterialId")
                         .HasColumnType("int");
 
+                    b.Property<string>("MaterialUserId")
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<int>("VersionNumber")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("MaterialId");
+
+                    b.HasIndex("MaterialUserId");
 
                     b.ToTable("MaterialVersions");
                 });
@@ -107,6 +112,10 @@ namespace WebApi.DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("WebApi.DAL.Entities.Material.MaterialUser", null)
+                        .WithMany("MaterialVersions")
+                        .HasForeignKey("MaterialUserId");
+
                     b.Navigation("Material");
                 });
 
@@ -118,6 +127,8 @@ namespace WebApi.DAL.Migrations
             modelBuilder.Entity("WebApi.DAL.Entities.Material.MaterialUser", b =>
                 {
                     b.Navigation("Materials");
+
+                    b.Navigation("MaterialVersions");
                 });
 #pragma warning restore 612, 618
         }

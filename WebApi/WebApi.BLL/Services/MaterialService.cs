@@ -69,18 +69,21 @@ namespace WebApi.BLL.Services
 
             var materialUser = _unitOfWork.MaterialUsers.Find(u => u.Id == material.OwnerUserId).FirstOrDefault();
 
-            materialUser ??= new MaterialUser
+            if (materialUser == null)
             {
-                Id = material.OwnerUserId,
-                Materials = new List<Material>()
-            };
+                materialUser = new MaterialUser
+                {
+                    Id = material.OwnerUserId,
+                    Materials = new List<Material>()
+                };
+                _unitOfWork.MaterialUsers.Create(materialUser);
+            }
 
             materialDb.Versions.Add(materialVersionDb);
             materialUser.Materials.Add(materialDb);
             
             //saving material and material version to db
 
-            _unitOfWork.MaterialUsers.Create(materialUser);
             _unitOfWork.MaterialVersions.Create(materialVersionDb);
             _unitOfWork.Materials.Create(materialDb);
             _unitOfWork.SaveAsync();
@@ -127,7 +130,7 @@ namespace WebApi.BLL.Services
                 CreatedAt = DateTime.Now
             };
 
-            if (isActual == true)
+            if (isActual)
                 materialDb.ActualVersionNum = newVersionNum;
 
             materialDb.Versions.Add(materialVersionDb);

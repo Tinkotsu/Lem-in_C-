@@ -4,16 +4,18 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using WebApi.BLL.Interfaces;
 
 namespace WebApi.BLL.Services
 {
     public class FileManager : IFileManager
     {
-        private const string DirName = "Files";
+        private string DirName { get; set; }
 
-        public FileManager()
+        public FileManager(IConfiguration configuration)
         {
+            DirName = configuration["FilesFolder"];
             Directory.CreateDirectory(DirName);
         }
 
