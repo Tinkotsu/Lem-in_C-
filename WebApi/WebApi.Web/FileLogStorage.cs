@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
-using WebApi.Models;
+using WebApi.Web.Models;
 
-namespace WebApi
+namespace WebApi.Web
 {
     public class FileLogStorage : ILogStorage
     {

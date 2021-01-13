@@ -1,21 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ActionConstraints;
-using Microsoft.Extensions.Configuration;
 using WebApi.BLL.BusinessModels.User;
-using WebApi.BLL.Infrastructure;
 using WebApi.BLL.Interfaces;
-using WebApi.DAL.EF;
 using WebApi.DAL.Entities.User;
-using WebApi.Models;
+using WebApi.Web.Models;
 
-namespace WebApi.Controllers
+namespace WebApi.Web.Controllers
 {
     [Route("api/[controller]")]
     [ApiController] 

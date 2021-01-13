@@ -4,7 +4,8 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using WebApi.Models;
+using WebApi.Web;
+using WebApi.Web.Models;
 
 namespace WebApi
 {
