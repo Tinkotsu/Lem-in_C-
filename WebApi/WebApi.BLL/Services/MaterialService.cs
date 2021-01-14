@@ -34,7 +34,7 @@ namespace WebApi.BLL.Services
             
             var hash = HashCalculator.CalculateMd5(file.FileBytes);
 
-            var identicalMaterialVersions = _unitOfWork.MaterialVersions.Find(v => v.Id == hash).ToList();
+            var identicalMaterialVersions = _unitOfWork.MaterialVersions.Find(v => v.FilePath == hash).ToList();
             
             //saving file locally
 
@@ -95,7 +95,7 @@ namespace WebApi.BLL.Services
 
             var hash = HashCalculator.CalculateMd5(file.FileBytes);
 
-            var identicalMaterialVersions = _unitOfWork.MaterialVersions.Find(v => v.Id == hash).ToList();
+            var identicalMaterialVersions = _unitOfWork.MaterialVersions.Find(v => v.FilePath == hash).ToList();
             
             var materialUser = _unitOfWork.MaterialUsers.Get(userId);
             if (materialUser == null)
