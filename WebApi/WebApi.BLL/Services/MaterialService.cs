@@ -27,10 +27,8 @@ namespace WebApi.BLL.Services
         {
             if (file?.FileBytes == null)
                 throw new ValidationException("No file uploaded", "file");
-            if (material.Category != MaterialCategories.Application && 
-                material.Category != MaterialCategories.Presentation &&
-                material.Category != MaterialCategories.Other)
-                throw new ValidationException("Wrong category ID", "categoryId");
+            if (material.Category == null)
+                throw new ValidationException("Wrong category", "category");
             if (material.OwnerUserId == null)
                 throw new ValidationException("Wrong user ID", "user ID");
             
@@ -38,9 +36,6 @@ namespace WebApi.BLL.Services
 
             var identicalMaterialVersions = _unitOfWork.MaterialVersions.Find(v => v.Id == hash).ToList();
             
-            if (identicalMaterialVersions.Any(v => v.Material.OwnerUserId == material.OwnerUserId))
-                throw new ValidationException("File already exists", "");
-
             //saving file locally
 
             var path = identicalMaterialVersions.FirstOrDefault()?.FilePath;
@@ -57,7 +52,7 @@ namespace WebApi.BLL.Services
                 Versions = new List<MaterialVersion>()
             };
 
-            var id = identicalMaterialVersions.Any() ? hash + identicalMaterialVersions.Count : hash;
+            var id = Guid.NewGuid().ToString();
             
             var materialVersionDb = new MaterialVersion
             {
@@ -102,9 +97,6 @@ namespace WebApi.BLL.Services
 
             var identicalMaterialVersions = _unitOfWork.MaterialVersions.Find(v => v.Id == hash).ToList();
             
-            if (identicalMaterialVersions.Any(v => v.Material.OwnerUserId == userId))
-                throw new ValidationException("File already exists", "");
-
             var materialUser = _unitOfWork.MaterialUsers.Get(userId);
             if (materialUser == null)
                 throw new NotFoundException("User has not been found", "UserId");
@@ -120,7 +112,7 @@ namespace WebApi.BLL.Services
 
             var newVersionNum = _unitOfWork.MaterialVersions.Find(x => x.MaterialId == materialDb.Id).Count() + 1;
 
-            var id = identicalMaterialVersions.Any() ? hash + identicalMaterialVersions.Count : hash;
+            var id = Guid.NewGuid().ToString();
             
             var materialVersionDb = new MaterialVersion
             {
@@ -150,11 +142,7 @@ namespace WebApi.BLL.Services
                 throw new ValidationException("Material file name must be set", "FileName");
             if (materialBm.Category == null)
                 throw new ValidationException("Category must be set", "Category");
-            if (materialBm.Category != MaterialCategories.Application && 
-                materialBm.Category != MaterialCategories.Presentation &&
-                materialBm.Category != MaterialCategories.Other)
-                throw new ValidationException("Wrong category ID", "NewCategoryId");
-
+            
             var materialDb = _unitOfWork.Materials
                 .Find(material => material.OwnerUserId == materialBm.OwnerUserId && material.Name == materialBm.Name)
                 .FirstOrDefault();
