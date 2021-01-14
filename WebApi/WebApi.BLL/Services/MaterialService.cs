@@ -52,11 +52,9 @@ namespace WebApi.BLL.Services
                 Versions = new List<MaterialVersion>()
             };
 
-            var id = Guid.NewGuid().ToString();
-            
             var materialVersionDb = new MaterialVersion
             {
-                Id = id,
+                Id = Guid.NewGuid().ToString(),
                 FileSize = file.FileSize,
                 FilePath = path,
                 Material = materialDb,
@@ -111,12 +109,10 @@ namespace WebApi.BLL.Services
             //saving material version to db
 
             var newVersionNum = _unitOfWork.MaterialVersions.Find(x => x.MaterialId == materialDb.Id).Count() + 1;
-
-            var id = Guid.NewGuid().ToString();
             
             var materialVersionDb = new MaterialVersion
             {
-                Id = id,
+                Id = Guid.NewGuid().ToString(),
                 FileSize = file.FileSize,
                 FilePath = path,
                 Material = materialDb,
